@@ -9,7 +9,7 @@ const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD || "",
   database: process.env.DB_NAME || "leave_system",
   synchronize: false,
-  logging: true,
+  logging: false,
   entities: [
     require('../entities/employee'),
     require('../entities/leaveType'),

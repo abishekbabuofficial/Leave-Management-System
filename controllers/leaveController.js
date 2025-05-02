@@ -1,6 +1,7 @@
 const leaveService = require("../services/leaveService");
 const approvalService = require("../services/approvalService");
 const userService = require("../services/userService");
+const logger = require("../utils/logger");
 
 const applyLeave = async (req, res) => {
   try {
@@ -18,6 +19,7 @@ const applyLeave = async (req, res) => {
       const leaveBalance = balances.find((lb) => lb.leave_type_id === leave_id);
 
       if (!leaveBalance || leaveBalance.remaining < total_days) {
+        logger.warn("Insufficient leave balance");
         return res.status(400).json({ message: "Insufficient leave balance" });
       }
     }
@@ -35,6 +37,7 @@ const applyLeave = async (req, res) => {
       });
 
       await approvalService.deductLeaveBalance(emp_id, leave_id, total_days);
+      logger.info("Leave auto-approved!");
       return res.json({ message: "Leave auto-approved", reqId });
     }
 
@@ -53,7 +56,7 @@ const applyLeave = async (req, res) => {
       current_approver_id,
       total_days,
     });
-
+    logger.info(`Leave request with ID ${reqId} submitted`);
     res.json({ message: "Leave request submitted", reqId });
   } catch (err) {
     res.status(500).json({ error: err.message });

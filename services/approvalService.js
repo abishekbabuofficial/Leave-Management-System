@@ -1,8 +1,8 @@
 const AppDataSource = require("../config/dataSource");
 const LeaveRequest = require("../entities/leaveRequest");
-const Employee = require("../entities/employee");
 const LeaveType = require("../entities/leaveType");
 const LeaveBalance = require("../entities/leaveBalance");
+const logger = require("../utils/logger");
 
 const approvalService = {
   getPendingApprovals: async (approverId) => {
@@ -32,7 +32,10 @@ const approvalService = {
       current_approver_id: approverId,
     });
 
-    if (!leave) throw new Error("Leave not found or approver mismatch");
+    if (!leave) {
+      logger.error("Leave not found");
+      throw new Error("Leave not found or approver mismatch");
+    }
 
     leave.status = status;
     leave.remarks = remarks;
@@ -52,7 +55,10 @@ const approvalService = {
       leave_type_id: leaveTypeId,
     });
 
-    if (!record) throw new Error("Leave balance not found");
+    if (!record) {
+      logger.error("Leave balance not found");
+      throw new Error("Leave balance not found");
+    }
     record.used += daysUsed;
     record.remaining -= daysUsed;
 
@@ -66,7 +72,10 @@ const approvalService = {
       leave_type_id: leaveTypeId,
     });
 
-    if (!record) throw new Error("Leave balance not found");
+    if (!record) {
+      logger.error("Leave balance not found");
+      throw new Error("Leave balance not found");
+    }
     record.used += daysUsed;
 
     await repo.save(record);

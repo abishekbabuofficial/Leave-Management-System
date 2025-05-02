@@ -1,13 +1,15 @@
 const approvalService = require("../services/approvalService");
 const leaveService = require("../services/leaveService");
 const userService = require("../services/userService");
+const logger = require("../utils/logger");
 
 const getPendingApprovals = async (req, res) => {
   try {
-    const { approverId } = req.params;
-    const requests = await approvalService.getPendingApprovals(approverId);
+    const { empId } = req.params;
+    const requests = await approvalService.getPendingApprovals(empId);
     res.json(requests);
   } catch (err) {
+    logger.error(`${err.message}`);
     res.status(500).json({ error: err.message });
   }
 };
@@ -19,6 +21,7 @@ const handleApproval = async (req, res) => {
 
     const leave = await leaveService.getLeaveById(reqId);
     if (!leave || leave.status !== "pending") {
+      logger.warn(`Request with ID: ${reqId} is either invalid or already processed`);
       return res
         .status(400)
         .json({ message: "Invalid or already processed request" });
@@ -28,6 +31,7 @@ const handleApproval = async (req, res) => {
 
     if (action === "reject") {
       await approvalService.updateLeaveStatus(reqId, status, approverId, remarks);
+      logger.info(`Leave Request ID ${reqId} is rejected`);
       return res.json({ message: "Leave rejected" });
     }
 
@@ -55,6 +59,7 @@ const handleApproval = async (req, res) => {
         newLevel,
         nextApprover
       );
+      logger.info(`Leave approved by ${approverId} and escalated to ${nextApprover}`)
       return res.json({
         message: `Leave approved and escalated to ${nextApprover}`,
       });
@@ -80,8 +85,10 @@ const handleApproval = async (req, res) => {
         leave.total_days
       );
     }
+    logger.info("Leave fully approved!");
     res.json({ message: "Leave fully approved" });
   } catch (err) {
+    logger.error(`${err.message}`);
     res.status(500).json({ error: err.message });
   }
 };

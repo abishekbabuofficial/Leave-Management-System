@@ -6,32 +6,28 @@ const express = require('express');
 const AppDataSource = require('./config/dataSource.js'); // Your TypeORM config
 const app = express();
 const PORT = process.env.PORT || 3000;
+const authRoutes = require('./routes/authRoutes.js');
+const authenticateJWT = require('./middlewares/authenticateJWT.js');
+const logger = require('./utils/logger.js');
+const errorHandler = require('./middlewares/errorHandler.js');
 
 // Middleware
 app.use(express.json());
+app.use(errorHandler);
+app.use('/api/auth', authRoutes);
+
+
 
 // Routes
-app.use('/api/users', userRoutes);
-app.use('/api/leaves', leaveRoutes);
-app.use('/api/approvals', approvalRoutes);
-
-// Initialize DB and Start Server
-// AppDataSource.initialize()
-//   .then(() => {
-//     console.log('Database connected successfully');
-//     app.listen(PORT, () => {
-//       console.log(`Server running on port ${PORT}`);
-//     });
-//   })
-//   .catch((err) => {
-//     console.error('Error during Data Source initialization', err);
-//   });
+app.use('/api/users',authenticateJWT, userRoutes);
+app.use('/api/leaves',authenticateJWT, leaveRoutes);
+app.use('/api/approvals',authenticateJWT, approvalRoutes);
 
   AppDataSource.initialize()
   .then(() => {
-    console.log("Database connection established");
-    app.listen(3000, () => console.log("Server running on port 3000"));
+    logger.info("Database connection established");
+    app.listen(3000, () => logger.info("Server running on port 3000"));
   })
   .catch((err) => {
-    console.error("Error during Data Source initialization", err);
+    logger.error("Error during Data Source initialization", err);
   });
