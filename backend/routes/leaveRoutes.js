@@ -8,6 +8,6 @@ const checkID = require('../middlewares/checkID');
 router.post('/apply',authorizeRoles('EMPLOYEE'), leaveController.applyLeave);
 
 // Get leave requests for an employee
-router.get('/:empId', authorizeRoles('EMPLOYEE'),checkID(), leaveController.getUserRequests);
+router.get('/requests', authorizeRoles('EMPLOYEE'), leaveController.getUserRequests);
 
 module.exports = router;

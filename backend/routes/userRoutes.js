@@ -2,12 +2,11 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const authorizeRoles = require('../middlewares/authorizeRoles');
-const checkID = require('../middlewares/checkID');
 
 // View user profile with leave balances
-router.get('/:empId', authorizeRoles('EMPLOYEE','MANAGER', 'DIRECTOR', 'HR'), checkID(),userController.getUserProfile);
+router.get('/profile', authorizeRoles('EMPLOYEE','MANAGER', 'DIRECTOR', 'HR'),userController.getUserProfile);
 
 // Get reportees for a manager
-router.get('/:empId/reportees',authorizeRoles('MANAGER', 'DIRECTOR', 'HR'), checkID(), userController.getReportees);
+router.get('/reportees',authorizeRoles('MANAGER', 'DIRECTOR', 'HR'), userController.getReportees);
 
 module.exports = router;

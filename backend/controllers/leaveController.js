@@ -65,8 +65,8 @@ const applyLeave = async (req, res) => {
 
 const getUserRequests = async (req, res) => {
   try {
-    const { empId } = req.params;
-    const requests = await leaveService.getUserLeaveRequests(empId);
+    const { emp_ID } = req.user;
+    const requests = await leaveService.getUserLeaveRequests(emp_ID);
     res.json(requests);
   } catch (err) {
     res.status(500).json({ error: err.message });

@@ -3,9 +3,9 @@ const logger = require("../utils/logger");
 
 const getUserProfile = async (req, res) => {
   try {
-    const { empId } = req.params;
-    const user = await userService.getUserById(empId);
-    const balances = await userService.getUserLeaveBalance(empId);
+    const { emp_ID } = req.user;
+    const user = await userService.getUserById(emp_ID);
+    const balances = await userService.getUserLeaveBalance(emp_ID);
     const manager = await userService.getUserById(user.Manager_ID);
 
     if (!user) {
@@ -22,8 +22,8 @@ const getUserProfile = async (req, res) => {
 
 const getReportees = async (req, res) => {
   try {
-    const { empId } = req.params;
-    const reportees = await userService.getReportees(empId);
+    const { emp_ID } = req.user;
+    const reportees = await userService.getReportees(emp_ID);
     res.json(reportees);
   } catch (err) {
     logger.error(`${err.message}`);

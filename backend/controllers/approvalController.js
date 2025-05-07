@@ -5,8 +5,8 @@ const logger = require("../utils/logger");
 
 const getPendingApprovals = async (req, res) => {
   try {
-    const { empId } = req.params;
-    const requests = await approvalService.getPendingApprovals(empId);
+    const {emp_ID} = req.user;
+    const requests = await approvalService.getPendingApprovals(emp_ID);
     res.json(requests);
   } catch (err) {
     logger.error(`${err.message}`);

@@ -193,3 +193,63 @@ SyntaxError: Unexpected token '}'
     at Module.require (node:internal/modules/cjs/loader:1340:12)
     at require (node:internal/modules/helpers:138:16)
     at Object.<anonymous> (C:\Users\AbishekBabu\Desktop\Leave System\backend\routes\userRoutes.js:3:24)
+2025-05-07 12:22:07 [error]: C:\Users\AbishekBabu\Desktop\Leave System\backend\controllers\approvalController.js:10
+    const requests = await approvalService.getPendingApprovals(empId);
+    ^^^^^
+
+SyntaxError: Unexpected token 'const'
+    at wrapSafe (node:internal/modules/cjs/loader:1515:18)
+    at Module._compile (node:internal/modules/cjs/loader:1537:20)
+    at Object..js (node:internal/modules/cjs/loader:1708:10)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:219:24)
+    at Module.require (node:internal/modules/cjs/loader:1340:12)
+    at require (node:internal/modules/helpers:138:16)
+    at Object.<anonymous> (C:\Users\AbishekBabu\Desktop\Leave System\backend\routes\approvalRoutes.js:3:28)
+2025-05-07 12:22:08 [error]: C:\Users\AbishekBabu\Desktop\Leave System\backend\controllers\approvalController.js:9
+    const {}
+          ^^
+
+SyntaxError: Missing initializer in destructuring declaration
+    at wrapSafe (node:internal/modules/cjs/loader:1515:18)
+    at Module._compile (node:internal/modules/cjs/loader:1537:20)
+    at Object..js (node:internal/modules/cjs/loader:1708:10)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:219:24)
+    at Module.require (node:internal/modules/cjs/loader:1340:12)
+    at require (node:internal/modules/helpers:138:16)
+    at Object.<anonymous> (C:\Users\AbishekBabu\Desktop\Leave System\backend\routes\approvalRoutes.js:3:28)
+2025-05-07 12:22:12 [error]: C:\Users\AbishekBabu\Desktop\Leave System\backend\controllers\approvalController.js:9
+    const {emp_ID}
+          ^^^^^^^^
+
+SyntaxError: Missing initializer in destructuring declaration
+    at wrapSafe (node:internal/modules/cjs/loader:1515:18)
+    at Module._compile (node:internal/modules/cjs/loader:1537:20)
+    at Object..js (node:internal/modules/cjs/loader:1708:10)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:219:24)
+    at Module.require (node:internal/modules/cjs/loader:1340:12)
+    at require (node:internal/modules/helpers:138:16)
+    at Object.<anonymous> (C:\Users\AbishekBabu\Desktop\Leave System\backend\routes\approvalRoutes.js:3:28)
+2025-05-07 12:22:22 [error]: C:\Users\AbishekBabu\Desktop\Leave System\backend\controllers\approvalController.js:10
+    const requests = await approvalService.getPendingApprovals(empId);
+          ^^^^^^^^
+
+SyntaxError: Unexpected identifier 'requests'
+    at wrapSafe (node:internal/modules/cjs/loader:1515:18)
+    at Module._compile (node:internal/modules/cjs/loader:1537:20)
+    at Object..js (node:internal/modules/cjs/loader:1708:10)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:219:24)
+    at Module.require (node:internal/modules/cjs/loader:1340:12)
+    at require (node:internal/modules/helpers:138:16)
+    at Object.<anonymous> (C:\Users\AbishekBabu\Desktop\Leave System\backend\routes\approvalRoutes.js:3:28)
