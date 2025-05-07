@@ -1,1 +1,5 @@
+
 backend/logs/combined.log
+backend/logs/exception.log
+backend/logs/error.log
+knowledge.txt

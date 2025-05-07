@@ -9,7 +9,7 @@ const getUserProfile = async (req, res) => {
     const manager = await userService.getUserById(user.Manager_ID);
 
     if (!user) {
-      logger.warn(`User with ID ${empId} not found`);
+      logger.warn(`User with ID ${emp_Id} not found`);
       return res.status(404).json({ message: "User not found" });
     }
 
@@ -31,8 +31,21 @@ const getReportees = async (req, res) => {
   }
 };
 
+const getUserLeaveBalance = async (req,res)=>{
+  try{
+    const {emp_ID}=req.user
+    const balances = await userService.getUserLeaveBalance(emp_ID);
+    res.json(balances)
+  }
+  catch (err) {
+    logger.error(`${err.message}`);
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 module.exports = {
   getUserProfile,
   getReportees,
+  getUserLeaveBalance,
 };

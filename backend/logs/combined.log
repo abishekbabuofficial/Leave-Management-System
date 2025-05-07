@@ -517,3 +517,75 @@
 2025-05-07 12:31:44 [info]: Server running on port 3000
 2025-05-07 12:32:31 [info]: Database connection established
 2025-05-07 12:32:31 [info]: Server running on port 3000
+2025-05-07 12:47:17 [info]: Database connection established
+2025-05-07 12:47:17 [info]: Server running on port 3000
+2025-05-07 12:51:30 [info]: Database connection established
+2025-05-07 12:51:30 [info]: Server running on port 3000
+2025-05-07 14:11:01 [info]: Database connection established
+2025-05-07 14:11:01 [info]: Server running on port 3000
+2025-05-07 14:11:04 [info]: Database connection established
+2025-05-07 14:11:04 [info]: Server running on port 3000
+2025-05-07 14:11:06 [info]: Database connection established
+2025-05-07 14:11:06 [info]: Server running on port 3000
+2025-05-07 14:11:13 [info]: Database connection established
+2025-05-07 14:11:13 [info]: Server running on port 3000
+2025-05-07 14:11:18 [info]: Database connection established
+2025-05-07 14:11:18 [info]: Server running on port 3000
+2025-05-07 14:11:20 [info]: Database connection established
+2025-05-07 14:11:20 [info]: Server running on port 3000
+2025-05-07 14:15:41 [info]: Database connection established
+2025-05-07 14:15:41 [info]: Server running on port 3000
+2025-05-07 14:15:43 [info]: Database connection established
+2025-05-07 14:15:43 [info]: Server running on port 3000
+2025-05-07 14:16:43 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:17:03 [info]: Database connection established
+2025-05-07 14:17:03 [info]: Server running on port 3000
+2025-05-07 14:17:47 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:18:02 [error]: Cannot read properties of undefined (reading 'user')
+2025-05-07 14:18:08 [info]: Database connection established
+2025-05-07 14:18:08 [info]: Server running on port 3000
+2025-05-07 14:18:17 [info]: Database connection established
+2025-05-07 14:18:17 [info]: Server running on port 3000
+2025-05-07 14:18:41 [info]: Database connection established
+2025-05-07 14:18:42 [info]: Server running on port 3000
+2025-05-07 14:19:07 [info]: Database connection established
+2025-05-07 14:19:07 [info]: Server running on port 3000
+2025-05-07 14:19:22 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:19:29 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:19:58 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:20:32 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:21:29 [info]: Database connection established
+2025-05-07 14:21:29 [info]: Server running on port 3000
+2025-05-07 14:22:49 [warn]: Access denied: Invalid Authorization!
+2025-05-07 14:23:06 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:23:41 [info]: Database connection established
+2025-05-07 14:23:41 [info]: Server running on port 3000
+2025-05-07 14:23:46 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:23:47 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:23:58 [info]: Database connection established
+2025-05-07 14:23:58 [info]: Server running on port 3000
+2025-05-07 14:24:03 [info]: Database connection established
+2025-05-07 14:24:03 [info]: Server running on port 3000
+2025-05-07 14:24:11 [info]: Database connection established
+2025-05-07 14:24:11 [info]: Server running on port 3000
+2025-05-07 14:24:19 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:24:34 [info]: Database connection established
+2025-05-07 14:24:34 [info]: Server running on port 3000
+2025-05-07 14:24:36 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:25:35 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:26:35 [info]: Database connection established
+2025-05-07 14:26:35 [info]: Server running on port 3000
+2025-05-07 14:26:40 [info]: Database connection established
+2025-05-07 14:26:40 [info]: Server running on port 3000
+2025-05-07 14:27:02 [info]: Database connection established
+2025-05-07 14:27:02 [info]: Server running on port 3000
+2025-05-07 14:27:13 [info]: Database connection established
+2025-05-07 14:27:13 [info]: Server running on port 3000
+2025-05-07 14:27:15 [info]: Database connection established
+2025-05-07 14:27:15 [info]: Server running on port 3000
+2025-05-07 14:27:23 [info]: Database connection established
+2025-05-07 14:27:23 [info]: Server running on port 3000
+2025-05-07 14:27:29 [info]: Database connection established
+2025-05-07 14:27:29 [info]: Server running on port 3000
+2025-05-07 14:27:52 [info]: Database connection established
+2025-05-07 14:27:52 [info]: Server running on port 3000

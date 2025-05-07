@@ -9,4 +9,7 @@ router.get('/profile', authorizeRoles('EMPLOYEE','MANAGER', 'DIRECTOR', 'HR'),us
 // Get reportees for a manager
 router.get('/reportees',authorizeRoles('MANAGER', 'DIRECTOR', 'HR'), userController.getReportees);
 
+// Get user leave balances
+router.get('/leave-balance', authorizeRoles('EMPLOYEE','MANAGER', 'DIRECTOR', 'HR'), userController.getUserLeaveBalance);
+
 module.exports = router;

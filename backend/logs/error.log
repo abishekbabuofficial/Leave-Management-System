@@ -52,3 +52,16 @@
 2025-05-07 09:50:56 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
 2025-05-07 09:52:46 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
 2025-05-07 10:36:58 [error]: Cannot set headers after they are sent to the client
+2025-05-07 14:16:43 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:17:47 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:18:02 [error]: Cannot read properties of undefined (reading 'user')
+2025-05-07 14:19:22 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:19:29 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:19:58 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:20:32 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:23:06 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:23:46 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:23:47 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:24:19 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:24:36 [error]: userService.getUserLeaveBalance is not a function
+2025-05-07 14:25:35 [error]: userService.getUserLeaveBalance is not a function

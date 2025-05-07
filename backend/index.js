@@ -13,7 +13,7 @@ const logger = require('./utils/logger.js');
 const errorHandler = require('./middlewares/errorHandler.js');
 
 app.use(cors({
-  origin: "http://localhost:5173", 
+  origin: "http://localhost:8080", 
   credentials: true                 
 }));
 

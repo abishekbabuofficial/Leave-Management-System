@@ -21,13 +21,13 @@ Now build the complete frontend inside the `frontend` folder using React.jsx wit
 4. **Calendar Page**: Only for Managers, Directors
    - Display month/week interactive calendar.
    - Show all team members' leaves.
-   - Use color codes for types: annual, sick, WFH, training.
+   - Use color codes for types: Casual, Sick, Floater, LOP.
    - Allow filtering by department or role.
    - Search for employees.
    - for HR show all above for all employees.
 
 5. **Profile Page**:
-   - Show user's complete profile fetched from `/user/:emp_id`.
+   - Show user's complete profile fetched.
 
 6. **Apply Leave Page** (employee only):
    - Form fields: leave_id, start_date, end_date, reason.
@@ -45,7 +45,7 @@ Now build the complete frontend inside the `frontend` folder using React.jsx wit
    - Clear JWT and redirect to login.
 
 Also create:
-- `AuthContext` for handling login state.
+- `AuthContext` for handling login state. or you can use any other efficient method
 - `ProtectedRoute` component to guard private pages.
 - Routing using React Router.
 - Components using Tailwind for form fields, buttons, layouts.
