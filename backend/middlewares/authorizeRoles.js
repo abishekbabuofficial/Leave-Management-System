@@ -4,7 +4,7 @@ const authorizeRoles = (...allowedRoles) => {
     return (req, res, next) => {
       const user = req.user;
   
-      if (!user || !allowedRoles.includes(user.role)) {
+      if (!user || !allowedRoles.includes(user.Role)) {
         logger.warn("Access denied: Invalid Authorization!")
         return res.status(403).json({ message: "Access denied: insufficient permissions" });
       }

@@ -1,0 +1,54 @@
+2025-05-05 10:21:38 [error]: JWT verification failed: jwt expired
+2025-05-05 15:33:35 [error]: JWT verification failed: jwt expired
+2025-05-06 10:54:20 [error]: JWT verification failed: jwt expired
+2025-05-07 09:09:41 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:12:25 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:12:27 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:14:12 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:15:44 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:16:41 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:16:59 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:23:26 [error]: TypeORMError: Entity metadata for Employee#reportingManger was not found. Check if you specified a correct entity object and if it's connected in the connection options.
+    at C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:729:23
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.computeInverseProperties (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:722:34)
+    at C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:84:58
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.build (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:84:25)
+    at ConnectionMetadataBuilder.buildEntityMetadatas (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\connection\ConnectionMetadataBuilder.js:68:137)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async DataSource.buildMetadatas (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\data-source\DataSource.js:467:33)
+    at async DataSource.initialize (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\data-source\DataSource.js:144:13)
+2025-05-07 09:23:34 [error]: TypeORMError: Entity metadata for Employee#reportingManger was not found. Check if you specified a correct entity object and if it's connected in the connection options.
+    at C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:729:23
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.computeInverseProperties (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:722:34)
+    at C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:84:58
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.build (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:84:25)
+    at ConnectionMetadataBuilder.buildEntityMetadatas (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\connection\ConnectionMetadataBuilder.js:68:137)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async DataSource.buildMetadatas (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\data-source\DataSource.js:467:33)
+    at async DataSource.initialize (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\data-source\DataSource.js:144:13)
+2025-05-07 09:25:36 [error]: Unknown column 'Employee.reportingMangerEmpID' in 'field list'
+2025-05-07 09:27:58 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:28:16 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:31:13 [error]: TypeORMError: Entity metadata for Employee#reportingManager was not found. Check if you specified a correct entity object and if it's connected in the connection options.
+    at C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:729:23
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.computeInverseProperties (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:722:34)
+    at C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:84:58
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.build (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:84:25)
+    at ConnectionMetadataBuilder.buildEntityMetadatas (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\connection\ConnectionMetadataBuilder.js:68:137)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async DataSource.buildMetadatas (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\data-source\DataSource.js:467:33)
+    at async DataSource.initialize (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\data-source\DataSource.js:144:13)
+2025-05-07 09:37:51 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:38:44 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:38:44 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:38:45 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:49:04 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:50:56 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:52:46 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 10:36:58 [error]: Cannot set headers after they are sent to the client

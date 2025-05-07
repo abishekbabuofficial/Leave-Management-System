@@ -1,0 +1,442 @@
+2025-05-02 18:21:36 [info]: Database connection established
+2025-05-02 18:21:36 [info]: Server running on port 3000
+2025-05-05 08:39:19 [info]: Database connection established
+2025-05-05 08:39:19 [info]: Server running on port 3000
+2025-05-05 10:07:16 [info]: Database connection established
+2025-05-05 10:07:16 [info]: Server running on port 3000
+2025-05-05 10:21:38 [error]: JWT verification failed: jwt expired
+2025-05-05 10:35:54 [warn]: Unauthorized access attempt - no token provided
+2025-05-05 10:35:54 [warn]: Unauthorized access attempt - no token provided
+2025-05-05 10:39:44 [warn]: Unauthorized access attempt - no token provided
+2025-05-05 10:39:44 [warn]: Unauthorized access attempt - no token provided
+2025-05-05 10:45:08 [info]: Database connection established
+2025-05-05 10:45:08 [info]: Server running on port 3000
+2025-05-05 11:27:13 [warn]: Emp_id and password are required
+2025-05-05 11:52:43 [info]: Password set successfully. You can now log in.
+2025-05-05 11:53:17 [warn]: Password already set. Please log in.
+2025-05-05 11:53:39 [warn]: Password already set. Please log in.
+2025-05-05 11:53:40 [warn]: Password already set. Please log in.
+2025-05-05 11:54:06 [warn]: Password already set. Please log in.
+2025-05-05 11:55:18 [warn]: Password already set. Please log in.
+2025-05-05 11:57:56 [info]: Password set successfully. You can now log in.
+2025-05-05 11:58:52 [warn]: Password already set. Please log in.
+2025-05-05 11:59:52 [warn]: Password already set. Please log in.
+2025-05-05 12:00:58 [warn]: Password already set. Please log in.
+2025-05-05 12:01:10 [warn]: Password already set. Please log in.
+2025-05-05 12:01:36 [info]: Password set successfully. You can now log in.
+2025-05-05 12:04:07 [info]: Password set successfully. You can now log in.
+2025-05-05 12:04:28 [warn]: Password already set. Please log in.
+2025-05-05 12:06:18 [warn]: Password already set. Please log in.
+2025-05-05 12:06:47 [info]: Password set successfully. You can now log in.
+2025-05-05 12:07:03 [warn]: Password already set. Please log in.
+2025-05-05 12:12:01 [warn]: Password already set. Please log in.
+2025-05-05 12:12:06 [warn]: Password already set. Please log in.
+2025-05-05 12:12:21 [warn]: Password already set. Please log in.
+2025-05-05 12:15:47 [warn]: Password already set. Please log in.
+2025-05-05 12:16:42 [info]: Password set successfully. You can now log in.
+2025-05-05 12:18:09 [warn]: Password already set. Please log in.
+2025-05-05 12:18:52 [warn]: Password already set. Please log in.
+2025-05-05 12:19:09 [warn]: Password already set. Please log in.
+2025-05-05 12:23:07 [warn]: Password already set. Please log in.
+2025-05-05 12:26:16 [warn]: Password already set. Please log in.
+2025-05-05 12:31:59 [warn]: Password already set. Please log in.
+2025-05-05 12:32:45 [info]: Database connection established
+2025-05-05 12:32:45 [info]: Server running on port 3000
+2025-05-05 12:32:47 [info]: Database connection established
+2025-05-05 12:32:47 [info]: Server running on port 3000
+2025-05-05 12:35:02 [info]: Password set successfully. You can now log in.
+2025-05-05 12:40:58 [info]: Password set successfully. You can now log in.
+2025-05-05 12:42:11 [info]: Password set successfully. You can now log in.
+2025-05-05 12:43:25 [warn]: Password already set. Please log in.
+2025-05-05 12:43:28 [warn]: Unauthorized access attempt - no token provided
+2025-05-05 12:43:28 [warn]: Unauthorized access attempt - no token provided
+2025-05-05 12:55:23 [warn]: Unauthorized access attempt - no token provided
+2025-05-05 12:55:23 [warn]: Unauthorized access attempt - no token provided
+2025-05-05 14:17:42 [info]: Database connection established
+2025-05-05 14:17:42 [info]: Server running on port 3000
+2025-05-05 14:47:57 [warn]: Access denied: Invalid Authorization!
+2025-05-05 14:48:11 [warn]: Access denied: Invalid Authorization!
+2025-05-05 14:48:11 [warn]: Access denied: Invalid Authorization!
+2025-05-05 14:48:50 [warn]: Access denied: Invalid Authorization!
+2025-05-05 14:51:59 [info]: Database connection established
+2025-05-05 14:51:59 [info]: Server running on port 3000
+2025-05-05 14:53:10 [warn]: Access denied: Invalid Authorization!
+2025-05-05 14:53:10 [warn]: Access denied: Invalid Authorization!
+2025-05-05 14:53:10 [warn]: Access denied: Invalid Authorization!
+2025-05-05 15:00:02 [warn]: Access denied: Invalid Authorization!
+2025-05-05 15:00:02 [warn]: Access denied: Invalid Authorization!
+2025-05-05 15:00:02 [warn]: Access denied: Invalid Authorization!
+2025-05-05 15:00:34 [warn]: Access denied: Invalid Authorization!
+2025-05-05 15:00:34 [warn]: Access denied: Invalid Authorization!
+2025-05-05 15:00:39 [warn]: Access denied: Invalid Authorization!
+2025-05-05 15:00:39 [warn]: Access denied: Invalid Authorization!
+2025-05-05 15:00:51 [warn]: Access denied: Invalid Authorization!
+2025-05-05 15:00:51 [warn]: Access denied: Invalid Authorization!
+2025-05-05 15:31:13 [warn]: Insufficient leave balance
+2025-05-05 15:31:54 [warn]: Insufficient leave balance
+2025-05-05 15:32:36 [warn]: Insufficient leave balance
+2025-05-05 15:33:35 [error]: JWT verification failed: jwt expired
+2025-05-05 15:34:07 [info]: Leave request with ID 3 submitted
+2025-05-05 15:35:11 [warn]: Insufficient leave balance
+2025-05-05 15:43:15 [warn]: Insufficient leave balance
+2025-05-05 15:43:41 [warn]: Insufficient leave balance
+2025-05-05 15:44:20 [warn]: Insufficient leave balance
+2025-05-05 15:47:53 [warn]: Insufficient leave balance
+2025-05-05 15:49:07 [info]: Leave request with ID 4 submitted
+2025-05-05 16:18:10 [warn]: Invalid Credentials
+2025-05-06 08:39:29 [info]: Database connection established
+2025-05-06 08:39:29 [info]: Server running on port 3000
+2025-05-06 08:52:30 [warn]: Access denied: Invalid Authorization!
+2025-05-06 08:52:52 [warn]: Access denied: Invalid Authorization!
+2025-05-06 08:52:52 [warn]: Access denied: Invalid Authorization!
+2025-05-06 09:42:17 [info]: Leave auto-approved!
+2025-05-06 10:54:20 [error]: JWT verification failed: jwt expired
+2025-05-06 13:46:45 [info]: Database connection established
+2025-05-06 13:46:45 [info]: Server running on port 3000
+2025-05-06 13:52:10 [warn]: Access denied: Invalid Authorization!
+2025-05-06 13:52:55 [warn]: Access denied: Invalid Authorization!
+2025-05-06 13:52:55 [warn]: Access denied: Invalid Authorization!
+2025-05-06 15:43:33 [info]: Database connection established
+2025-05-06 15:43:33 [info]: Server running on port 3000
+2025-05-06 15:44:57 [info]: Database connection established
+2025-05-06 15:44:57 [info]: Server running on port 3000
+2025-05-06 15:45:01 [info]: Database connection established
+2025-05-06 15:45:01 [info]: Server running on port 3000
+2025-05-06 15:45:08 [info]: Database connection established
+2025-05-06 15:45:08 [info]: Server running on port 3000
+2025-05-06 15:45:17 [info]: Database connection established
+2025-05-06 15:45:17 [info]: Server running on port 3000
+2025-05-06 15:45:47 [info]: Database connection established
+2025-05-06 15:45:47 [info]: Server running on port 3000
+2025-05-06 15:45:53 [info]: Database connection established
+2025-05-06 15:45:53 [info]: Server running on port 3000
+2025-05-06 15:46:10 [info]: Database connection established
+2025-05-06 15:46:10 [info]: Server running on port 3000
+2025-05-06 15:46:23 [info]: Database connection established
+2025-05-06 15:46:23 [info]: Server running on port 3000
+2025-05-06 15:55:06 [warn]: Access denied: Invalid Authorization!
+2025-05-06 15:55:28 [warn]: Access denied: Invalid Authorization!
+2025-05-06 15:55:28 [warn]: Access denied: Invalid Authorization!
+2025-05-06 15:55:36 [warn]: Access denied: Invalid Authorization!
+2025-05-06 15:55:36 [warn]: Access denied: Invalid Authorization!
+2025-05-06 16:45:21 [info]: Database connection established
+2025-05-06 16:45:21 [info]: Server running on port 3000
+2025-05-06 16:45:36 [warn]: Access denied: Invalid Authorization!
+2025-05-06 16:45:47 [warn]: Access denied: Invalid Authorization!
+2025-05-06 16:45:53 [warn]: Access denied: Invalid Authorization!
+2025-05-06 16:45:53 [warn]: Access denied: Invalid Authorization!
+2025-05-06 16:46:30 [warn]: Access denied: Invalid Authorization!
+2025-05-06 16:49:15 [warn]: Invalid Credentials
+2025-05-06 16:50:16 [warn]: Access denied: Invalid Authorization!
+2025-05-06 16:52:01 [warn]: Access denied: Invalid Authorization!
+2025-05-06 16:52:27 [info]: Database connection established
+2025-05-06 16:52:27 [info]: Server running on port 3000
+2025-05-06 16:52:29 [warn]: Access denied: Invalid Authorization!
+2025-05-06 16:52:37 [warn]: Access denied: Invalid Authorization!
+2025-05-06 16:53:37 [info]: Database connection established
+2025-05-06 16:53:37 [info]: Server running on port 3000
+2025-05-06 16:53:48 [info]: Database connection established
+2025-05-06 16:53:48 [info]: Server running on port 3000
+2025-05-06 16:55:01 [info]: Database connection established
+2025-05-06 16:55:01 [info]: Server running on port 3000
+2025-05-06 16:55:09 [info]: Database connection established
+2025-05-06 16:55:09 [info]: Server running on port 3000
+2025-05-06 16:57:01 [info]: Database connection established
+2025-05-06 16:57:01 [info]: Server running on port 3000
+2025-05-06 16:57:29 [info]: Database connection established
+2025-05-06 16:57:29 [info]: Server running on port 3000
+2025-05-06 16:57:37 [info]: Database connection established
+2025-05-06 16:57:38 [info]: Server running on port 3000
+2025-05-06 17:02:31 [info]: Database connection established
+2025-05-06 17:02:31 [info]: Server running on port 3000
+2025-05-06 17:02:52 [info]: Database connection established
+2025-05-06 17:02:52 [info]: Server running on port 3000
+2025-05-06 17:52:18 [warn]: Invalid Credentials
+2025-05-06 17:52:27 [warn]: Invalid Credentials
+2025-05-07 08:46:03 [info]: Database connection established
+2025-05-07 08:46:03 [info]: Server running on port 3000
+2025-05-07 08:49:10 [info]: Database connection established
+2025-05-07 08:49:10 [info]: Server running on port 3000
+2025-05-07 08:49:23 [info]: Database connection established
+2025-05-07 08:49:23 [info]: Server running on port 3000
+2025-05-07 08:49:27 [info]: Database connection established
+2025-05-07 08:49:27 [info]: Server running on port 3000
+2025-05-07 08:49:30 [info]: Database connection established
+2025-05-07 08:49:30 [info]: Server running on port 3000
+2025-05-07 08:50:53 [info]: Database connection established
+2025-05-07 08:50:53 [info]: Server running on port 3000
+2025-05-07 08:50:58 [info]: Database connection established
+2025-05-07 08:50:58 [info]: Server running on port 3000
+2025-05-07 08:51:16 [info]: Database connection established
+2025-05-07 08:51:16 [info]: Server running on port 3000
+2025-05-07 08:51:37 [info]: Database connection established
+2025-05-07 08:51:37 [info]: Server running on port 3000
+2025-05-07 08:51:39 [info]: Database connection established
+2025-05-07 08:51:39 [info]: Server running on port 3000
+2025-05-07 08:51:48 [info]: Database connection established
+2025-05-07 08:51:48 [info]: Server running on port 3000
+2025-05-07 08:51:52 [info]: Database connection established
+2025-05-07 08:51:52 [info]: Server running on port 3000
+2025-05-07 08:53:25 [info]: Database connection established
+2025-05-07 08:53:25 [info]: Server running on port 3000
+2025-05-07 08:53:37 [info]: Database connection established
+2025-05-07 08:53:37 [info]: Server running on port 3000
+2025-05-07 08:53:57 [info]: Database connection established
+2025-05-07 08:53:57 [info]: Server running on port 3000
+2025-05-07 08:54:00 [info]: Database connection established
+2025-05-07 08:54:00 [info]: Server running on port 3000
+2025-05-07 08:54:06 [info]: Database connection established
+2025-05-07 08:54:06 [info]: Server running on port 3000
+2025-05-07 08:54:16 [info]: Database connection established
+2025-05-07 08:54:16 [info]: Server running on port 3000
+2025-05-07 08:54:23 [info]: Database connection established
+2025-05-07 08:54:23 [info]: Server running on port 3000
+2025-05-07 08:54:51 [info]: Database connection established
+2025-05-07 08:54:51 [info]: Server running on port 3000
+2025-05-07 08:55:10 [info]: Database connection established
+2025-05-07 08:55:10 [info]: Server running on port 3000
+2025-05-07 08:55:17 [info]: Database connection established
+2025-05-07 08:55:17 [info]: Server running on port 3000
+2025-05-07 08:55:23 [info]: Database connection established
+2025-05-07 08:55:23 [info]: Server running on port 3000
+2025-05-07 08:55:30 [info]: Database connection established
+2025-05-07 08:55:30 [info]: Server running on port 3000
+2025-05-07 08:55:36 [info]: Database connection established
+2025-05-07 08:55:36 [info]: Server running on port 3000
+2025-05-07 08:55:44 [info]: Database connection established
+2025-05-07 08:55:44 [info]: Server running on port 3000
+2025-05-07 08:55:49 [info]: Database connection established
+2025-05-07 08:55:49 [info]: Server running on port 3000
+2025-05-07 08:55:58 [info]: Database connection established
+2025-05-07 08:55:58 [info]: Server running on port 3000
+2025-05-07 08:57:17 [info]: Password set successfully. You can now log in.
+2025-05-07 08:57:27 [warn]: Access denied: Invalid Authorization!
+2025-05-07 08:57:38 [warn]: Access denied: Invalid Authorization!
+2025-05-07 09:00:52 [info]: Database connection established
+2025-05-07 09:00:52 [info]: Server running on port 3000
+2025-05-07 09:00:55 [info]: Database connection established
+2025-05-07 09:00:55 [info]: Server running on port 3000
+2025-05-07 09:01:10 [info]: Database connection established
+2025-05-07 09:01:10 [info]: Server running on port 3000
+2025-05-07 09:01:35 [info]: Database connection established
+2025-05-07 09:01:35 [info]: Server running on port 3000
+2025-05-07 09:04:51 [info]: Database connection established
+2025-05-07 09:04:51 [info]: Server running on port 3000
+2025-05-07 09:05:33 [info]: Database connection established
+2025-05-07 09:05:33 [info]: Server running on port 3000
+2025-05-07 09:05:46 [info]: Database connection established
+2025-05-07 09:05:46 [info]: Server running on port 3000
+2025-05-07 09:07:12 [info]: Database connection established
+2025-05-07 09:07:12 [info]: Server running on port 3000
+2025-05-07 09:07:24 [info]: Database connection established
+2025-05-07 09:07:24 [info]: Server running on port 3000
+2025-05-07 09:07:34 [info]: Database connection established
+2025-05-07 09:07:34 [info]: Server running on port 3000
+2025-05-07 09:07:56 [info]: Database connection established
+2025-05-07 09:07:56 [info]: Server running on port 3000
+2025-05-07 09:08:02 [info]: Database connection established
+2025-05-07 09:08:02 [info]: Server running on port 3000
+2025-05-07 09:08:48 [info]: Database connection established
+2025-05-07 09:08:48 [info]: Server running on port 3000
+2025-05-07 09:08:55 [info]: Database connection established
+2025-05-07 09:08:55 [info]: Server running on port 3000
+2025-05-07 09:09:10 [info]: Database connection established
+2025-05-07 09:09:10 [info]: Server running on port 3000
+2025-05-07 09:09:13 [info]: Database connection established
+2025-05-07 09:09:13 [info]: Server running on port 3000
+2025-05-07 09:09:39 [info]: Database connection established
+2025-05-07 09:09:39 [info]: Server running on port 3000
+2025-05-07 09:09:41 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:12:23 [info]: Database connection established
+2025-05-07 09:12:23 [info]: Server running on port 3000
+2025-05-07 09:12:25 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:12:27 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:12:41 [info]: Database connection established
+2025-05-07 09:12:41 [info]: Server running on port 3000
+2025-05-07 09:12:48 [info]: Database connection established
+2025-05-07 09:12:48 [info]: Server running on port 3000
+2025-05-07 09:13:29 [info]: Database connection established
+2025-05-07 09:13:29 [info]: Server running on port 3000
+2025-05-07 09:13:36 [info]: Database connection established
+2025-05-07 09:13:36 [info]: Server running on port 3000
+2025-05-07 09:13:38 [info]: Database connection established
+2025-05-07 09:13:38 [info]: Server running on port 3000
+2025-05-07 09:13:51 [info]: Database connection established
+2025-05-07 09:13:51 [info]: Server running on port 3000
+2025-05-07 09:14:06 [info]: Database connection established
+2025-05-07 09:14:06 [info]: Server running on port 3000
+2025-05-07 09:14:12 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:15:33 [info]: Database connection established
+2025-05-07 09:15:33 [info]: Server running on port 3000
+2025-05-07 09:15:41 [info]: Database connection established
+2025-05-07 09:15:41 [info]: Server running on port 3000
+2025-05-07 09:15:44 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:15:58 [info]: Database connection established
+2025-05-07 09:15:58 [info]: Server running on port 3000
+2025-05-07 09:16:15 [info]: Database connection established
+2025-05-07 09:16:15 [info]: Server running on port 3000
+2025-05-07 09:16:28 [info]: Database connection established
+2025-05-07 09:16:28 [info]: Server running on port 3000
+2025-05-07 09:16:32 [info]: Database connection established
+2025-05-07 09:16:32 [info]: Server running on port 3000
+2025-05-07 09:16:41 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:16:51 [info]: Database connection established
+2025-05-07 09:16:51 [info]: Server running on port 3000
+2025-05-07 09:16:57 [info]: Database connection established
+2025-05-07 09:16:57 [info]: Server running on port 3000
+2025-05-07 09:16:59 [error]: Cannot read properties of null (reading 'Manager_ID')
+2025-05-07 09:18:37 [info]: Database connection established
+2025-05-07 09:18:37 [info]: Server running on port 3000
+2025-05-07 09:21:24 [info]: Database connection established
+2025-05-07 09:21:24 [info]: Server running on port 3000
+2025-05-07 09:21:32 [info]: Database connection established
+2025-05-07 09:21:32 [info]: Server running on port 3000
+2025-05-07 09:21:39 [info]: Database connection established
+2025-05-07 09:21:39 [info]: Server running on port 3000
+2025-05-07 09:21:41 [info]: Database connection established
+2025-05-07 09:21:41 [info]: Server running on port 3000
+2025-05-07 09:21:43 [info]: Database connection established
+2025-05-07 09:21:43 [info]: Server running on port 3000
+2025-05-07 09:22:53 [info]: Database connection established
+2025-05-07 09:22:53 [info]: Server running on port 3000
+2025-05-07 09:23:02 [info]: Database connection established
+2025-05-07 09:23:02 [info]: Server running on port 3000
+2025-05-07 09:23:26 [error]: TypeORMError: Entity metadata for Employee#reportingManger was not found. Check if you specified a correct entity object and if it's connected in the connection options.
+    at C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:729:23
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.computeInverseProperties (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:722:34)
+    at C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:84:58
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.build (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:84:25)
+    at ConnectionMetadataBuilder.buildEntityMetadatas (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\connection\ConnectionMetadataBuilder.js:68:137)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async DataSource.buildMetadatas (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\data-source\DataSource.js:467:33)
+    at async DataSource.initialize (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\data-source\DataSource.js:144:13)
+2025-05-07 09:23:34 [error]: TypeORMError: Entity metadata for Employee#reportingManger was not found. Check if you specified a correct entity object and if it's connected in the connection options.
+    at C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:729:23
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.computeInverseProperties (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:722:34)
+    at C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:84:58
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.build (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:84:25)
+    at ConnectionMetadataBuilder.buildEntityMetadatas (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\connection\ConnectionMetadataBuilder.js:68:137)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async DataSource.buildMetadatas (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\data-source\DataSource.js:467:33)
+    at async DataSource.initialize (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\data-source\DataSource.js:144:13)
+2025-05-07 09:23:49 [info]: Database connection established
+2025-05-07 09:23:49 [info]: Server running on port 3000
+2025-05-07 09:23:58 [info]: Database connection established
+2025-05-07 09:23:58 [info]: Server running on port 3000
+2025-05-07 09:24:03 [info]: Database connection established
+2025-05-07 09:24:03 [info]: Server running on port 3000
+2025-05-07 09:24:42 [info]: Database connection established
+2025-05-07 09:24:42 [info]: Server running on port 3000
+2025-05-07 09:24:47 [info]: Database connection established
+2025-05-07 09:24:47 [info]: Server running on port 3000
+2025-05-07 09:25:36 [error]: Unknown column 'Employee.reportingMangerEmpID' in 'field list'
+2025-05-07 09:27:54 [info]: Database connection established
+2025-05-07 09:27:54 [info]: Server running on port 3000
+2025-05-07 09:27:58 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:28:14 [info]: Database connection established
+2025-05-07 09:28:14 [info]: Server running on port 3000
+2025-05-07 09:28:16 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:31:13 [error]: TypeORMError: Entity metadata for Employee#reportingManager was not found. Check if you specified a correct entity object and if it's connected in the connection options.
+    at C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:729:23
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.computeInverseProperties (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:722:34)
+    at C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:84:58
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.build (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\metadata-builder\EntityMetadataBuilder.js:84:25)
+    at ConnectionMetadataBuilder.buildEntityMetadatas (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\connection\ConnectionMetadataBuilder.js:68:137)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async DataSource.buildMetadatas (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\data-source\DataSource.js:467:33)
+    at async DataSource.initialize (C:\Users\AbishekBabu\Desktop\Leave System\backend\node_modules\typeorm\data-source\DataSource.js:144:13)
+2025-05-07 09:31:21 [info]: Database connection established
+2025-05-07 09:31:21 [info]: Server running on port 3000
+2025-05-07 09:37:51 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:38:44 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:38:44 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:38:45 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:48:53 [info]: Database connection established
+2025-05-07 09:48:53 [info]: Server running on port 3000
+2025-05-07 09:49:01 [info]: Database connection established
+2025-05-07 09:49:01 [info]: Server running on port 3000
+2025-05-07 09:49:04 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:50:17 [info]: Database connection established
+2025-05-07 09:50:17 [info]: Server running on port 3000
+2025-05-07 09:50:32 [info]: Database connection established
+2025-05-07 09:50:32 [info]: Server running on port 3000
+2025-05-07 09:50:56 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:52:11 [info]: Database connection established
+2025-05-07 09:52:11 [info]: Server running on port 3000
+2025-05-07 09:52:46 [error]: Unknown column 'Employee.reportingManagerEmpID' in 'field list'
+2025-05-07 09:53:14 [info]: Database connection established
+2025-05-07 09:53:14 [info]: Server running on port 3000
+2025-05-07 09:55:56 [info]: Database connection established
+2025-05-07 09:55:56 [info]: Server running on port 3000
+2025-05-07 09:56:12 [warn]: Access denied: Invalid Authorization!
+2025-05-07 09:56:17 [warn]: Access denied: Invalid Authorization!
+2025-05-07 09:56:32 [warn]: Access denied: Invalid Authorization!
+2025-05-07 09:57:51 [warn]: Access denied: Invalid Authorization!
+2025-05-07 09:57:51 [warn]: Access denied: Invalid Authorization!
+2025-05-07 09:58:26 [warn]: Access denied: Invalid Authorization!
+2025-05-07 09:58:26 [warn]: Access denied: Invalid Authorization!
+2025-05-07 10:05:51 [warn]: Access denied: Invalid Authorization!
+2025-05-07 10:07:47 [info]: Database connection established
+2025-05-07 10:07:47 [info]: Server running on port 3000
+2025-05-07 10:08:37 [warn]: Insufficient leave balance
+2025-05-07 10:10:04 [warn]: Access denied: Invalid Authorization!
+2025-05-07 10:10:30 [warn]: Insufficient leave balance
+2025-05-07 10:12:07 [info]: Leave request with ID 6 submitted
+2025-05-07 10:13:10 [warn]: Insufficient leave balance
+2025-05-07 10:13:49 [warn]: Insufficient leave balance
+2025-05-07 10:14:33 [info]: Database connection established
+2025-05-07 10:14:33 [info]: Server running on port 3000
+2025-05-07 10:14:35 [warn]: Insufficient leave balance
+2025-05-07 10:15:30 [warn]: Insufficient leave balance
+2025-05-07 10:15:48 [info]: Leave request with ID 7 submitted
+2025-05-07 10:20:15 [info]: Leave approved by 201 and escalated to 401
+2025-05-07 10:20:52 [info]: Leave fully approved!
+2025-05-07 10:22:26 [warn]: Insufficient leave balance
+2025-05-07 10:27:04 [info]: Leave request with ID 8 submitted
+2025-05-07 10:27:11 [info]: Leave request with ID 9 submitted
+2025-05-07 10:31:23 [info]: Database connection established
+2025-05-07 10:31:23 [info]: Server running on port 3000
+2025-05-07 10:31:59 [info]: Database connection established
+2025-05-07 10:31:59 [info]: Server running on port 3000
+2025-05-07 10:32:10 [info]: Database connection established
+2025-05-07 10:32:10 [info]: Server running on port 3000
+2025-05-07 10:32:18 [info]: Database connection established
+2025-05-07 10:32:18 [info]: Server running on port 3000
+2025-05-07 10:33:38 [info]: Database connection established
+2025-05-07 10:33:38 [info]: Server running on port 3000
+2025-05-07 10:33:44 [info]: Database connection established
+2025-05-07 10:33:44 [info]: Server running on port 3000
+2025-05-07 10:34:12 [info]: Database connection established
+2025-05-07 10:34:12 [info]: Server running on port 3000
+2025-05-07 10:34:59 [info]: Database connection established
+2025-05-07 10:34:59 [info]: Server running on port 3000
+2025-05-07 10:35:21 [info]: Database connection established
+2025-05-07 10:35:21 [info]: Server running on port 3000
+2025-05-07 10:35:26 [info]: Database connection established
+2025-05-07 10:35:26 [info]: Server running on port 3000
+2025-05-07 10:35:39 [info]: Database connection established
+2025-05-07 10:35:39 [info]: Server running on port 3000
+2025-05-07 10:35:42 [info]: Database connection established
+2025-05-07 10:35:42 [info]: Server running on port 3000
+2025-05-07 10:36:07 [info]: Database connection established
+2025-05-07 10:36:07 [info]: Server running on port 3000
+2025-05-07 10:36:56 [info]: Database connection established
+2025-05-07 10:36:56 [info]: Server running on port 3000
+2025-05-07 10:36:58 [error]: Cannot set headers after they are sent to the client
+2025-05-07 10:37:07 [info]: Database connection established
+2025-05-07 10:37:07 [info]: Server running on port 3000
+2025-05-07 10:37:11 [info]: Database connection established
+2025-05-07 10:37:11 [info]: Server running on port 3000
+2025-05-07 10:37:14 [info]: Database connection established
+2025-05-07 10:37:14 [info]: Server running on port 3000
+2025-05-07 10:37:32 [info]: Database connection established
+2025-05-07 10:37:32 [info]: Server running on port 3000
+2025-05-07 10:37:54 [info]: Leave request with ID 10 submitted
+2025-05-07 10:39:22 [info]: Database connection established
+2025-05-07 10:39:22 [info]: Server running on port 3000

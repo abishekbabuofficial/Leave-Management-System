@@ -5,9 +5,9 @@ const authorizeRoles = require('../middlewares/authorizeRoles');
 const checkID = require('../middlewares/checkID');
 
 // View user profile with leave balances
-router.get('/:empId', authorizeRoles('EMPLOYEE'),checkID(),userController.getUserProfile);
+router.get('/:empId', authorizeRoles('EMPLOYEE','MANAGER', 'DIRECTOR', 'HR'), checkID(),userController.getUserProfile);
 
 // Get reportees for a manager
-router.get('/:empId/reportees',authorizeRoles('MANAGER', 'DIRECTOR', 'HR'),checkID(), userController.getReportees);
+router.get('/:empId/reportees',authorizeRoles('MANAGER', 'DIRECTOR', 'HR'), checkID(), userController.getReportees);
 
 module.exports = router;

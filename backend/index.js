@@ -3,6 +3,7 @@ const userRoutes = require('./routes/userRoutes');
 const leaveRoutes = require('./routes/leaveRoutes');
 const approvalRoutes = require('./routes/approvalRoutes');
 const express = require('express');
+const cors = require("cors");
 const AppDataSource = require('./config/dataSource.js'); // Your TypeORM config
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,6 +11,11 @@ const authRoutes = require('./routes/authRoutes.js');
 const authenticateJWT = require('./middlewares/authenticateJWT.js');
 const logger = require('./utils/logger.js');
 const errorHandler = require('./middlewares/errorHandler.js');
+
+app.use(cors({
+  origin: "http://localhost:5173", 
+  credentials: true                 
+}));
 
 // Middleware
 app.use(express.json());
