@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import api from "../utils/api";
 import { toast } from "sonner";
 import { Search, Filter, Mail, Phone } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 const TeamMembers = () => {
   const [teamMembers, setTeamMembers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterRole, setFilterRole] = useState("");
+  const { user, isHR, isManager, isDirector, isEmployee } = useAuth();
 
   const roles = ["EMPLOYEE", "MANAGER", "ADMIN", "HR"];
 
@@ -15,7 +17,10 @@ const TeamMembers = () => {
     const fetchTeamMembers = async () => {
       try {
         setIsLoading(true);
-        const data = await api.getTeamMembers();
+        let data = await api.getTeamMembers();
+        if(isHR){
+          data = await api.getAllUsers();
+        }
         setTeamMembers(data || []);
       } catch (error) {
         toast.error("Failed to load team members");

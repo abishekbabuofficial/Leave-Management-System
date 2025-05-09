@@ -12,6 +12,26 @@ const leaveService = {
     return leave.req_id;
   },
 
+  cancelLeave: async (req_id) =>{
+      try {
+        const repo = AppDataSource.getRepository(LeaveRequest);
+        const leaveRequest = await repo.findOneBy({ req_id: req_id });
+        
+        if (!leaveRequest) {
+          throw new Error(`Leave request with ID ${req_id} not found`);
+        }
+        leaveRequest.status = "cancelled";
+        await repo.save(leaveRequest);
+        
+        return { success: true, message: "Leave request cancelled successfully" };
+      } catch (error) {
+        console.error("Error cancelling leave request:", error);
+        throw error;
+      }
+    
+
+  },
+
   getUserLeaveRequests: async (empId) => {
     return await AppDataSource.getRepository(LeaveRequest).find({
       where: { emp_id: empId },

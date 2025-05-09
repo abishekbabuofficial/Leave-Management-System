@@ -198,7 +198,7 @@ const ApplyLeave = () => {
                     name="start_date"
                     required
                     className="pl-10 w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-                    min={new Date().toISOString().split("T")[0]} // Can't select past dates
+                    min={new Date().toISOString().split("T")[0]}
                     value={formData.start_date}
                     onChange={handleChange}
                   />

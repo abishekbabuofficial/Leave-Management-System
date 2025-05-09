@@ -8,6 +8,9 @@ const leaveService = require('../services/leaveService');
 // Apply for leave
 router.post('/apply',authorizeRoles('EMPLOYEE','MANAGER','DIRECTOR'), leaveController.applyLeave);
 
+// Cancel a leave request
+router.post('/cancel/:req_id', authorizeRoles('EMPLOYEE', 'MANAGER', 'DIRECTOR'), leaveController.cancelLeaveRequest);
+
 // Get leave requests for an employee
 router.get('/requests', authorizeRoles('EMPLOYEE','MANAGER','DIRECTOR','HR'), leaveController.getUserRequests);
 

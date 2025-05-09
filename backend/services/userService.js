@@ -36,7 +36,23 @@ const userService = {
     }));
 
     return reporteesWithLeaveBalance;
+  },
+
+  getAllUsers: async () => {
+    const users = await AppDataSource.getRepository(Employee).find();
+
+    // Fetch leave balance for each reportee and combine the data
+    const usersWithLeaveBalance = await Promise.all(users.map(async (user) => {
+      const leaveBalance = await userService.getUserLeaveBalance(user.Emp_ID);
+      return {
+        ...user,
+        leaveBalance
+      };
+    }));
+
+    return usersWithLeaveBalance;
   }
+
 };
 
 module.exports = userService;

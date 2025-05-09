@@ -113,6 +113,31 @@ const getUserApprovedLeaves = async (req, res) => {
   }
 };
 
+const cancelLeaveRequest = async (req, res) => {
+  try {
+    const { req_id } = req.params;
+    const { emp_ID } = req.user;
+    
+    const leaveRequest = await leaveService.getLeaveById(req_id);
+
+    if(leaveRequest.emp_id !== emp_ID){
+      return res.status(403).json({message: "You cannot cancel other's requests"})
+    }
+
+    if (leaveRequest.status === "cancelled") {
+      return res.status(400).json({ message: "Leave request is already cancelled" });
+    }
+    const result = await leaveService.cancelLeave(req_id);
+    
+    logger.info(`Leave request with ID ${req_id} cancelled by user ${emp_ID}`);
+    res.json({ message: "Leave request cancelled successfully" });
+
+  } catch (err) {
+    logger.error(`Error cancelling leave request: ${err.message}`);
+    res.status(500).json({ error: err.message });
+  }
+}
+
 module.exports = {
   applyLeave,
   getUserRequests,
@@ -120,4 +145,5 @@ module.exports = {
   getApprovedLeaves,
   getAllLeaves,
   getUserApprovedLeaves,
+  cancelLeaveRequest,
 };

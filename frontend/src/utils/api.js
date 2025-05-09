@@ -73,6 +73,28 @@ const api = {
     }
   },
 
+  cancelLeave: async (req_id) => {
+    try {
+      const response = await fetch(`${API_URL}/leaves/cancel/${req_id}`, {
+        method: "POST",
+        headers: {
+          ...getAuthHeader(),
+        },
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to cancel leave request");
+      }
+  
+      return data;
+    } catch (error) {
+      console.error("Error cancelling leave request:", error);
+      throw error;
+    }
+  },
+
   // Team management
   getTeamMembers: async () => {
     try {
@@ -255,7 +277,21 @@ const api = {
       console.log(err)
       throw err;
     }
-  }
+  },
+
+  getAllUsers: async() =>{
+    try {
+      const response = await fetch(`${API_URL}/users/all-users`,{
+        headers:{
+          ...getAuthHeader()
+        }
+      })
+      return response.json();
+    } catch (err) {
+      console.log(err)
+      throw err;
+    }
+  },
 };
 
 

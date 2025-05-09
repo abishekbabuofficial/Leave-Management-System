@@ -31,10 +31,20 @@ const getReportees = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const { emp_ID } = req.user;
+    const users = await userService.getAllUsers(emp_ID);
+    res.json(users);
+  } catch (err) {
+    logger.error(`${err.message}`);
+    res.status(500).json({ error: err.message });
+  }
+};
+
 const getUserLeaveBalance = async (req,res)=>{
   try{
-    const {emp_ID}=req.user
-    const balances = await userService.getUserLeaveBalance(emp_ID);
+    const balances = await userService.getUserLeaveBalance();
     res.json(balances)
   }
   catch (err) {
@@ -48,4 +58,5 @@ module.exports = {
   getUserProfile,
   getReportees,
   getUserLeaveBalance,
+  getAllUsers,
 };

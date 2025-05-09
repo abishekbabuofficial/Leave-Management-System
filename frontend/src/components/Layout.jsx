@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 const Layout = () => {
-  const { user, logout, isAdmin, isEmployee } = useAuth();
+  const { user, logout, isHR, isManager, isDirector, isEmployee } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ const Layout = () => {
     );
   }
 
-  if (isAdmin) {
+  if (isManager || isDirector) {
     navItems.push(
       {
         name: "Team Members",
@@ -77,6 +77,21 @@ const Layout = () => {
       //   path: "/approvals",
       //   icon: <CheckSquare className="h-5 w-5" />,
       // }
+    );
+  }
+
+  if (isHR) {
+    navItems.push(
+      {
+        name: "All Employees",
+        path: "/team",
+        icon: <Users className="h-5 w-5" />,
+      },
+      {
+        name: "Pending Requests",
+        path: "/pending-requests",
+        icon: <FileText className="h-5 w-5" />,
+      },
     );
   }
 
