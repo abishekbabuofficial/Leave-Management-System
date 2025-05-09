@@ -98,8 +98,11 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {leaveHistory.slice(0, 5).map((leave) => (
-                    <tr key={leave.id} className="hover:bg-gray-50">
+                {[...leaveHistory]
+                  .reverse()
+                  .slice(0, 5)
+                  .map((leave) => (
+                    <tr key={leave.req_id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className={`${getLeaveTypeColor(getLeaveTypes( leave.leave_id))} w-3 h-3 rounded-full mr-2`}></div>

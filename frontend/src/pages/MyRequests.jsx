@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import { toast } from 'sonner';
 import { Calendar, Filter, Search, FilePlus } from 'lucide-react';
-import { getLeaveTypes } from '../utils/helper';
+import { getLeaveStatusColor, getLeaveTypeColor, getLeaveTypes } from '../utils/helper';
 
 const MyRequests = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
@@ -43,26 +43,6 @@ const MyRequests = () => {
     return matchesStatus && matchesType && matchesSearch;
   });
 
-  const getLeaveTypeColor = (leaveType) => {
-    switch(leaveType?.toLowerCase()) {
-      case 'casual leave': return 'bg-leave-casual';
-      case 'sick leave': return 'bg-leave-sick';
-      case 'floater leave': return 'bg-leave-floater';
-      case 'lop leave': return 'bg-leave-lop';
-      default: return 'bg-gray-500';
-    }
-  };
-  
-  const getLeaveStatusColor = (status) => {
-    switch(status?.toLowerCase()) {
-      case 'approved': return 'bg-green-100 text-green-800';
-      case 'auto_approved': return 'bg-green-100 text-green-800';
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'rejected': return 'bg-red-100 text-red-800';
-      case 'cancelled': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
 
   if (isLoading) {
     return (
@@ -155,12 +135,14 @@ const MyRequests = () => {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reason</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Updated</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Escalated Level</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Comment</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredRequests.map((request) => (
-                  <tr key={request.id} className="hover:bg-gray-50">
+                  <tr key={request.req_id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className={`${getLeaveTypeColor(getLeaveTypes(request.leave_id))} w-3 h-3 rounded-full mr-2`}></div>
@@ -183,10 +165,22 @@ const MyRequests = () => {
                         {request.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                    <td title={request.reason} className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
                       {request.reason}
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      
+                        <div className="text-sm text-gray-500">
+                          {new Date(request.updated_at).toLocaleString("en-US", { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                        </div>
+                      
+                    </td>
+
                     <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                      {request.escalation_level || '-'}
+                    </td>
+
+                    <td title={request.remarks}  className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
                       {request.remarks || '-'}
                     </td>
                   </tr>

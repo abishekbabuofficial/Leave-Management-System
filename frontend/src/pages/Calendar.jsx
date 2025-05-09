@@ -44,7 +44,7 @@ export default function CalendarPage() {
         const formatted = response.map((leave) => {
           const leaveType = getLeaveTypes(leave.leave_id);
           return {
-            title: `${leaveType}: ${leave.empDetails.Emp_name}`,
+            title: `${leave.empDetails.Emp_name}`,
             start: new Date(leave.start_date),
             end: new Date(leave.end_date),
             allDay: true,
@@ -63,13 +63,39 @@ export default function CalendarPage() {
     fetchTeamData();
   }, []);
 
+
+if(isLoading){
+  return (
+    <div className="h-full flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <p className="mt-3 text-gray-600">Loading {"Calendar"}...</p>
+      </div>
+    </div>
+  );};
+
   const eventStyleGetter = (event) => {
+    let backgroundColor = '#777'; // Default gray
+
+    if (event.className === 'bg-leave-casual') {
+      backgroundColor = '#22c55e';
+    } else if (event.className === 'bg-leave-sick') {
+      backgroundColor = '#ef4444';
+    } else if (event.className === 'bg-leave-floater') {
+      backgroundColor = '#a855f7'; 
+    } else if (event.className === 'bg-leave-lop') {
+      backgroundColor = '#eab308';
+    }
+    
+    
     return {
-      className: event.className,
       style: {
-        backgroundColor: event.className,
-        border: 'none', 
-        cursor: 'default',
+        backgroundColor,
+        borderRadius: '4px',
+        opacity: 0.8,
+        color: '#fff',
+        border: 'none',
+        display: 'block'
       },
     };
   };

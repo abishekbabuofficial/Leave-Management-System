@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from 'react-router-dom';
 import {
   Calendar,
   FileText,
@@ -16,6 +17,7 @@ const Layout = () => {
   const { user, logout, isAdmin, isEmployee } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -88,7 +90,7 @@ const Layout = () => {
       >
         <div className="p-4 flex items-center justify-between border-b">
           {sidebarOpen && (
-            <h1 className="text-xl font-semibold text-primary">LeaveHub</h1>
+            <h1 className="text-xl font-semibold text-primary">Leave Manager</h1>
           )}
           {/* Toggle button & Side Bar */}
           <button
@@ -180,8 +182,8 @@ const Layout = () => {
                     {user.Role}
                   </p>
                 </div>
-                <div className="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center font-medium">
-                  {user.Emp_name?.charAt(0).toUpperCase() || "U"}
+                <div className="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center font-medium">           
+                  <button onClick={() => navigate('/profile')}>{user.Emp_name?.charAt(0).toUpperCase() || "U"}</button>
                 </div>
               </div>
             </div>

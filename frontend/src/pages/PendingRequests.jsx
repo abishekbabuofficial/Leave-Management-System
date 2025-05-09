@@ -17,9 +17,7 @@ const PendingRequests = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState("");
-  const navigate = useNavigate();
-
-
+  const [remarks, setRemarks] = useState({});
 
   // Fetch pending requests
   useEffect(() => {
@@ -55,13 +53,20 @@ const PendingRequests = () => {
     return matchesSearch && matchesType;
   });
 
+  const handleRemarkChange = (requestId, value) => {
+    setRemarks({
+      ...remarks,
+      [requestId]: value,
+    });
+  };
 
-    
   const handleApprove = async (requestId) => {
     try {
       const user = JSON.parse(localStorage.getItem("user")) || {};
       const approverId = user.id;
-      await api.approveLeave(requestId, approverId, "approved");
+      const remark = remarks[requestId] || "";
+
+      await api.approveLeave(requestId, approverId, "approved", remark);
       setPendingRequests(
         pendingRequests.filter((request) => request.req_id !== requestId)
       );
@@ -76,7 +81,9 @@ const PendingRequests = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user")) || {};
       const approverId = user.id;
-      await api.approveLeave(requestId, approverId, "rejected");
+      const remark = remarks[requestId] || "";
+
+      await api.approveLeave(requestId, approverId, "rejected", remark);
       setPendingRequests(
         pendingRequests.filter((request) => request.req_id !== requestId)
       );
@@ -106,14 +113,6 @@ const PendingRequests = () => {
           <h2 className="text-2xl font-semibold text-gray-800">
             Pending Leave Requests
           </h2>
-
-          <button
-            onClick={() => navigate("/approvals")}
-            className="inline-flex items-center px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
-          >
-            <CheckCircle className="mr-2 h-4 w-4" />
-            View All Approvals
-          </button>
         </div>
 
         {/* Filters and Search */}
@@ -203,7 +202,16 @@ const PendingRequests = () => {
                 <p className="mt-1 text-sm text-gray-600">{request.reason}</p>
               </div>
 
-              <div className="mt-4 flex sm:justify-end space-x-3">
+              <div className="mt-4 flex flex-wrap sm:justify-end space-x-3">
+                <input
+                  type="text"
+                  placeholder="Enter remarks..."
+                  className="px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary mt-2 mb-2 w-full"
+                  value={remarks[request.req_id] || ""}
+                  onChange={(e) =>
+                    handleRemarkChange(request.req_id, e.target.value)
+                  }
+                />
                 <button
                   onClick={() => handleReject(request.req_id)}
                   className="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
@@ -232,12 +240,6 @@ const PendingRequests = () => {
                 All leave requests have been processed
               </p>
             )}
-            <button
-              onClick={() => navigate("/approvals")}
-              className="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
-            >
-              View All Approvals
-            </button>
           </div>
         )}
       </div>
