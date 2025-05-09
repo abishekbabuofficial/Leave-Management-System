@@ -2,5 +2,6 @@
 backend/logs
 knowledge.txt
 .vscode/settings.json
-frontend/.env
 backend/.env
+frontend/.env
+.vscode/settings.json
