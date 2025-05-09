@@ -9,7 +9,7 @@ const getUserProfile = async (req, res) => {
     const manager = await userService.getUserById(user.Manager_ID);
 
     if (!user) {
-      logger.warn(`User with ID ${emp_Id} not found`);
+      logger.warn(`User with ID ${emp_ID} not found`);
       return res.status(404).json({ message: "User not found" });
     }
 

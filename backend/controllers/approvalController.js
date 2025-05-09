@@ -27,9 +27,9 @@ const handleApproval = async (req, res) => {
         .json({ message: "Invalid or already processed request" });
     }
 
-    let status = action === "approve" ? "approved" : "rejected";
+    let status = action === "approved" ? "approved" : "rejected";
 
-    if (action === "reject") {
+    if (action === "rejected") {
       await approvalService.updateLeaveStatus(reqId, status, approverId, remarks);
       logger.info(`Leave Request ID ${reqId} is rejected`);
       return res.json({ message: "Leave rejected" });

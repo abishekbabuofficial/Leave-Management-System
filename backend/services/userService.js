@@ -24,7 +24,18 @@ const userService = {
   },
 
   getReportees: async (managerId) => {
-    return await AppDataSource.getRepository(Employee).find({ where: { Manager_ID: managerId } });
+    const reportees = await AppDataSource.getRepository(Employee).find({ where: { Manager_ID: managerId } });
+
+    // Fetch leave balance for each reportee and combine the data
+    const reporteesWithLeaveBalance = await Promise.all(reportees.map(async (reportee) => {
+      const leaveBalance = await userService.getUserLeaveBalance(reportee.Emp_ID);
+      return {
+        ...reportee,
+        leaveBalance
+      };
+    }));
+
+    return reporteesWithLeaveBalance;
   }
 };
 

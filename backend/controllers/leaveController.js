@@ -73,7 +73,51 @@ const getUserRequests = async (req, res) => {
   }
 };
 
+const getLeaveType = async (req, res) => {
+  try {
+    const requests = await leaveService.getLeaveType();
+    res.json(requests);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const getApprovedLeaves = async (req, res) =>{
+  try {
+    const {emp_ID}=req.user;
+    const response = await leaveService.getApprovedLeaves(emp_ID);
+    res.json(response);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+const getAllLeaves = async (req, res) => {
+  try {
+    const response = await leaveService.getAllLeaves();
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const getUserApprovedLeaves = async (req, res) => {
+  try {
+    const { emp_ID } = req.user;
+    const response = await leaveService.getUserApprovedLeaves(emp_ID);
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 module.exports = {
   applyLeave,
   getUserRequests,
+  getLeaveType,
+  getApprovedLeaves,
+  getAllLeaves,
+  getUserApprovedLeaves,
 };
