@@ -44,7 +44,8 @@ const getAllUsers = async (req, res) => {
 
 const getUserLeaveBalance = async (req,res)=>{
   try{
-    const balances = await userService.getUserLeaveBalance();
+    const {emp_ID}=req.user
+    const balances = await userService.getUserLeaveBalance(emp_ID);
     res.json(balances)
   }
   catch (err) {

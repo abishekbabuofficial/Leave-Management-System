@@ -7,7 +7,10 @@ const applyLeave = async (req, res) => {
   try {
     const { emp_id, leave_id, start_date, end_date, reason } = req.body;
 
-    const leaveType = await leaveService.getLeaveType(leave_id);
+    const leaveRepo = await leaveService.getLeaveType();
+    const leaveType = leaveRepo.find((lt) => lt.leave_id == leave_id);
+    console.log(leaveType);
+    
     const total_days =
       Math.ceil(
         (new Date(end_date) - new Date(start_date)) / (1000 * 60 * 60 * 24)

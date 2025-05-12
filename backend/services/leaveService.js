@@ -1,7 +1,7 @@
 const AppDataSource = require("../config/dataSource");
-const leaveRequest = require("../entities/leaveRequest");
 const LeaveRequest = require("../entities/leaveRequest");
 const LeaveType = require("../entities/leaveType");
+const LeaveBalance = require("../entities/leaveBalance");
 const { In } = require("typeorm");
 
 const leaveService = {
@@ -12,24 +12,41 @@ const leaveService = {
     return leave.req_id;
   },
 
-  cancelLeave: async (req_id) =>{
-      try {
-        const repo = AppDataSource.getRepository(LeaveRequest);
-        const leaveRequest = await repo.findOneBy({ req_id: req_id });
-        
-        if (!leaveRequest) {
-          throw new Error(`Leave request with ID ${req_id} not found`);
-        }
-        leaveRequest.status = "cancelled";
-        await repo.save(leaveRequest);
-        
-        return { success: true, message: "Leave request cancelled successfully" };
-      } catch (error) {
-        console.error("Error cancelling leave request:", error);
-        throw error;
-      }
-    
+  cancelLeave: async (req_id) => {
+    try {
+      const repo = AppDataSource.getRepository(LeaveRequest);
+      const leaveRequest = await repo.findOneBy({ req_id: req_id });
 
+      if (!leaveRequest) {
+        throw new Error(`Leave request with ID ${req_id} not found`);
+      }
+      if (leaveRequest.status === "approved" || leaveRequest.status === "auto_approved") {
+        const leave_balance = AppDataSource.getRepository(LeaveBalance);
+        const record = await leave_balance.findOneBy({
+          emp_id: leaveRequest.emp_id,
+          leave_type_id: leaveRequest.leave_id,
+        });
+
+        if (!record) {
+          throw new Error("Leave balance not found");
+        }
+        if (!(leaveRequest.leave_id === 4)){
+        record.used -= leaveRequest.total_days;
+        record.remaining += leaveRequest.total_days;}
+        else{
+            record.used -= leaveRequest.total_days;
+        }
+
+        await leave_balance.save(record);
+      }
+      leaveRequest.status = "cancelled";
+      await repo.save(leaveRequest);
+
+      return { success: true, message: "Leave request cancelled successfully" };
+    } catch (error) {
+      console.error("Error cancelling leave request:", error);
+      throw error;
+    }
   },
 
   getUserLeaveRequests: async (empId) => {
@@ -47,10 +64,9 @@ const leaveService = {
   getLeaveType: async () => {
     return await AppDataSource.getRepository(LeaveType).find();
   },
-
   getAllLeaves: async () => {
     const employees = await AppDataSource.getRepository("Employee").find();
-    const requests =  await AppDataSource.getRepository(LeaveRequest).find({
+    const requests = await AppDataSource.getRepository(LeaveRequest).find({
       where: { status: "approved" },
     });
 
@@ -95,9 +111,8 @@ const leaveService = {
 
   getUserApprovedLeaves: async (empId) => {
     const employees = await AppDataSource.getRepository("Employee").find();
-    const requests =  await AppDataSource.getRepository(LeaveRequest).find({
-      where: { emp_id: empId,
-        status: "approved", },
+    const requests = await AppDataSource.getRepository(LeaveRequest).find({
+      where: { emp_id: empId, status: "approved" },
     });
     const empLeaves = requests.map((request) => {
       const empWithLeaves = employees.filter(
@@ -111,7 +126,6 @@ const leaveService = {
 
     return empLeaves;
   },
-  
 };
 
 module.exports = leaveService;
