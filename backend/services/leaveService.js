@@ -2,10 +2,29 @@ const AppDataSource = require("../config/dataSource");
 const LeaveRequest = require("../entities/leaveRequest");
 const LeaveType = require("../entities/leaveType");
 const LeaveBalance = require("../entities/leaveBalance");
-const { In } = require("typeorm");
+const { In, LessThanOrEqual, MoreThanOrEqual } = require("typeorm");
 
 const leaveService = {
+  isOverlapping: async (empId, startDate, endDate) => {
+    const repo = AppDataSource.getRepository(LeaveRequest);
+
+    const overlappingRequests = await repo.find({
+      where: {
+        emp_id: empId,
+        status: In(["approved", "pending"]),
+        start_date: LessThanOrEqual(endDate),
+        end_date: MoreThanOrEqual(startDate),
+      },
+    });
+
+    return overlappingRequests.length > 0;
+  },
   applyLeave: async (leaveData) => {
+    const { emp_id, start_date, end_date } = leaveData;
+    const isOverlapping = await leaveService.isOverlapping(emp_id, start_date, end_date);
+    if (isOverlapping) {
+      throw new Error("You already have a leave request overlapping with the requested dates.");
+    }
     const repo = AppDataSource.getRepository(LeaveRequest);
     const leave = repo.create(leaveData);
     await repo.save(leave);
