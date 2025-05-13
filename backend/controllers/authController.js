@@ -5,8 +5,9 @@ const AppDataSource = require("../config/dataSource");
 const Employee = require("../entities/employee");
 const logger = require("../utils/logger");
 const { log } = require("winston");
+require('dotenv').config();
 
-const SECRET_KEY = "Abishek_secret";
+const SECRET_KEY = process.env.SECRET_KEY;
 
 const login = async (req, res) => {
   const { emp_id, password } = req.body;
