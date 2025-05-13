@@ -172,7 +172,7 @@ const MyRequests = () => {
                     Last Updated
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Escalated Level
+                    Current Approver
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Comment
@@ -247,7 +247,7 @@ const MyRequests = () => {
                     </td>
 
                     <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
-                      {request.escalation_level || "-"}
+                      {request.approver_name || "-"}
                     </td>
 
                     <td

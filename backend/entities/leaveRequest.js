@@ -47,6 +47,11 @@ module.exports = new EntitySchema({
       type: 'int',
       nullable: true,
     },
+    approver_name: {
+      type: 'varchar',
+      length: 255,
+      nullable: true,
+    },
     remarks: {
       type: 'text',
       nullable: true,

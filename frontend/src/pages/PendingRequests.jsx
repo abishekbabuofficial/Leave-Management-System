@@ -194,12 +194,18 @@ const PendingRequests = () => {
                     <span className="font-medium">{request.total_days}</span>{" "}
                     {request.total_days === 1 ? "day" : "days"}
                   </p>
+                  <p className="text-sm text-gray-600">
+                    <span className="font-medium">Last Updated {new Date(request.updated_at).toLocaleDateString()}</span>{" "}
+                  </p>
                 </div>
               </div>
 
-              <div className="mt-4">
-                <h4 className="text-sm font-medium text-gray-700">Reason:</h4>
-                <p className="mt-1 text-sm text-gray-600">{request.reason}</p>
+              <div className="mt-4 flex gap-10">
+                <div><h4 className="text-sm font-medium text-gray-700">Reason:</h4>
+                <p className="mt-1 text-sm text-gray-600">{request.reason}</p></div>
+                {request.remarks && (<div><h4 className="text-sm font-medium text-gray-700">Remarks from previous approver:</h4>
+                <p className="mt-1 text-sm text-gray-600">{request.remarks}</p></div>)}
+                
               </div>
 
               <div className="mt-4 flex flex-wrap sm:justify-end space-x-3">

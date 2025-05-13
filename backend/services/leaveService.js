@@ -26,6 +26,7 @@ const leaveService = {
       throw new Error("You already have a leave request overlapping with the requested dates.");
     }
     const repo = AppDataSource.getRepository(LeaveRequest);
+    console.log(leaveData)
     const leave = repo.create(leaveData);
     await repo.save(leave);
     return leave.req_id;

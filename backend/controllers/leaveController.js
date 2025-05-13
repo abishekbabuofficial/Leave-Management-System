@@ -2,6 +2,7 @@ const leaveService = require("../services/leaveService");
 const approvalService = require("../services/approvalService");
 const userService = require("../services/userService");
 const logger = require("../utils/logger");
+const { calculateTotaldays } = require("../utils/helper");
 
 const applyLeave = async (req, res) => {
   try {
@@ -11,11 +12,10 @@ const applyLeave = async (req, res) => {
     const leaveType = leaveRepo.find((lt) => lt.leave_id == leave_id);
     console.log(leaveType);
     
-    const total_days =
-      Math.ceil(
-        (new Date(end_date) - new Date(start_date)) / (1000 * 60 * 60 * 24)
-      ) + 1;
-
+    const total_days = calculateTotaldays(start_date, end_date);
+    if (total_days === 0){
+      return res.status(400).json({message: "It is already a Holiday"});
+    }
     // Check for balance (except LOP)
     if (leave_id !== 4) {
       const balances = await userService.getUserLeaveBalance(emp_id);
@@ -48,6 +48,10 @@ const applyLeave = async (req, res) => {
     const escalation_level = total_days > 4 ? 1 : 1;
     const employee = await userService.getUserById(emp_id);
     const current_approver_id = employee.Manager_ID;
+    const approver = await userService.getUserById(current_approver_id);
+    const approver_name = approver.Emp_name;
+    console.log(approver, 'is approver name');
+    
 
     const reqId = await leaveService.applyLeave({
       emp_id,
@@ -58,6 +62,7 @@ const applyLeave = async (req, res) => {
       escalation_level,
       current_approver_id,
       total_days,
+      approver_name: approver_name,
     });
     logger.info(`Leave request with ID ${reqId} submitted`);
     res.json({ message: "Leave request submitted", reqId });

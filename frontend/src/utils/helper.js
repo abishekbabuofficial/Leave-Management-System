@@ -1,3 +1,5 @@
+import holidayList from "./HolidayList";
+
 export const getLeaveTypes = (id) => {
     const res = [{'id':1, 'name':'Casual Leave'}, {'id':2, 'name':'Sick Leave'}, {'id':3, 'name':'Floater Leave'}, {'id':4, 'name':'LOP Leave'}]
     const idPair = {'1': 'Casual Leave', '2': 'Sick Leave', '3': 'Floater Leave', '4': 'LOP Leave'};
@@ -25,3 +27,23 @@ export const getLeaveTypes = (id) => {
       default: return 'bg-gray-100 text-gray-800';
     }
   };
+
+
+
+  export const calculateTotaldays = (startDate, endDate)=>{
+    let count = 0;
+    let end_date = new Date(endDate);
+    let currentDate = new Date(startDate);
+    
+  
+    while (currentDate <= end_date) {
+      const dayOfWeek = currentDate.getDay();
+      const splitDate = currentDate.toISOString().split('T')[0];
+      if (dayOfWeek !== 0 && dayOfWeek !== 6 && !(holidayList.includes(splitDate))) {
+        count++;
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  
+    return count;
+  }

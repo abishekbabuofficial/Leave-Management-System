@@ -6,13 +6,13 @@ const checkID = require('../middlewares/checkID');
 const leaveService = require('../services/leaveService');
 
 // Apply for leave
-router.post('/apply',authorizeRoles('EMPLOYEE','MANAGER','DIRECTOR'), leaveController.applyLeave);
+router.post('/apply', leaveController.applyLeave);
 
 // Cancel a leave request
-router.post('/cancel/:req_id', authorizeRoles('EMPLOYEE', 'MANAGER', 'DIRECTOR'), leaveController.cancelLeaveRequest);
+router.post('/cancel/:req_id', leaveController.cancelLeaveRequest);
 
 // Get leave requests for an employee
-router.get('/requests', authorizeRoles('EMPLOYEE','MANAGER','DIRECTOR','HR'), leaveController.getUserRequests);
+router.get('/requests', leaveController.getUserRequests);
 
 router.get('/types', leaveController.getLeaveType);
 

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import { toast } from "sonner";
 import { Calendar as CalendarIcon, AlertTriangle } from "lucide-react";
+import { calculateTotaldays } from "../utils/helper";
+import holidayList from "../utils/HolidayList";
 
 const ApplyLeave = () => {
   const [leaveTypes, setLeaveTypes] = useState([]);
@@ -43,7 +45,27 @@ const ApplyLeave = () => {
   }, []);
 
   console.log(leaveTypes);
-  
+
+  const handleDateChange = (e) => {
+    const { name, value } = e.target;
+    const date = new Date(value).toISOString().split("T")[0];
+    const day = new Date(value).getDay();
+
+    if (day === 0 || day === 6) {
+      toast.error("Weekends are not allowed to select");
+      return;
+    }
+
+    if (holidayList.includes(date)) {
+      toast.error("Holidays are not allowed to select");
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -91,47 +113,44 @@ const ApplyLeave = () => {
   const calculateDays = () => {
     if (!formData.start_date || !formData.end_date) return 0;
 
-    const startDate = new Date(formData.start_date);
-    const endDate = new Date(formData.end_date);
-
-    // Return 0 if end date is before start date
-    if (endDate < startDate) return 0;
-
-    // Calculate the difference in days
-    const diffTime = Math.abs(endDate - startDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include both start and end dates
-
-    return diffDays;
+    const total_days = calculateTotaldays(
+      formData.start_date,
+      formData.end_date
+    );
+    if (total_days) return total_days;
+    else return "Selected day is either week-off or already a Holiday";
   };
 
   // Get the type of leave selected
   const getSelectedLeaveType = () => {
     if (!formData.leave_id) return null;
-    return leaveTypes.find((type) => type.leave_id === parseInt(formData.leave_id));
+    return leaveTypes.find(
+      (type) => type.leave_id === parseInt(formData.leave_id)
+    );
   };
-
-
 
   // Get remaining days for selected leave type
   const getRemainingDays = () => {
     if (!leaveBalance || !formData.leave_id) return null;
 
     const selectedLeaveBalance = leaveBalance.find(
-            (balance) => balance.leave_type_id === parseInt(formData.leave_id)
-          );
-      
-          if (!selectedLeaveBalance) return null;
-          
-          return selectedLeaveBalance.remaining;
+      (balance) => balance.leave_type_id === parseInt(formData.leave_id)
+    );
+
+    if (!selectedLeaveBalance) return null;
+
+    return selectedLeaveBalance.remaining;
   };
 
-  // Check if selected days exceed available balance
+  // Check for leave Balance
   const isExceedingBalance = () => {
-    const days = calculateDays();
-    const remainingDays = getRemainingDays();
+    if (formData.leave_id !== "4") {
+      const days = calculateDays();
+      const remainingDays = getRemainingDays();
 
-    if (remainingDays === null || days === 0) return false;
-    return days > remainingDays;
+      if (remainingDays === null || days === 0) return false;
+      return days > remainingDays;
+    }
   };
 
   if (isLoading) {
@@ -200,7 +219,7 @@ const ApplyLeave = () => {
                     className="pl-10 w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
                     min={new Date().toISOString().split("T")[0]}
                     value={formData.start_date}
-                    onChange={handleChange}
+                    onChange={handleDateChange}
                   />
                 </div>
               </div>
