@@ -6,19 +6,19 @@ module.exports = new EntitySchema({
   columns: {
     leave_id: {
       primary: true,
-      type: 'int',
+      type: 'integer',
     },
     leave_name: {
       type: 'varchar',
     },
     is_auto_approve: {
-      type: 'tinyint',
+      type: 'boolean',
     },
     max_days: {
-      type: 'int',
+      type: 'integer',
     },
     is_rollover: {
-      type: 'tinyint',
+      type: 'boolean',
     },
   },
 });

@@ -1,30 +1,32 @@
-const { EntitySchema } = require('typeorm');
+const { EntitySchema } = require("typeorm");
 
 module.exports = new EntitySchema({
-  name: 'Employee',
-  tableName: 'employees',
+  name: "Employee",
+  tableName: "employees",
   columns: {
     Emp_ID: {
       primary: true,
-      type: 'int',
+      type: "integer",
     },
     Emp_name: {
-      type: 'varchar',
+      type: "varchar",
     },
     Role: {
-      type: 'enum',
-      enum: ['EMPLOYEE', 'MANAGER', 'HR', 'DIRECTOR'],
+      type: "enum",
+      enum: ["EMPLOYEE", "MANAGER", "HR", "DIRECTOR"],
+      enumName: "employee_role_enum", // Required in PostgreSQL
     },
     Manager_ID: {
-      type: 'int',
+      type: "integer",
       nullable: true,
     },
     is_active: {
-      type: 'tinyint',
-      default: 1,
+      type: "boolean",
+      default: true,
     },
-    password:{
-      type: 'varchar'
+    password: {
+      type: "varchar",
+      nullable: true,
     },
   },
 });

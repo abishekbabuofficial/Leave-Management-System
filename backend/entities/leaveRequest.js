@@ -6,14 +6,14 @@ module.exports = new EntitySchema({
   columns: {
     req_id: {
       primary: true,
-      type: 'int',
+      type: 'integer',
       generated: true,
     },
     emp_id: {
-      type: 'int',
+      type: 'integer',
     },
     leave_id: {
-      type: 'int',
+      type: 'integer',
     },
     start_date: {
       type: 'date',
@@ -21,9 +21,8 @@ module.exports = new EntitySchema({
     end_date: {
       type: 'date',
     },
-    // total_days is a generated column
     total_days: {
-      type: 'int',
+      type: 'integer',
     },
     reason: {
       type: 'text',
@@ -31,6 +30,7 @@ module.exports = new EntitySchema({
     status: {
       type: 'enum',
       enum: ['pending', 'approved', 'rejected', 'auto_approved', 'cancelled'],
+      enumName: 'leave_status_enum', // helpful for PostgreSQL schema
     },
     created_at: {
       type: 'timestamp',
@@ -41,10 +41,10 @@ module.exports = new EntitySchema({
       updateDate: true,
     },
     escalation_level: {
-      type: 'int',
+      type: 'integer',
     },
     current_approver_id: {
-      type: 'int',
+      type: 'integer',
       nullable: true,
     },
     approver_name: {
@@ -59,20 +59,20 @@ module.exports = new EntitySchema({
   },
   relations: {
     employee: {
-      type: "many-to-one",
-      target: "Employee", 
+      type: 'many-to-one',
+      target: 'Employee',
       joinColumn: {
-        name: "emp_id",
-        referencedColumnName: "Emp_ID", 
+        name: 'emp_id',
+        referencedColumnName: 'Emp_ID',
       },
     },
     leaveType: {
-      type: "many-to-one",
-      target: "LeaveType",
+      type: 'many-to-one',
+      target: 'LeaveType',
       joinColumn: {
-        name: "leave_id",
-        referencedColumnName: "leave_id",
+        name: 'leave_id',
+        referencedColumnName: 'leave_id',
       },
-    }
+    },
   },
 });

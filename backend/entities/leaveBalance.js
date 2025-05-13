@@ -6,31 +6,31 @@ module.exports = new EntitySchema({
   columns: {
     balance_id: {
       primary: true,
-      type: 'int',
+      type: 'integer',
       generated: true,
     },
     emp_id: {
-      type: 'int',
+      type: 'integer',
     },
     leave_type_id: {
-      type: 'int',
+      type: 'integer',
     },
     year: {
-      type: 'year',
+      type: 'integer', // PostgreSQL doesn't support 'year' type
     },
     total_allocated: {
-      type: 'int',
+      type: 'integer',
     },
     carried_forward: {
-      type: 'int',
+      type: 'integer',
       default: 0,
     },
     used: {
-      type: 'int',
+      type: 'integer',
       default: 0,
     },
     remaining: {
-      type: 'int',
+      type: 'integer',
     },
   },
   uniques: [

@@ -59,6 +59,7 @@ const applyLeave = async (req, res) => {
       start_date,
       end_date,
       reason,
+      status: "pending",
       escalation_level,
       current_approver_id,
       total_days,
