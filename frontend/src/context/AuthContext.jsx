@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
+const API_URL = `${import.meta.env.VITE_API_BASE_URL}/api`;
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
@@ -44,7 +45,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (emp_id, password) => {
     try {
       // Replace with your API endpoint
-      const response = await fetch("http://localhost:3000/api/auth/login", {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,7 +72,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const response = await fetch("http://localhost:3000/api/auth/signup", {
+      const response = await fetch(`${API_URL}/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
