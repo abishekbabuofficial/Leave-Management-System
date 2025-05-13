@@ -12,10 +12,7 @@ const authenticateJWT = require('./middlewares/authenticateJWT.js');
 const logger = require('./utils/logger.js');
 const errorHandler = require('./middlewares/errorHandler.js');
 
-app.use(cors({
-  origin: 'https://leave-management-system-frontend-2j77.onrender.com',
-  credentials: true, 
-}));
+app.use(cors());
 
 // Middleware
 app.use(express.json());
