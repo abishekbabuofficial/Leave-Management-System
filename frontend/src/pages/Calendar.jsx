@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import api from "../utils/api";
 import { getLeaveTypes, getLeaveTypeColor } from "../utils/helper";
 import { useAuth } from "../context/AuthContext";
+import holidayObj from "../utils/holidayObj";
 
 const locales = {
   "en-US": enUS,
@@ -27,6 +28,16 @@ export default function CalendarPage() {
   const [events, setEvents] = useState([]);
   const { user, isHR, isManager, isDirector, isEmployee } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+
+  const holidayEvents = holidayObj.map(date => ({
+    title: `${date.name}`,
+    start: new Date(date.date),
+    end: new Date(date.date),
+    allDay: true,
+    className: 'bg-holiday',
+    tooltip: `${date.name}`,
+  }));
+  
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -52,7 +63,7 @@ export default function CalendarPage() {
             tooltip: `Name: ${leave.empDetails.Emp_name} \n Leave Type: ${leaveType} \n Reason: ${leave.reason}`, // Tooltip content
           };
         });
-        setEvents(formatted);
+        setEvents([...formatted,...holidayEvents]);
       } catch (error) {
         toast.error("Failed to load calendar data");
         console.error("Calendar data error:", error);
@@ -74,6 +85,22 @@ if(isLoading){
     </div>
   );};
 
+  const dayPropGetter = (date) => {
+    const isHoliday = holidayObj.some(holiday => 
+      new Date(holiday.date).toDateString() === date.toDateString()
+    );
+  
+    if (isHoliday) {
+      return {
+        style: {
+          backgroundColor: 'violet', 
+        },
+      };
+    }
+    return {};
+  };
+  
+
   const eventStyleGetter = (event) => {
     let backgroundColor = '#777'; // Default gray
 
@@ -85,6 +112,8 @@ if(isLoading){
       backgroundColor = '#a855f7'; 
     } else if (event.className === 'bg-leave-lop') {
       backgroundColor = '#eab308';
+    } else if (event.className === 'bg-holiday') {
+      backgroundColor = 'violet'; 
     }
     
     
@@ -109,6 +138,7 @@ if(isLoading){
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500 }}
+        dayPropGetter={dayPropGetter}
         eventPropGetter={eventStyleGetter}
         views={["month", "week", "day"]}
         tooltipAccessor="tooltip" 
@@ -133,6 +163,10 @@ if(isLoading){
         <div className="flex items-center">
           <div className="w-3 h-3 bg-leave-lop rounded-full mr-2"></div>
           <span className="text-sm">LOP Leave</span>
+        </div>
+        <div className="flex items-center">
+          <div className="w-3 h-3 bg-[violet] rounded-full mr-2"></div>
+          <span className="text-sm">Holiday</span>
         </div>
       </div>
     </div>
