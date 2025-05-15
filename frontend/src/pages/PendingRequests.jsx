@@ -37,7 +37,6 @@ const PendingRequests = () => {
     fetchPendingRequests();
   }, []);
 
-  // Filter pending requests based on filters
   const filteredRequests = pendingRequests.filter((request) => {
     const matchesSearch =
       !searchQuery ||

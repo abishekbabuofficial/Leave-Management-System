@@ -6,7 +6,6 @@ const getAuthHeader = () => {
 };
 
 const api = {
-  // Leave requests
   getLeaveBalance: async () => {
     try {
       const response = await fetch(`${API_URL}/users/leave-balance`, {
@@ -95,7 +94,6 @@ const api = {
     }
   },
 
-  // Team management
   getTeamMembers: async () => {
     try {
       const response = await fetch(`${API_URL}/users/reportees`, {
@@ -203,7 +201,6 @@ const api = {
       throw error;
     }
   },
-  // User profile
   getUserProfile: async () => {
     try {
       const response = await fetch(`${API_URL}/users/profile`, {

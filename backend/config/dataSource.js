@@ -1,4 +1,3 @@
-// data-source.js
 const { DataSource } = require("typeorm");
 require('dotenv').config();
 

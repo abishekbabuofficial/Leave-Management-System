@@ -16,7 +16,7 @@ const applyLeave = async (req, res) => {
     if (total_days === 0){
       return res.status(400).json({message: "It is already a Holiday"});
     }
-    // Check for balance (except LOP)
+    // Check for balance except LOP
     if (leave_id !== 4) {
       const balances = await userService.getUserLeaveBalance(emp_id);
       const leaveBalance = balances.find((lb) => lb.leave_type_id === leave_id);
@@ -27,7 +27,7 @@ const applyLeave = async (req, res) => {
       }
     }
 
-    // Auto-approve
+    // Auto-approve for sick leave
     if (leaveType.is_auto_approve) {
       const reqId = await leaveService.applyLeave({
         emp_id,

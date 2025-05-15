@@ -19,7 +19,7 @@ const login = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password); // assuming hashed passwords
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch){
       logger.warn("Invalid Credentials");
       return res.status(401).json({ message: "Invalid credentials" });}

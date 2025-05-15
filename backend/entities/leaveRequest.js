@@ -30,7 +30,7 @@ module.exports = new EntitySchema({
     status: {
       type: 'enum',
       enum: ['pending', 'approved', 'rejected', 'auto_approved', 'cancelled'],
-      enumName: 'leave_status_enum', // helpful for PostgreSQL schema
+      enumName: 'leave_status_enum', 
     },
     created_at: {
       type: 'timestamp',

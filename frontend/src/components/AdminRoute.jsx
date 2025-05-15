@@ -7,7 +7,6 @@ const AdminRoute = () => {
   const location = useLocation();
 
   if (loading) {
-    // Show loading state while auth is being checked
     return (
       <div className="h-full flex items-center justify-center">
         <div className="text-center">

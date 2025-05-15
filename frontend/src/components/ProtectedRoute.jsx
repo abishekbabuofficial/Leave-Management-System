@@ -7,7 +7,6 @@ const ProtectedRoute = () => {
   const location = useLocation();
 
   if (loading) {
-    // Show loading state while auth is being checked
     return ;
   }
 

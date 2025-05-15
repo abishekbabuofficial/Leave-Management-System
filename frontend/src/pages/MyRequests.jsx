@@ -67,7 +67,6 @@ const MyRequests = () => {
     try {
       await api.cancelLeave(req_id);
       toast.success('Leave request cancelled successfully');
-      // Refresh the leave requests list
       // fetchLeaveRequests();
     } catch (error) {
       toast.error(error.message || 'Failed to cancel leave request');

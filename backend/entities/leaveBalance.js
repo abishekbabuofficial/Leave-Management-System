@@ -16,7 +16,7 @@ module.exports = new EntitySchema({
       type: 'integer',
     },
     year: {
-      type: 'integer', // PostgreSQL doesn't support 'year' type
+      type: 'integer', 
     },
     total_allocated: {
       type: 'integer',

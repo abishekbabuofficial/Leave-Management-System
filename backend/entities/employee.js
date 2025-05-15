@@ -14,7 +14,7 @@ module.exports = new EntitySchema({
     Role: {
       type: "enum",
       enum: ["EMPLOYEE", "MANAGER", "HR", "DIRECTOR"],
-      enumName: "employee_role_enum", // Required in PostgreSQL
+      enumName: "employee_role_enum",
     },
     Manager_ID: {
       type: "integer",

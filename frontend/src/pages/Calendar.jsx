@@ -60,7 +60,7 @@ export default function CalendarPage() {
             end: new Date(leave.end_date),
             allDay: true,
             className: getLeaveTypeColor(leaveType),
-            tooltip: `Name: ${leave.empDetails.Emp_name} \n Leave Type: ${leaveType} \n Reason: ${leave.reason}`, // Tooltip content
+            tooltip: `Name: ${leave.empDetails.Emp_name} \n Leave Type: ${leaveType} \n Reason: ${leave.reason}`,
           };
         });
         setEvents([...formatted,...holidayEvents]);

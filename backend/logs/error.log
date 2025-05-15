@@ -69,3 +69,5 @@
     at TCP.onStreamRead (node:internal/stream_base_commons:216:20)
 2025-05-13 16:07:06 [error]: Error: read ECONNRESET
     at TCP.onStreamRead (node:internal/stream_base_commons:216:20)
+2025-05-15 14:46:14 [error]: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:216:20)

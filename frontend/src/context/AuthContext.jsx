@@ -44,7 +44,6 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (emp_id, password) => {
     try {
-      // Replace with your API endpoint
       const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
