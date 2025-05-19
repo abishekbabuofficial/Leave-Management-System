@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const xlsx = require("xlsx");
-const dataImportQueue = require("../services/queue");
+const dataImportQueue = require("../queue");
 const fs = require("fs");
 
 const router = express.Router();
