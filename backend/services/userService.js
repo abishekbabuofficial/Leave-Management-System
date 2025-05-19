@@ -204,6 +204,52 @@ const userService = {
       throw error;
     }
   },
+
+  // Delete an employee and all related records
+  deleteEmployee: async (empId) => {
+    const queryRunner = AppDataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      // Check if employee exists
+      const existingEmployee = await queryRunner.manager.findOne(Employee, {
+        where: { Emp_ID: empId },
+      });
+
+      if (!existingEmployee) {
+        throw new Error(`Employee with ID ${empId} not found`);
+      }
+
+      // Check if employee has reportees
+      const reportees = await queryRunner.manager.find(Employee, {
+        where: { Manager_ID: empId },
+      });
+
+      if (reportees.length > 0) {
+        throw new Error(`Cannot delete employee ${existingEmployee.Emp_name} as they have ${reportees.length} reportees. Please reassign the reportees first.`);
+      }
+
+      const LeaveRequest = require("../entities/leaveRequest");
+      await queryRunner.manager.delete(LeaveRequest, { emp_id: empId });
+      logger.info(`Deleted leave requests for employee ${empId}`);
+
+      await queryRunner.manager.delete(LeaveBalance, { emp_id: empId });
+      logger.info(`Deleted leave balances for employee ${empId}`);
+
+      await queryRunner.manager.delete(Employee, { Emp_ID: empId });
+      logger.info(`Deleted employee with ID ${empId}`);
+
+      await queryRunner.commitTransaction();
+      return { success: true, message: `Employee with ID ${empId} has been deleted successfully` };
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      logger.error(`Error deleting employee: ${error.message}`);
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
+  },
 };
 
 module.exports = userService;

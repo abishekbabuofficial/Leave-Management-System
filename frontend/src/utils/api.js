@@ -156,7 +156,7 @@ const api = {
       throw error;
     }
   },
-  
+
   approveLeave: async (requestId, approverId, action, remarks = "") => {
     try {
       const response = await fetch(`${API_URL}/approvals/${requestId}/action`, {
@@ -167,7 +167,7 @@ const api = {
         },
         body: JSON.stringify({ approverId, action, remarks }),
       });
-      
+
       const data = await response.json();
 
       if (!response.ok) {
@@ -188,9 +188,9 @@ const api = {
           ...getAuthHeader(),
         },
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch leave types");
       }
@@ -214,14 +214,14 @@ const api = {
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch user profile");
       }
-      
+
       return data;
     } catch (error) {
       console.error("Error fetching user profile:", error);
       throw error;
     }
   },
-  
+
   updateUserProfile: async (profileData) => {
     try {
       const response = await fetch(`${API_URL}/users/profile`, {
@@ -245,7 +245,6 @@ const api = {
       throw error;
     }
   },
-
 
   getAllLeaves: async () => {
     try {
@@ -340,6 +339,32 @@ const api = {
       return data;
     } catch (error) {
       console.error("Error updating employee:", error);
+      throw error;
+    }
+  },
+
+  // Delete an employee
+  deleteEmployee: async (employeeId) => {
+    try {
+      const response = await fetch(
+        `${API_URL}/users/delete-employee/${employeeId}`,
+        {
+          method: "DELETE",
+          headers: {
+            ...getAuthHeader(),
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to delete employee");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Error deleting employee:", error);
       throw error;
     }
   },

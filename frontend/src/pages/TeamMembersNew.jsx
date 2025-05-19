@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import api from "../utils/api";
 import { toast } from "sonner";
-import { Search, Filter,Plus, Edit, X } from "lucide-react";
+import {
+  Search,
+  Filter,
+  Plus,
+  Edit,
+  X,
+  Trash2,
+  AlertTriangle,
+} from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import ManagerSearch from "../components/ManagerSearch";
 
@@ -12,8 +20,9 @@ const TeamMembers = () => {
   const [filterRole, setFilterRole] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-   const [isUploading, setIsUploading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState("");
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
@@ -47,7 +56,6 @@ const TeamMembers = () => {
       setIsLoading(false);
     }
   };
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -89,6 +97,11 @@ const TeamMembers = () => {
       Manager_ID: "",
       password: "",
     });
+  };
+  
+  const openDeleteModal = (employee) => {
+    setSelectedEmployee(employee);
+    setShowDeleteModal(true);
   };
 
   const handleAddEmployee = async (e) => {
@@ -135,6 +148,22 @@ const TeamMembers = () => {
     }
   };
 
+  const handleDeleteEmployee = async () => {
+    if (isSubmitting) return;
+
+    try {
+      setIsSubmitting(true);
+      await api.deleteEmployee(selectedEmployee.Emp_ID);
+      toast.success("Employee deleted successfully");
+      setShowDeleteModal(false);
+      fetchTeamMembers(); // Refresh the list
+    } catch (error) {
+      toast.error(error.message || "Failed to delete employee");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -159,14 +188,14 @@ const TeamMembers = () => {
     } catch (error) {
       console.error("Error uploading file:", error);
       toast.error(
-      `Upload failed: ${
-        error instanceof Error ? error.message : "Unknown error"
-      }`);
+        `Upload failed: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     } finally {
       setIsUploading(false);
     }
   };
-
 
   // Filter team members based on filters
   const filteredMembers = teamMembers.filter((member) => {
@@ -258,7 +287,6 @@ const TeamMembers = () => {
             style={{ display: "none" }}
             onChange={handleFileUpload}
           /> */}
-          
         </div>
       </div>
 
@@ -281,13 +309,22 @@ const TeamMembers = () => {
                         {member.Emp_name}
                       </h3>
                       {isHR && (
-                        <button
-                          onClick={() => openEditModal(member)}
-                          className="text-gray-500 hover:text-primary transition-colors"
-                          title="Edit employee"
-                        >
-                          <Edit className="h-4 w-4" />
-                        </button>
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => openEditModal(member)}
+                            className="text-gray-500 hover:text-primary transition-colors"
+                            title="Edit employee"
+                          >
+                            <Edit className="h-4 w-4" />
+                          </button>
+                          <button
+                            onClick={() => openDeleteModal(member)}
+                            className="text-gray-500 hover:text-red-500 transition-colors"
+                            title="Delete employee"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
                       )}
                     </div>
                     <p className="text-sm text-gray-500">
@@ -412,11 +449,11 @@ const TeamMembers = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Manager *
                 </label>
-                <ManagerSearch 
-                  onManagerSelect={(managerId) => 
+                <ManagerSearch
+                  onManagerSelect={(managerId) =>
                     setFormData({
                       ...formData,
-                      Manager_ID: managerId
+                      Manager_ID: managerId,
                     })
                   }
                   initialManagerId={formData.Manager_ID}
@@ -508,11 +545,11 @@ const TeamMembers = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Manager *
                 </label>
-                <ManagerSearch 
-                  onManagerSelect={(managerId) => 
+                <ManagerSearch
+                  onManagerSelect={(managerId) =>
                     setFormData({
                       ...formData,
-                      Manager_ID: managerId
+                      Manager_ID: managerId,
                     })
                   }
                   initialManagerId={formData.Manager_ID}
@@ -538,6 +575,39 @@ const TeamMembers = () => {
             </form>
           </div>
         </div>
+      )}
+
+      {showDeleteModal && selectedEmployee && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+            <div className="flex justify-between items-center p-2 border-b">
+              <h3 className="text-l font-semibold text-gray-800">
+                Delete Employee
+              </h3>
+              </div>
+              <div className="flex justify-center items-center p-2">
+              <h3 className="text-m text-gray-800">
+                Are you sure? Do you want to delete the Employee?
+              </h3>
+              </div>
+              <div className="flex justify-center space-x-3 p-2">
+                <button
+                  type="button"
+                  onClick={closeModals}
+                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDeleteEmployee}
+                  disabled={isSubmitting}
+                  className="px-4 py-2 text-white rounded-md bg-red-500 hover:bg-red-700 disabled:opacity-50"
+                >
+                  {isSubmitting ? "Deleting..." : "Delete Employee"}
+                </button>
+              </div>
+              </div>
+              </div>
       )}
     </div>
   );

@@ -20,7 +20,6 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-
 const getReportees = async (req, res) => {
   try {
     const { emp_ID } = req.user;
@@ -140,6 +139,45 @@ const searchManagers = async (req, res) => {
   }
 };
 
+// Delete an employee
+const deleteEmployee = async (req, res) => {
+  try {
+    const { employeeId } = req.params;
+
+    // Validate employee ID
+    if (!employeeId) {
+      return res.status(400).json({ message: "Employee ID is required" });
+    }
+
+    // Only HR should be able to delete employees
+    if (req.user.Role !== "HR") {
+      return res.status(403).json({ message: "Only HR can delete employees" });
+    }
+
+    const result = await userService.deleteEmployee(employeeId);
+    res.json({
+      message: result.message,
+      success: result.success,
+    });
+  } catch (err) {
+    logger.error(`Error deleting employee: ${err.message}`);
+
+    // Handle specific errors
+    if (err.message.includes("not found")) {
+      return res.status(404).json({ message: err.message });
+    }
+
+    if (err.message.includes("reportees")) {
+      return res.status(400).json({ message: err.message });
+    }
+
+    res.status(500).json({
+      message: "Failed to delete employee",
+      error: err.message,
+    });
+  }
+};
+
 module.exports = {
   getUserProfile,
   getReportees,
@@ -148,4 +186,5 @@ module.exports = {
   addEmployee,
   updateEmployee,
   searchManagers,
+  deleteEmployee,
 };

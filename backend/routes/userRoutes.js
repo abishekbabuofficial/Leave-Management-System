@@ -44,4 +44,11 @@ router.get(
   userController.searchManagers
 );
 
+// Delete an employee (HR only)
+router.delete(
+  "/delete-employee/:employeeId",
+  authorizeRoles("HR"),
+  userController.deleteEmployee
+);
+
 module.exports = router;
