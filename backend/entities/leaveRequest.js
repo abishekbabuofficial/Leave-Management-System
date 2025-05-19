@@ -52,6 +52,10 @@ module.exports = new EntitySchema({
       length: 255,
       nullable: true,
     },
+    approval_history: {
+      type: 'json',
+      nullable: true,
+    },
     remarks: {
       type: 'text',
       nullable: true,

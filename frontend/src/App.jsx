@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 import ApplyLeave from "./pages/ApplyLeave";
 import MyRequests from "./pages/MyRequests";
 import TeamMembers from "./pages/TeamMembers";
+import TeamMembersNew from "./pages/TeamMembersNew";
 import PendingRequests from "./pages/PendingRequests";
 import Approvals from "./pages/Approvals";
 import NotFound from "./pages/NotFound";
@@ -47,7 +48,7 @@ const App = () => (
                 
                 {/* Admin Routes */}
                 <Route element={<AdminRoute />}>
-                  <Route path="/team" element={<TeamMembers />} />
+                  <Route path="/team" element={<TeamMembersNew />} />
                   <Route path="/pending-requests" element={<PendingRequests />} />
                   <Route path="/approvals" element={<Approvals />} />
                 </Route>

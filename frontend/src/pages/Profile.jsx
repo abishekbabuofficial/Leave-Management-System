@@ -160,9 +160,9 @@ const Profile = () => {
                 <h3 className="text-lg font-medium text-gray-900 mb-2">Account Status</h3>
                 <div className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center">
-                    <div className={`h-3 w-3 rounded-full mr-2 ${profile?.is_active === 1 ? "bg-green-500" : "bg-red-500"}`}></div>
+                    <div className={`h-3 w-3 rounded-full mr-2 ${profile?.is_active === true ? "bg-green-500" : "bg-red-500"}`}></div>
                     <p className="font-medium">
-                      {profile?.is_active === 1 ? "Active" : "Inactive"}
+                      {profile?.is_active === true ? "Active" : "Inactive"}
                     </p>
                   </div>
                 </div>

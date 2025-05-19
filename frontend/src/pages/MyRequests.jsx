@@ -2,12 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import { toast } from "sonner";
-import { Calendar, Filter, Search, FilePlus, XCircle } from "lucide-react";
+import {
+  Calendar,
+  Filter,
+  Search,
+  FilePlus,
+  XCircle,
+  History,
+  X,
+} from "lucide-react";
 import {
   getLeaveStatusColor,
   getLeaveTypeColor,
   getLeaveTypes,
 } from "../utils/helper";
+import ApprovalHistoryModal from "../components/ApprovalHistoryModal";
 
 const MyRequests = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
@@ -15,6 +24,8 @@ const MyRequests = () => {
   const [filterStatus, setFilterStatus] = useState("");
   const [filterType, setFilterType] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const [selectedHistory, setSelectedHistory] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,6 +33,7 @@ const MyRequests = () => {
       try {
         setIsLoading(true);
         const data = await api.getLeaveHistory();
+
         setLeaveRequests(data || []);
       } catch (error) {
         toast.error("Failed to load leave requests");
@@ -61,20 +73,45 @@ const MyRequests = () => {
         </div>
       </div>
     );
-  };
-  
+  }
+
   const handleCancel = async (req_id) => {
     try {
       await api.cancelLeave(req_id);
-      toast.success('Leave request cancelled successfully');
-      // fetchLeaveRequests();
+      toast.success("Leave request cancelled successfully");
+      const data = await api.getLeaveHistory();
+      setLeaveRequests(data || []);
     } catch (error) {
-      toast.error(error.message || 'Failed to cancel leave request');
+      toast.error(error.message || "Failed to cancel leave request");
     }
   };
 
+  const handleShowHistory = (request) => {
+    try {
+      const history = request.approval_history
+        ? typeof request.approval_history === "string"
+          ? JSON.parse(request.approval_history)
+          : request.approval_history
+        : [];
+
+      setSelectedHistory(history);
+      setShowHistoryModal(true);
+    } catch (error) {
+      console.error("Error parsing approval history:", error);
+      toast.error("Could not load approval history");
+    }
+  };
+
+
   return (
     <div className="space-y-6">
+      {/* Approval History Modal */}
+      <ApprovalHistoryModal
+        showHistoryModal={showHistoryModal}
+        setShowHistoryModal={setShowHistoryModal}
+        selectedHistory={selectedHistory}
+      />
+
       {/* Header and Filters */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
@@ -220,7 +257,7 @@ const MyRequests = () => {
                       className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate"
                     >
                       <button
-                      onClick={()=> handleCancel(request.req_id)}
+                        onClick={() => handleCancel(request.req_id)}
                         className="flex-1 sm:flex-none inline-flex items-center justify-center px-0.5 py-1 border border-gray-300 text-sm font-small rounded-md text-white bg-red-400 hover:bg-red-500"
                       >
                         <XCircle className="mr-1.5 h-4 w-4 text-white" />
@@ -245,8 +282,21 @@ const MyRequests = () => {
                       </div>
                     </td>
 
-                    <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
-                      {request.approver_name || "-"}
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      <div className="flex items-center">
+                        <span className="mr-2">
+                          {request.approver_name || "-"}
+                        </span>
+                        {request.approval_history && (
+                          <button
+                            onClick={() => handleShowHistory(request)}
+                            className="inline-flex items-center justify-center p-1 border border-gray-300 text-sm rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200"
+                            title="View approval history"
+                          >
+                            <History className="h-4 w-4" />
+                          </button>
+                        )}
+                      </div>
                     </td>
 
                     <td

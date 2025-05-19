@@ -2,6 +2,7 @@ require('dotenv').config(); // Load environment variables
 const userRoutes = require('./routes/userRoutes');
 const leaveRoutes = require('./routes/leaveRoutes');
 const approvalRoutes = require('./routes/approvalRoutes');
+const uploadRoute = require('./routes/upload.js');
 const express = require('express');
 const cors = require("cors");
 const AppDataSource = require('./config/dataSource.js');
@@ -25,6 +26,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users',authenticateJWT, userRoutes);
 app.use('/api/leaves',authenticateJWT, leaveRoutes);
 app.use('/api/approvals',authenticateJWT, approvalRoutes);
+app.use('/api', uploadRoute);
 
   AppDataSource.initialize()
   .then(() => {

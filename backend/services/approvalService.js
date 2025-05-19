@@ -25,7 +25,8 @@ const approvalService = {
     remarks,
     escalationLevel = null,
     nextApprover = null,
-    nextApproverName = null
+    nextApproverName = null,
+    approval_history = null
   ) => {
     const leaveRepo = AppDataSource.getRepository(LeaveRequest);
     const leave = await leaveRepo.findOneBy({
@@ -45,6 +46,11 @@ const approvalService = {
     if (escalationLevel !== null) leave.escalation_level = escalationLevel;
     if (nextApprover !== null) leave.current_approver_id = nextApprover;
     if (nextApproverName !== null) leave.approver_name = nextApproverName;
+    if (approval_history !== null){
+      leave.approval_history = typeof approval_history === 'string' 
+        ? approval_history 
+        : JSON.stringify(approval_history);
+    }
 
     await leaveRepo.save(leave);
     return true;

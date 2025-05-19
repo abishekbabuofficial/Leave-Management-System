@@ -80,13 +80,13 @@ const api = {
           ...getAuthHeader(),
         },
       });
-  
+
       const data = await response.json();
-  
+
       if (!response.ok) {
         throw new Error(data.message || "Failed to cancel leave request");
       }
-  
+
       return data;
     } catch (error) {
       console.error("Error cancelling leave request:", error);
@@ -156,7 +156,7 @@ const api = {
       throw error;
     }
   },
-
+  
   approveLeave: async (requestId, approverId, action, remarks = "") => {
     try {
       const response = await fetch(`${API_URL}/approvals/${requestId}/action`, {
@@ -167,7 +167,7 @@ const api = {
         },
         body: JSON.stringify({ approverId, action, remarks }),
       });
-
+      
       const data = await response.json();
 
       if (!response.ok) {
@@ -188,9 +188,9 @@ const api = {
           ...getAuthHeader(),
         },
       });
-
+      
       const data = await response.json();
-
+      
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch leave types");
       }
@@ -214,14 +214,14 @@ const api = {
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch user profile");
       }
-
+      
       return data;
     } catch (error) {
       console.error("Error fetching user profile:", error);
       throw error;
     }
   },
-
+  
   updateUserProfile: async (profileData) => {
     try {
       const response = await fetch(`${API_URL}/users/profile`, {
@@ -245,13 +245,15 @@ const api = {
       throw error;
     }
   },
-  getAllLeaves: async () =>{
+
+
+  getAllLeaves: async () => {
     try {
-      const response = await fetch(`${API_URL}/leaves/all-approved-leaves`,{
-        headers:{
-          ...getAuthHeader()
-        }
-      })
+      const response = await fetch(`${API_URL}/leaves/all-approved-leaves`, {
+        headers: {
+          ...getAuthHeader(),
+        },
+      });
       const data = await response.json();
 
       return data;
@@ -261,35 +263,111 @@ const api = {
     }
   },
 
-  getUserApprovedLeaves: async() =>{
+  getUserApprovedLeaves: async () => {
     try {
-      const response = await fetch(`${API_URL}/leaves/user-approved-leaves`,{
-        headers:{
-          ...getAuthHeader()
-        }
-      })
+      const response = await fetch(`${API_URL}/leaves/user-approved-leaves`, {
+        headers: {
+          ...getAuthHeader(),
+        },
+      });
       return response.json();
-    }
-    catch (err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
       throw err;
     }
   },
 
-  getAllUsers: async() =>{
+  getAllUsers: async () => {
     try {
-      const response = await fetch(`${API_URL}/users/all-users`,{
-        headers:{
-          ...getAuthHeader()
-        }
-      })
+      const response = await fetch(`${API_URL}/users/all-users`, {
+        headers: {
+          ...getAuthHeader(),
+        },
+      });
       return response.json();
     } catch (err) {
-      console.log(err)
+      console.log(err);
       throw err;
+    }
+  },
+
+  // Add a new employee
+  addEmployee: async (employeeData) => {
+    try {
+      const response = await fetch(`${API_URL}/users/add-employee`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...getAuthHeader(),
+        },
+        body: JSON.stringify(employeeData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to add employee");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Error adding employee:", error);
+      throw error;
+    }
+  },
+
+  // Update an existing employee
+  updateEmployee: async (employeeId, employeeData) => {
+    try {
+      const response = await fetch(
+        `${API_URL}/users/update-employee/${employeeId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+          },
+          body: JSON.stringify(employeeData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to update employee");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Error updating employee:", error);
+      throw error;
+    }
+  },
+
+  // Search for managers by name
+  searchManagers: async (query) => {
+    try {
+      const response = await fetch(
+        `${API_URL}/users/search-managers?query=${encodeURIComponent(query)}`,
+        {
+          headers: {
+            ...getAuthHeader(),
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to search managers");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Error searching managers:", error);
+      throw error;
     }
   },
 };
-
 
 export default api;

@@ -50,7 +50,7 @@ const Dashboard = () => {
     <div className="space-y-6">
       {/* Header with welcome message and quick actions */}
       <div className="bg-white rounded-lg shadow p-6">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">Welcome to LeaveHub</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-2">Welcome to Leave Manager</h1>
         <p className="text-gray-600">
           Manage your leave requests and track your team's availability all in one place.
         </p>

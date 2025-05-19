@@ -11,6 +11,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { getLeaveTypeColor } from "../utils/helper";
+import { useAuth } from "../context/AuthContext";
 
 const PendingRequests = () => {
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -18,6 +19,7 @@ const PendingRequests = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState("");
   const [remarks, setRemarks] = useState({});
+  const { user } = useAuth();
 
   // Fetch pending requests
   useEffect(() => {
@@ -61,8 +63,10 @@ const PendingRequests = () => {
 
   const handleApprove = async (requestId) => {
     try {
-      const user = JSON.parse(localStorage.getItem("user")) || {};
-      const approverId = user.id;
+      // const user = JSON.parse(localStorage.getItem("user")) || {};
+      const approverId = user.emp_ID;
+      console.log(approverId);
+      
       const remark = remarks[requestId] || "";
 
       await api.approveLeave(requestId, approverId, "approved", remark);
@@ -78,8 +82,7 @@ const PendingRequests = () => {
 
   const handleReject = async (requestId) => {
     try {
-      const user = JSON.parse(localStorage.getItem("user")) || {};
-      const approverId = user.id;
+      const approverId = user.emp_ID;
       const remark = remarks[requestId] || "";
 
       await api.approveLeave(requestId, approverId, "rejected", remark);

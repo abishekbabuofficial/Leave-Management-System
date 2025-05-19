@@ -13,12 +13,13 @@ const getUserProfile = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ user, leave_balances: balances ,manager});
+    res.json({ user, leave_balances: balances, manager });
   } catch (err) {
     logger.error(`${err.message}`);
     res.status(500).json({ error: err.message });
   }
 };
+
 
 const getReportees = async (req, res) => {
   try {
@@ -42,22 +43,109 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-const getUserLeaveBalance = async (req,res)=>{
-  try{
-    const {emp_ID}=req.user
+const getUserLeaveBalance = async (req, res) => {
+  try {
+    const { emp_ID } = req.user;
     const balances = await userService.getUserLeaveBalance(emp_ID);
-    res.json(balances)
-  }
-  catch (err) {
+    res.json(balances);
+  } catch (err) {
     logger.error(`${err.message}`);
     res.status(500).json({ error: err.message });
   }
 };
 
+const addEmployee = async (req, res) => {
+  try {
+    const employeeData = req.body;
+
+    // Validate required fields
+    if (!employeeData.Emp_ID || !employeeData.Emp_name) {
+      return res
+        .status(400)
+        .json({ message: "Employee ID and name are required" });
+    }
+
+    const newEmployee = await userService.addEmployee(employeeData);
+
+    res.status(201).json({
+      message: "Employee added successfully",
+      employee: newEmployee,
+    });
+  } catch (err) {
+    logger.error(`Error adding employee: ${err.message}`);
+
+    // Handle duplicate employee error
+    if (err.message.includes("already exists")) {
+      return res.status(409).json({ message: err.message });
+    }
+
+    res
+      .status(500)
+      .json({ message: "Failed to add employee", error: err.message });
+  }
+};
+
+const updateEmployee = async (req, res) => {
+  try {
+    const { employeeId } = req.params;
+    const employeeData = req.body;
+
+    // Validate employee ID
+    if (!employeeId) {
+      return res.status(400).json({ message: "Employee ID is required" });
+    }
+
+    const updatedEmployee = await userService.updateEmployee(
+      employeeId,
+      employeeData
+    );
+
+    res.json({
+      message: "Employee updated successfully",
+      employee: updatedEmployee,
+    });
+  } catch (err) {
+    logger.error(`Error updating employee: ${err.message}`);
+
+    // Handle employee not found error
+    if (err.message.includes("not found")) {
+      return res.status(404).json({ message: err.message });
+    }
+
+    res
+      .status(500)
+      .json({ message: "Failed to update employee", error: err.message });
+  }
+};
+
+// Search for managers by name
+const searchManagers = async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    if (!query || query.trim().length < 2) {
+      return res.status(400).json({
+        message: "Search query must be at least 2 characters long",
+      });
+    }
+
+    const managers = await userService.searchManagers(query);
+    res.json(managers);
+  } catch (err) {
+    logger.error(`Error searching managers: ${err.message}`);
+    res.status(500).json({
+      message: "Failed to search managers",
+      error: err.message,
+    });
+  }
+};
 
 module.exports = {
   getUserProfile,
   getReportees,
   getUserLeaveBalance,
   getAllUsers,
+  addEmployee,
+  updateEmployee,
+  searchManagers,
 };

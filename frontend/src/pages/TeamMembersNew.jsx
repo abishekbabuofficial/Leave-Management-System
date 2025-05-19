@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import api from "../utils/api";
 import { toast } from "sonner";
-import { Search, Filter, Mail, Phone, Plus, Edit, X } from "lucide-react";
+import { Search, Filter,Plus, Edit, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import ManagerSearch from "../components/ManagerSearch";
 
 const TeamMembers = () => {
   const [teamMembers, setTeamMembers] = useState([]);
@@ -12,7 +13,7 @@ const TeamMembers = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [isUploading, setIsUploading] = useState(false);
+   const [isUploading, setIsUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState("");
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
@@ -46,6 +47,7 @@ const TeamMembers = () => {
       setIsLoading(false);
     }
   };
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -157,14 +159,14 @@ const TeamMembers = () => {
     } catch (error) {
       console.error("Error uploading file:", error);
       toast.error(
-        `Upload failed: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
+      `Upload failed: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`);
     } finally {
       setIsUploading(false);
     }
   };
+
 
   // Filter team members based on filters
   const filteredMembers = teamMembers.filter((member) => {
@@ -239,7 +241,24 @@ const TeamMembers = () => {
               ))}
             </select>
           </div>
-
+          {/* Uncomment Upload button while hosting worker*/}
+          {/* {isHR && (
+            <button
+              onClick={() => document.getElementById("fileInput").click()}
+              className="bg-primary text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary/90 transition-colors"
+            >
+              <Plus className="h-4 w-4" />
+              Upload Excel
+            </button>
+          )}
+          <input
+            type="file"
+            id="fileInput"
+            accept=".xlsx, .xls"
+            style={{ display: "none" }}
+            onChange={handleFileUpload}
+          /> */}
+          
         </div>
       </div>
 
@@ -283,10 +302,10 @@ const TeamMembers = () => {
                 </div>
 
                 <div className="mt-4 space-y-2">
-                  {member.Manager_ID && (
+                  {member.Manager_ID && member.manager && (
                     <div className="text-sm text-gray-600 mt-2">
-                      <span className="font-medium">Manager ID:</span>{" "}
-                      {member.Manager_ID}
+                      <span className="font-medium">Reporting Manager:</span>{" "}
+                      {member.manager.Emp_name}
                     </div>
                   )}
                 </div>
@@ -391,14 +410,16 @@ const TeamMembers = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Manager ID
+                  Manager *
                 </label>
-                <input
-                  type="text"
-                  name="Manager_ID"
-                  value={formData.Manager_ID}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                <ManagerSearch 
+                  onManagerSelect={(managerId) => 
+                    setFormData({
+                      ...formData,
+                      Manager_ID: managerId
+                    })
+                  }
+                  initialManagerId={formData.Manager_ID}
                 />
               </div>
 
@@ -485,14 +506,16 @@ const TeamMembers = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Manager ID
+                  Manager *
                 </label>
-                <input
-                  type="text"
-                  name="Manager_ID"
-                  value={formData.Manager_ID}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                <ManagerSearch 
+                  onManagerSelect={(managerId) => 
+                    setFormData({
+                      ...formData,
+                      Manager_ID: managerId
+                    })
+                  }
+                  initialManagerId={formData.Manager_ID}
                 />
               </div>
 

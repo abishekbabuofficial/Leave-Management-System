@@ -2,9 +2,7 @@ import React from 'react'
 
 // template for search and filter bar
 const FilterSearch = (teamMembers) => {
-
-      const departments = ["Engineering", "Marketing", "Sales", "HR", "Finance"];
-      const roles = ["EMPLOYEE", "MANAGER", "ADMIN", "HR"];
+      const roles = ["EMPLOYEE", "MANAGER", "HR"];
 
 
       const filteredMembers = teamMembers.filter((member) => {
