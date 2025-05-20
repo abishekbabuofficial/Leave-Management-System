@@ -188,7 +188,7 @@ const Layout = () => {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Navbar */}
         <header className="bg-white shadow-sm z-10">
-          <div className="px-6 py-4">
+          <div className="px-4 py-4">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-gray-800">
                 {navItems.find((item) => item.path === location.pathname)
