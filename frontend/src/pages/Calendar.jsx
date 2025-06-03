@@ -29,15 +29,14 @@ export default function CalendarPage() {
   const { user, isHR, isManager, isDirector, isEmployee } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  const holidayEvents = holidayObj.map(date => ({
+  const holidayEvents = holidayObj.map((date) => ({
     title: `${date.name}`,
     start: new Date(date.date),
     end: new Date(date.date),
     allDay: true,
-    className: 'bg-holiday',
+    className: "bg-holiday",
     tooltip: `${date.name}`,
   }));
-  
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -63,7 +62,7 @@ export default function CalendarPage() {
             tooltip: `Name: ${leave.empDetails.Emp_name} \n Leave Type: ${leaveType} \n Reason: ${leave.reason}`,
           };
         });
-        setEvents([...formatted,...holidayEvents]);
+        setEvents([...formatted, ...holidayEvents]);
       } catch (error) {
         toast.error("Failed to load calendar data");
         console.error("Calendar data error:", error);
@@ -74,57 +73,55 @@ export default function CalendarPage() {
     fetchTeamData();
   }, []);
 
-
-if(isLoading){
-  return (
-    <div className="h-full flex items-center justify-center">
-      <div className="text-center">
-        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
-        <p className="mt-3 text-gray-600">Loading {"Calendar"}...</p>
+  if (isLoading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="mt-3 text-gray-600">Loading {"Calendar"}...</p>
+        </div>
       </div>
-    </div>
-  );};
+    );
+  }
 
   const dayPropGetter = (date) => {
-    const isHoliday = holidayObj.some(holiday => 
-      new Date(holiday.date).toDateString() === date.toDateString()
+    const isHoliday = holidayObj.some(
+      (holiday) => new Date(holiday.date).toDateString() === date.toDateString()
     );
-  
+
     if (isHoliday) {
       return {
         style: {
-          backgroundColor: 'violet', 
+          backgroundColor: "violet",
         },
       };
     }
     return {};
   };
-  
 
   const eventStyleGetter = (event) => {
-    let backgroundColor = '#777'; // Default gray
+    let backgroundColor = "#777"; // Default gray
 
-    if (event.className === 'bg-leave-casual') {
-      backgroundColor = '#22c55e';
-    } else if (event.className === 'bg-leave-sick') {
-      backgroundColor = '#ef4444';
-    } else if (event.className === 'bg-leave-floater') {
-      backgroundColor = '#a855f7'; 
-    } else if (event.className === 'bg-leave-lop') {
-      backgroundColor = '#eab308';
-    } else if (event.className === 'bg-holiday') {
-      backgroundColor = 'violet'; 
+    if (event.className === "bg-leave-casual") {
+      backgroundColor = "#22c55e";
+    } else if (event.className === "bg-leave-sick") {
+      backgroundColor = "#ef4444";
+    } else if (event.className === "bg-leave-floater") {
+      backgroundColor = "#a855f7";
+    } else if (event.className === "bg-leave-lop") {
+      backgroundColor = "#eab308";
+    } else if (event.className === "bg-holiday") {
+      backgroundColor = "violet";
     }
-    
-    
+
     return {
       style: {
         backgroundColor,
-        borderRadius: '4px',
+        borderRadius: "4px",
         opacity: 0.8,
-        color: '#fff',
-        border: 'none',
-        display: 'block'
+        color: "#fff",
+        border: "none",
+        display: "block",
       },
     };
   };
@@ -140,8 +137,9 @@ if(isLoading){
         style={{ height: 500 }}
         dayPropGetter={dayPropGetter}
         eventPropGetter={eventStyleGetter}
-        views={["month"]}
-        tooltipAccessor="tooltip" 
+        views={["month", "day"]}
+        defaultView="month"
+        tooltipAccessor="tooltip"
       />
       <div className="mt-4 flex flex-wrap gap-4">
         <div className="flex items-center">

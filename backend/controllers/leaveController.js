@@ -37,6 +37,8 @@ const applyLeave = async (req, res) => {
         end_date,
         reason,
         status: "auto_approved",
+        escalation_level:1,
+        current_approver_id:null,
         total_days,
       });
 

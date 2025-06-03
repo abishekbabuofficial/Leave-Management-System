@@ -95,7 +95,7 @@ const leaveService = {
   getAllLeaves: async () => {
     const employees = await AppDataSource.getRepository("Employee").find();
     const requests = await AppDataSource.getRepository(LeaveRequest).find({
-      where: { status: "approved" },
+      where: { status: In(["approved", "auto_approved"]) },
     });
 
     const empLeaves = requests.map((request) => {
@@ -120,7 +120,7 @@ const leaveService = {
     const requests = await AppDataSource.getRepository(LeaveRequest).find({
       where: {
         emp_id: In(reporteeIds),
-        status: "approved",
+        status: In(["approved", "auto_approved"]),
       },
     });
 
@@ -140,7 +140,7 @@ const leaveService = {
   getUserApprovedLeaves: async (empId) => {
     const employees = await AppDataSource.getRepository("Employee").find();
     const requests = await AppDataSource.getRepository(LeaveRequest).find({
-      where: { emp_id: empId, status: "approved" },
+      where: { emp_id: empId, status: In(["approved", "auto_approved"]) },
     });
     const empLeaves = requests.map((request) => {
       const empWithLeaves = employees.filter(

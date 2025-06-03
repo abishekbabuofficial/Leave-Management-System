@@ -211,7 +211,7 @@ const ApplyLeave = () => {
               </select>
               {/* Leave Balance showcard */}
               {formData.leave_id && (
-                <div className="mt-1 text-xs text-gray-500 italic">
+                <div className="mt-1 text-xs text-green-600 italic">
                   {(() => {
                     const selectedBalance = leaveBalance?.find(
                       (bal) => bal.leave_type_id === parseInt(formData.leave_id)
@@ -219,7 +219,7 @@ const ApplyLeave = () => {
                     const remaining = selectedBalance ? selectedBalance.remaining : 0;
                     return remaining > 0 
                       ? `${remaining} days available` 
-                      : "No days available";
+                      : <span className="mt-1 text-xs text-red-600 italic">No days available</span>;
                   })()}
                 </div>
               )}
