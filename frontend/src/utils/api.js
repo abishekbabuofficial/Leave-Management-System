@@ -62,7 +62,7 @@ const api = {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Failed to apply for leave");
+        throw data; // Throw the entire error object from the backend
       }
 
       return data;

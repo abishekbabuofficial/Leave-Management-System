@@ -100,16 +100,16 @@ const userService = {
       const leaveTypes = await queryRunner.manager.find(LeaveType);
 
       // Current year
-      const currentYear = new Date().getFullYear();
+      // const currentYear = new Date().getFullYear();
 
       // Create leave balances for each leave type
       for (const leaveType of leaveTypes) {
         const leaveBalance = {
           emp_id: savedEmployee.Emp_ID,
           leave_type_id: leaveType.leave_id,
-          year: currentYear,
+          // year: currentYear,
           total_allocated: leaveType.max_days,
-          carried_forward: 0,
+          // carried_forward: 0,
           used: 0,
           remaining: leaveType.max_days, // Initially, remaining = total_allocated
         };

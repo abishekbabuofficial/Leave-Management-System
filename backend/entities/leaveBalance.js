@@ -15,16 +15,16 @@ module.exports = new EntitySchema({
     leave_type_id: {
       type: 'integer',
     },
-    year: {
-      type: 'integer', 
-    },
+    // year: {
+    //   type: 'integer', 
+    // },
     total_allocated: {
       type: 'integer',
     },
-    carried_forward: {
-      type: 'integer',
-      default: 0,
-    },
+    // carried_forward: {
+    //   type: 'integer',
+    //   default: 0,
+    // },
     used: {
       type: 'integer',
       default: 0,
@@ -33,12 +33,12 @@ module.exports = new EntitySchema({
       type: 'integer',
     },
   },
-  uniques: [
-    {
-      name: 'unique_leave_year',
-      columns: ['emp_id', 'leave_type_id', 'year'],
-    },
-  ],
+  // uniques: [
+  //   {
+  //     name: 'unique_leave_year',
+  //     columns: ['emp_id', 'leave_type_id', 'year'],
+  //   },
+  // ],
   relations: {
     leaveType: {
       type: "many-to-one",

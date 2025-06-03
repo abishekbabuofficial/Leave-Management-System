@@ -117,7 +117,7 @@ const updateEmployee = async (req, res) => {
   }
 };
 
-// Search for managers by name
+// Search for managers by name (debounce)
 const searchManagers = async (req, res) => {
   try {
     const { query } = req.query;

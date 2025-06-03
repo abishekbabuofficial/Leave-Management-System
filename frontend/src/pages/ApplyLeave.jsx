@@ -16,7 +16,7 @@ const ApplyLeave = () => {
 
   const [formData, setFormData] = useState({
     leave_id: "",
-    start_date: "",
+    start_date: new Date().toISOString().split("T")[0] || "",
     end_date: "",
     reason: "",
   });
@@ -102,7 +102,7 @@ const ApplyLeave = () => {
       toast.success("Leave application submitted successfully");
       navigate("/my-requests");
     } catch (error) {
-      toast.error("Failed to submit leave application");
+      toast.error(error.error || "Failed to submit leave application");
       console.error("Apply leave error:", error);
     } finally {
       setIsSubmitting(false);
@@ -110,14 +110,18 @@ const ApplyLeave = () => {
   };
 
   // Calculate the number of days between two dates
+  const { totalCount } = calculateTotaldays(
+    formData.start_date,
+    formData.end_date
+  );
   const calculateDays = () => {
     if (!formData.start_date || !formData.end_date) return 0;
 
-    const total_days = calculateTotaldays(
+    const { count } = calculateTotaldays(
       formData.start_date,
       formData.end_date
     );
-    if (total_days) return total_days;
+    if (count) return count;
     else return "Selected day is either week-off or already a Holiday";
   };
 
@@ -190,12 +194,35 @@ const ApplyLeave = () => {
                 onChange={handleChange}
               >
                 <option value="">Select Leave Type</option>
-                {leaveTypes.map((type) => (
-                  <option key={type.leave_id} value={type.leave_id}>
-                    {type.leave_name}
-                  </option>
-                ))}
+                {leaveTypes.map((type) => {
+                  // Find the balance for this leave type
+                  const balance = leaveBalance?.find(
+                    (bal) => bal.leave_type_id === type.leave_id
+                  );
+                  const remaining = balance ? balance.remaining : 0;
+
+                  return (
+                    <option key={type.leave_id} value={type.leave_id}>
+                      {type.leave_name}
+                    </option>
+                    
+                  );
+                })}
               </select>
+              {/* Leave Balance showcard */}
+              {formData.leave_id && (
+                <div className="mt-1 text-xs text-gray-500 italic">
+                  {(() => {
+                    const selectedBalance = leaveBalance?.find(
+                      (bal) => bal.leave_type_id === parseInt(formData.leave_id)
+                    );
+                    const remaining = selectedBalance ? selectedBalance.remaining : 0;
+                    return remaining > 0 
+                      ? `${remaining} days available` 
+                      : "No days available";
+                  })()}
+                </div>
+              )}
             </div>
 
             {/* Date Selection */}
@@ -261,14 +288,19 @@ const ApplyLeave = () => {
                     <p className="font-medium">{calculateDays()} days</p>
                   </div>
 
-                  {formData.leave_id && leaveBalance && (
+                  <div>
+                    <p className="text-sm text-gray-500">Selected Days</p>
+                    <p className="font-medium">{totalCount} days</p>
+                  </div>
+
+                  {/* {formData.leave_id && leaveBalance && (
                     <div>
                       <p className="text-sm text-gray-500">Available Balance</p>
                       <p className="font-medium">
                         {getRemainingDays() || 0} days
                       </p>
                     </div>
-                  )}
+                  )} */}
                 </div>
 
                 {isExceedingBalance() && (

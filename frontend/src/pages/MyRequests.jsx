@@ -199,20 +199,18 @@ const MyRequests = () => {
                     Status
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Reason
+                    Cancel
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Cancel
+                    Reason
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Last Updated
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Current Approver
+                    Actions
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Comment
-                  </th>
+                  
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -284,10 +282,10 @@ const MyRequests = () => {
 
                     <td className="px-6 py-4 text-sm text-gray-500">
                       <div className="flex items-center">
-                        <span className="mr-2">
+                        {/* <span className="mr-2">
                           {request.approver_name || "-"}
-                        </span>
-                        {request.approval_history && (
+                        </span> */}
+                        {/* {request.approval_history && ( */}
                           <button
                             onClick={() => handleShowHistory(request)}
                             className="inline-flex items-center justify-center p-1 border border-gray-300 text-sm rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200"
@@ -295,16 +293,16 @@ const MyRequests = () => {
                           >
                             <History className="h-4 w-4" />
                           </button>
-                        )}
+                        {/* )} */}
                       </div>
                     </td>
 
-                    <td
+                    {/* <td
                       title={request.remarks}
                       className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate"
                     >
                       {request.remarks || "-"}
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>

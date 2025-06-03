@@ -146,7 +146,7 @@ const Profile = () => {
                             <p className="font-medium">{balance.remaining} / {balance.total_allocated}</p>
                             <p className="text-xs text-gray-500">
                               Used: {balance.used}
-                              {balance.leaveType.is_rollover === 1 && ", Rollover enabled"}
+                              {/* {balance.leaveType.is_rollover === 1 && ", Rollover enabled"} */}
                             </p>
                           </div>
                         </div>

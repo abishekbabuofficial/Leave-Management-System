@@ -17,8 +17,8 @@ module.exports = new EntitySchema({
     max_days: {
       type: 'integer',
     },
-    is_rollover: {
-      type: 'boolean',
-    },
+    // is_rollover: {
+    //   type: 'boolean',
+    // },
   },
 });

@@ -164,40 +164,43 @@ const TeamMembers = () => {
     }
   };
 
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-    event.preventDefault();
+  // const handleFileUpload = async (event) => {
+  //   const file = event.target.files[0];
+  //   if (!file) return;
+  //   event.preventDefault();
 
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("file", file);
 
-      const response = await fetch("http://localhost:3000/api/upload-excel", {
-        method: "POST",
-        body: formData,
-      });
+  //     const response = await fetch("http://localhost:3000/api/upload-excel", {
+  //       method: "POST",
+  //       body: formData,
+  //     });
 
-      if (!response.ok) {
-        throw new Error(`Server responded with ${response.status}`);
-      }
+  //     if (!response.ok) {
+  //       throw new Error(`Server responded with ${response.status}`);
+  //     }
 
-      const result = await response.json();
-      console.log("Upload successful:", result);
-      toast.success("Upload successful!");
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      toast.error(
-        `Upload failed: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
-    } finally {
-      setIsUploading(false);
-    }
-  };
+  //     const result = await response.json();
+  //     console.log("Upload successful:", result);
+  //     toast.success("Upload successful!");
+  //     fetchTeamMembers(); // Refresh the list
+  //   } catch (error) {
+  //     console.error("Error uploading file:", error);
+  //     toast.error(
+  //       `Upload failed: ${
+  //         error instanceof Error ? error.message : "Unknown error"
+  //       }`
+  //     );
+  //   } finally {
+  //     setIsUploading(false);
+  //   }
+  // };
+
 
   // Filter team members based on filters
+  
   const filteredMembers = teamMembers.filter((member) => {
     const matchesSearch =
       !searchQuery ||
@@ -226,7 +229,7 @@ const TeamMembers = () => {
       {/* Header and Filters */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">Team Members</h2>
+          {!isHR ? (<h2 className="text-2xl font-semibold text-gray-800">Team Members</h2>):(<h2 className="text-2xl font-semibold text-gray-800">All Employees</h2>)}
           {isHR && (
             <button
               onClick={openAddModal}

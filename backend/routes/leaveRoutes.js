@@ -17,7 +17,7 @@ router.get('/requests', leaveController.getUserRequests);
 // Get leave types
 router.get('/types', leaveController.getLeaveType);
 
-// Approve leave request of Mentees
+// Approved leave request of Mentees
 router.get('/leave-history',authorizeRoles('MANAGER','DIRECTOR'), leaveController.getApprovedLeaves);
 
 //All Approved Leave Requests

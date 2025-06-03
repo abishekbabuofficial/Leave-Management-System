@@ -21,9 +21,15 @@ const leaveService = {
   },
   applyLeave: async (leaveData) => {
     const { emp_id, start_date, end_date } = leaveData;
-    const isOverlapping = await leaveService.isOverlapping(emp_id, start_date, end_date);
+    const isOverlapping = await leaveService.isOverlapping(
+      emp_id,
+      start_date,
+      end_date
+    );
     if (isOverlapping) {
-      throw new Error("You already have a leave request overlapping with the requested dates.");
+      throw new Error(
+        "You already have a leave request overlapping with the requested dates."
+      );
     }
     const repo = AppDataSource.getRepository(LeaveRequest);
     const leave = repo.create(leaveData);
@@ -39,7 +45,10 @@ const leaveService = {
       if (!leaveRequest) {
         throw new Error(`Leave request with ID ${req_id} not found`);
       }
-      if (leaveRequest.status === "approved" || leaveRequest.status === "auto_approved") {
+      if (
+        leaveRequest.status === "approved" ||
+        leaveRequest.status === "auto_approved"
+      ) {
         const leave_balance = AppDataSource.getRepository(LeaveBalance);
         const record = await leave_balance.findOneBy({
           emp_id: leaveRequest.emp_id,
@@ -49,11 +58,11 @@ const leaveService = {
         if (!record) {
           throw new Error("Leave balance not found");
         }
-        if (!(leaveRequest.leave_id === 4)){
-        record.used -= leaveRequest.total_days;
-        record.remaining += leaveRequest.total_days;}
-        else{
-            record.used -= leaveRequest.total_days;
+        if (!(leaveRequest.leave_id === 4)) {
+          record.used -= leaveRequest.total_days;
+          record.remaining += leaveRequest.total_days;
+        } else {
+          record.used -= leaveRequest.total_days;
         }
 
         await leave_balance.save(record);

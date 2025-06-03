@@ -4,7 +4,6 @@ const userService = require("../services/userService");
 const AppDataSource = require("../config/dataSource");
 const Employee = require("../entities/employee");
 const logger = require("../utils/logger");
-const { log } = require("winston");
 require('dotenv').config();
 
 const SECRET_KEY = process.env.SECRET_KEY;

@@ -32,6 +32,7 @@ export const getLeaveTypes = (id) => {
 
   export const calculateTotaldays = (startDate, endDate)=>{
     let count = 0;
+    let totalCount=0;
     let end_date = new Date(endDate);
     let currentDate = new Date(startDate);
     
@@ -42,8 +43,9 @@ export const getLeaveTypes = (id) => {
       if (dayOfWeek !== 0 && dayOfWeek !== 6 && !(holidayList.includes(splitDate))) {
         count++;
       }
+      totalCount++;
       currentDate.setDate(currentDate.getDate() + 1);
     }
   
-    return count;
+    return {count,totalCount};
   }

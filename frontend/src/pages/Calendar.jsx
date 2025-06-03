@@ -140,12 +140,8 @@ if(isLoading){
         style={{ height: 500 }}
         dayPropGetter={dayPropGetter}
         eventPropGetter={eventStyleGetter}
-        views={["month", "week", "day"]}
+        views={["month"]}
         tooltipAccessor="tooltip" 
-        // onSelectEvent={(e) => {
-          
-        // }}
-        // selectable={false}
       />
       <div className="mt-4 flex flex-wrap gap-4">
         <div className="flex items-center">

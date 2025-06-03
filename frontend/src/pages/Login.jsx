@@ -94,6 +94,10 @@ const Login = () => {
             </button>
           </div>
         </form>
+        <div className='flex justify-center'>
+        <h3 className="text-center text-xs text-primary p-1">Powered by</h3>
+          <a href="https://lumel.com/" target="_blank"><img className='w-10' id="lumel-logo" alt="Lumel" src="https://lumel.com/wp-content/uploads/lumel-orange.svg" /></a>
+        </div>
       </div>
     </div>
   );

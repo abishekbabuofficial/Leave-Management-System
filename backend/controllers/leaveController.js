@@ -16,6 +16,7 @@ const applyLeave = async (req, res) => {
     if (total_days === 0){
       return res.status(400).json({message: "It is already a Holiday"});
     }
+
     // Check for balance except LOP
     if (leave_id !== 4) {
       const balances = await userService.getUserLeaveBalance(emp_id);
@@ -45,12 +46,11 @@ const applyLeave = async (req, res) => {
     }
 
     // Escalation and approver
-    const escalation_level = total_days > 4 ? 1 : 1;
+    const escalation_level = 1;
     const employee = await userService.getUserById(emp_id);
     const current_approver_id = employee.Manager_ID;
     const approver = await userService.getUserById(current_approver_id);
     const approver_name = approver.Emp_name;
-    console.log(approver, 'is approver name');
     
 
     const reqId = await leaveService.applyLeave({

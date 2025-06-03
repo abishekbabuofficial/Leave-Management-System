@@ -115,7 +115,7 @@ const Register = () => {
         toast.success("Registration successful. Please log in.");
         setTimeout(() => {
           navigate("/login");
-        }, 1500);
+        }, 700);
       } else {
         toast.error(result.error || "Registration failed");
       }
