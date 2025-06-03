@@ -50,74 +50,73 @@ const getStyles = (type) => {
   }
 };
 
-const LeaveCard = ({ leaveBalance }) => (
-  <div className="bg-white rounded-lg shadow-md p-6">
-    <h2 className="text-xl font-semibold text-gray-800 mb-4">Leave Balances</h2>
-    {leaveBalance && leaveBalance.length > 0 ? (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {leaveBalance.map((balance) => {
-          const name = balance.leaveType.leave_name;
-          const styles = getStyles(name);
-          const percentage =
-            (balance.remaining / balance.total_allocated) * 100;
+const LeaveCard = ({ leaveBalance }) => {
+  // Define the fixed order for leave types
+  const leaveTypeOrder = [
+    "Casual Leave",
+    "Sick Leave",
+    "Floater Leave",
+    "LOP Leave",
+  ];
 
-          if (name !== "LOP Leave") {
-            return (
-              <div
-                key={name}
-                className={`bg-white rounded-lg shadow p-5 border-t-4 ${styles.border}`}
-              >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="text-gray-500 text-sm">{name}</p>
-                    <p className="text-3xl font-bold">{balance.remaining}</p>
-                    <p className="text-sm text-gray-600">
-                      of {balance.total_allocated} days
-                    </p>
-                  </div>
-                  <div className={`${styles.bg} p-3 rounded-full`}>
-                    {getIcon(name)}
-                  </div>
-                </div>
-                <div className="mt-4 w-full bg-gray-200 rounded-full h-2.5">
-                  <div
-                    className={`${styles.bar} h-2.5 rounded-full`}
-                    style={{ width: `${percentage}%` }}
-                  ></div>
-                </div>
-              </div>
-            );
-          } else {
-            return (
-              <div
-                key={name}
-                className={`bg-white rounded-lg shadow p-5 border-t-4 ${styles.border}`}
-              >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="text-gray-500 text-sm">{name}</p>
-                    <p className="text-3xl font-bold">{balance.used}</p>
-                    <p className="text-sm text-gray-600">days used</p>
-                  </div>
-                  <div className={`${styles.bg} p-3 rounded-full`}>
-                    {getIcon(name)}
-                  </div>
-                </div>
-                <div className="mt-4 w-full bg-gray-200 rounded-full h-2.5">
-                  <div
-                    className={`${styles.bar} h-2.5 rounded-full`}
-                    style={{ width: `${percentage}%` }}
-                  ></div>
-                </div>
-              </div>
-            );
-          }
-        })}
+  // Sort and organize leave balances by the predefined order
+  const sortedLeaveBalance = leaveTypeOrder
+    .map((leaveTypeName) => {
+      return leaveBalance?.find(
+        (balance) => balance.leaveType.leave_name === leaveTypeName
+      );
+    })
+    .filter(Boolean); // Remove undefined entries
+    
+  const renderLeaveCard = (balance) => {
+    const name = balance.leaveType.leave_name;
+    const styles = getStyles(name);
+    const isLOPLeave = name === "LOP Leave";
+    const percentage = isLOPLeave
+      ? (balance.used / (balance.used + balance.remaining || 1)) * 100
+      : (balance.remaining / balance.total_allocated) * 100;
+
+    return (
+      <div
+        key={name}
+        className={`bg-white rounded-lg shadow p-5 border-t-4 ${styles.border}`}
+      >
+        <div className="flex justify-between items-start">
+          <div>
+            <p className="text-gray-500 text-sm">{name}</p>
+            <p className="text-3xl font-bold">
+              {isLOPLeave ? balance.used : balance.remaining}
+            </p>
+            <p className="text-sm text-gray-600">
+              {isLOPLeave ? "days used" : `of ${balance.total_allocated} days`}
+            </p>
+          </div>
+          <div className={`${styles.bg} p-3 rounded-full`}>{getIcon(name)}</div>
+        </div>
+        <div className="mt-4 w-full bg-gray-200 rounded-full h-2.5">
+          <div
+            className={`${styles.bar} h-2.5 rounded-full`}
+            style={{ width: `${percentage}%` }}
+          ></div>
+        </div>
       </div>
-    ) : (
-      <p className="text-gray-500">No leave balance information available.</p>
-    )}
-  </div>
-);
+    );
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-md p-6">
+      <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        Leave Balances
+      </h2>
+      {leaveBalance && leaveBalance.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {sortedLeaveBalance.map(renderLeaveCard)}
+        </div>
+      ) : (
+        <p className="text-gray-500">No leave balance information available.</p>
+      )}
+    </div>
+  );
+};
 
 export default LeaveCard;
