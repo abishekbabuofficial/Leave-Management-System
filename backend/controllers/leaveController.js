@@ -11,11 +11,10 @@ const applyLeave = async (req, res) => {
 
     const leaveRepo = await leaveService.getLeaveType();
     const leaveType = leaveRepo.find((lt) => lt.leave_id == leave_id);
-    console.log(leaveType);
 
     const total_days = await calculateTotaldays(start_date, end_date);
     if (total_days === 0) {
-      return res.status(400).json({ message: "It is already a Holiday" });
+      return res.status(400).json({ message: "It is already a Holiday or weekend" });
     }
 
     // Check for balance except LOP
@@ -38,7 +37,6 @@ const applyLeave = async (req, res) => {
         end_date,
         reason,
         status: "auto_approved",
-        escalation_level: 1,
         current_approver_id: null,
         total_days,
       });
@@ -57,7 +55,7 @@ const applyLeave = async (req, res) => {
     }
 
     // Escalation and approver
-    const escalation_level = 1;
+    // const escalation_level = 1;
     const employee = await userService.getUserById(emp_id);
     const current_approver_id = employee.Manager_ID;
 
@@ -68,7 +66,7 @@ const applyLeave = async (req, res) => {
       end_date,
       reason,
       status: "pending",
-      escalation_level,
+      // escalation_level,
       current_approver_id,
       total_days,
     });

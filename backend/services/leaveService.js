@@ -97,6 +97,13 @@ const leaveService = {
           action: "cancelled",
           remarks:  `Leave cancelled: Original days: ${leaveRequest.total_days},\n Days restored: ${daysToRestore}`,
         });
+      }else{
+        await auditService.createAuditEntry({
+          emp_id: leaveRequest.emp_id,
+          req_id: leaveRequest.req_id,
+          action: "cancelled",
+          remarks:  `Leave cancelled: Leave cancelled before status approval...`,
+        });
       }
 
       leaveRequest.status = "cancelled";
@@ -117,9 +124,11 @@ const leaveService = {
   },
 
   getLeaveById: async (reqId) => {
-    return await AppDataSource.getRepository(LeaveRequest).findOneBy({
-      req_id: reqId,
+    const record = await AppDataSource.getRepository(LeaveRequest).find({
+      where: {req_id: reqId},
+      relations: ["employee", "approver", "leaveType"],
     });
+    return record[0];
   },
 
   getLeaveType: async () => {

@@ -40,15 +40,8 @@ module.exports = new EntitySchema({
       type: "timestamp",
       updateDate: true,
     },
-    escalation_level: {
-      type: "integer",
-    },
     current_approver_id: {
       type: "integer",
-      nullable: true,
-    },
-    remarks: {
-      type: "text",
       nullable: true,
     },
   },

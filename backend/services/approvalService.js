@@ -3,6 +3,7 @@ const LeaveRequest = require("../entities/leaveRequest");
 const LeaveType = require("../entities/leaveType");
 const LeaveBalance = require("../entities/leaveBalance");
 const logger = require("../utils/logger");
+const { calculateTotaldays } = require("../utils/helper");
 
 const approvalService = {
   getPendingApprovals: async (approverId) => {
@@ -22,8 +23,6 @@ const approvalService = {
     reqId,
     status,
     approverId,
-    remarks,
-    escalationLevel = null,
     nextApprover = null
   ) => {
     const leaveRepo = AppDataSource.getRepository(LeaveRequest);
@@ -38,11 +37,8 @@ const approvalService = {
     }
 
     leave.status = status;
-    leave.remarks = remarks;
     leave.updated_at = new Date();
-
-    if (escalationLevel !== null) leave.escalation_level = escalationLevel;
-    if (nextApprover !== null) leave.current_approver_id = nextApprover;
+    leave.current_approver_id = nextApprover;
 
     await leaveRepo.save(leave);
     return true;
@@ -80,6 +76,15 @@ const approvalService = {
 
     await repo.save(record);
   },
+
+  getNextApprover: async (leave) => {
+    const total_days = await calculateTotaldays(leave.start_date,leave.end_date);
+    if(total_days<= 3 || !leave.approver.Manager_ID){
+      return null;
+    } else{
+      return leave.approver.Manager_ID;
+  }
+}
 };
 
 module.exports = approvalService;
