@@ -3,6 +3,9 @@ const LeaveRequest = require("../entities/leaveRequest");
 const LeaveType = require("../entities/leaveType");
 const LeaveBalance = require("../entities/leaveBalance");
 const { In, LessThanOrEqual, MoreThanOrEqual } = require("typeorm");
+const holiday = require("../entities/holiday");
+const { calculateDaysToRestore } = require("../utils/helper");
+const auditService = require("./auditService");
 
 const leaveService = {
   isOverlapping: async (empId, startDate, endDate) => {
@@ -45,6 +48,7 @@ const leaveService = {
       if (!leaveRequest) {
         throw new Error(`Leave request with ID ${req_id} not found`);
       }
+
       if (
         leaveRequest.status === "approved" ||
         leaveRequest.status === "auto_approved"
@@ -58,17 +62,46 @@ const leaveService = {
         if (!record) {
           throw new Error("Leave balance not found");
         }
+
+        // Calculate days to restore based on cancellation timing
+        const daysToRestore = await calculateDaysToRestore(
+          leaveRequest.start_date,
+          leaveRequest.end_date,
+        );
+
+        if (daysToRestore === 0) {
+          throw new Error(
+            "Cannot cancel this leave as it has been already used."
+          );
+        }
+
         if (!(leaveRequest.leave_id === 4)) {
-          record.used -= leaveRequest.total_days;
-          record.remaining += leaveRequest.total_days;
+          record.used -= daysToRestore;
+          record.remaining += daysToRestore;
         } else {
-          record.used -= leaveRequest.total_days;
+          // For LOP (leave_id === 4), subtract the days to restore from used
+          record.used -= daysToRestore;
         }
 
         await leave_balance.save(record);
+
+
+        // Log the partial cancellation details
+        console.log(
+          `Leave cancelled: Original days: ${leaveRequest.total_days}, Days restored: ${daysToRestore}`
+        );
+        // Create audit entry for cancellation
+        await auditService.createAuditEntry({
+          emp_id: leaveRequest.emp_id,
+          req_id: leaveRequest.req_id,
+          action: "cancelled",
+          remarks:  `Leave cancelled: Original days: ${leaveRequest.total_days},\n Days restored: ${daysToRestore}`,
+        });
       }
+
       leaveRequest.status = "cancelled";
       await repo.save(leaveRequest);
+
 
       return { success: true, message: "Leave request cancelled successfully" };
     } catch (error) {
@@ -153,6 +186,10 @@ const leaveService = {
     });
 
     return empLeaves;
+  },
+
+  getHolidays: async () => {
+    return await AppDataSource.getRepository(holiday).find();
   },
 };
 

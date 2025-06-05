@@ -30,4 +30,24 @@ module.exports = new EntitySchema({
       nullable: true,
     },
   },
+  relations: {
+    manager: {
+      target: "Employee",
+      type: "many-to-one",
+      joinColumn: {
+        name: "Manager_ID",
+        referencedColumnName: "Emp_ID",
+      },
+    },
+    leaveRequests: {
+      target: "LeaveRequest",
+      type: "one-to-many",
+      inverseSide: "employee"
+    },
+    audit:{
+      target: "Audit",
+      type: "one-to-many",
+      inverseSide:"employee"
+    }
+  }
 });

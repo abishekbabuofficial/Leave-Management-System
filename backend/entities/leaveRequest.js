@@ -1,81 +1,80 @@
-const { EntitySchema } = require('typeorm');
+const { EntitySchema } = require("typeorm");
 
 module.exports = new EntitySchema({
-  name: 'LeaveRequest',
-  tableName: 'leave_requests',
+  name: "LeaveRequest",
+  tableName: "leave_requests",
   columns: {
     req_id: {
       primary: true,
-      type: 'integer',
+      type: "integer",
       generated: true,
     },
     emp_id: {
-      type: 'integer',
+      type: "integer",
     },
     leave_id: {
-      type: 'integer',
+      type: "integer",
     },
     start_date: {
-      type: 'date',
+      type: "date",
     },
     end_date: {
-      type: 'date',
+      type: "date",
     },
     total_days: {
-      type: 'integer',
+      type: "integer",
     },
     reason: {
-      type: 'text',
+      type: "text",
     },
     status: {
-      type: 'enum',
-      enum: ['pending', 'approved', 'rejected', 'auto_approved', 'cancelled'],
-      enumName: 'leave_status_enum', 
+      type: "enum",
+      enum: ["pending", "approved", "rejected", "auto_approved", "cancelled"],
+      enumName: "leave_status_enum",
     },
     created_at: {
-      type: 'timestamp',
+      type: "timestamp",
       createDate: true,
     },
     updated_at: {
-      type: 'timestamp',
+      type: "timestamp",
       updateDate: true,
     },
     escalation_level: {
-      type: 'integer',
+      type: "integer",
     },
     current_approver_id: {
-      type: 'integer',
-      nullable: true,
-    },
-    approver_name: {
-      type: 'varchar',
-      length: 255,
-      nullable: true,
-    },
-    approval_history: {
-      type: 'json',
+      type: "integer",
       nullable: true,
     },
     remarks: {
-      type: 'text',
+      type: "text",
       nullable: true,
     },
   },
   relations: {
     employee: {
-      type: 'many-to-one',
-      target: 'Employee',
+      type: "many-to-one",
+      target: "Employee",
       joinColumn: {
-        name: 'emp_id',
-        referencedColumnName: 'Emp_ID',
+        name: "emp_id",
+        referencedColumnName: "Emp_ID",
+      },
+    },
+    approver: {
+      type: "many-to-one",
+      target: "Employee",
+      joinColumn: {
+        name: "current_approver_id",
+        referencedColumnName: "Emp_ID",
       },
     },
     leaveType: {
-      type: 'many-to-one',
-      target: 'LeaveType',
+      type: "many-to-one",
+      target: "LeaveType",
       joinColumn: {
-        name: 'leave_id',
-        referencedColumnName: 'leave_id',
+        name: "leave_id",
+        referencedColumnName: "leave_id",
       },
     },
   },

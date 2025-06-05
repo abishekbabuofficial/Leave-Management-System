@@ -225,7 +225,7 @@ const TeamMembers = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="">
       {/* Header and Filters */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex justify-between items-center mb-6">
@@ -294,7 +294,7 @@ const TeamMembers = () => {
       </div>
 
       {/* Team Members Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="pt-6  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredMembers.length > 0 ? (
           filteredMembers.map((member) => (
             <div

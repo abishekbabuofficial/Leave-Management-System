@@ -1,5 +1,6 @@
 import React from "react";
 import { History } from "lucide-react";
+import { getLeaveStatusColor } from "../utils/helper";
 
 const ApprovalHistoryModal = ({
   showHistoryModal,
@@ -11,14 +12,14 @@ const ApprovalHistoryModal = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl max-h-[80vh] overflow-y-auto">
-        <div className="p-4 border-b flex justify-between items-center">    
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl max-h-[80vh]">
+        <div className="p-4 border-b flex justify-between items-center">
           <h3 className="text-lg font-semibold text-gray-900 flex items-center">
             <History className="mr-2 h-5 w-5 text-primary" />
             Approval History
           </h3>
         </div>
-        <div className="p-4">
+        <div className="p-4 max-h-[60vh] overflow-y-auto">
           {selectedHistory.length > 0 ? (
             <div className="space-y-4">
               {selectedHistory.map((item, index) => (
@@ -34,13 +35,9 @@ const ApprovalHistoryModal = ({
                   </div>
                   <div className="mt-1">
                     <span
-                      className={`inline-block px-2 py-1 text-xs rounded-full ${
-                        item.action.toLowerCase() === "approved"
-                          ? "bg-green-100 text-green-800"
-                          : item.action.toLowerCase() === "rejected"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-blue-100 text-blue-800"
-                      }`}
+                      className={`inline-block px-2 py-1 text-xs rounded-full ${getLeaveStatusColor(
+                        item.action
+                      )}`}
                     >
                       {item.action}
                     </span>

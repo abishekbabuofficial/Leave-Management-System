@@ -88,16 +88,21 @@ const MyRequests = () => {
 
   const handleShowHistory = (request) => {
     try {
-      const history = request.approval_history
-        ? typeof request.approval_history === "string"
-          ? JSON.parse(request.approval_history)
-          : request.approval_history
-        : [];
+      // Use audit_history from the new audit table
+      const history = request.audit_history || [];
+      
+      // Transform audit data to match the expected format for the modal
+      const transformedHistory = history.map(audit => ({
+        approver_name: audit.employee?.Emp_name || 'System',
+        action: audit.action,
+        remarks: audit.remarks,
+        timestamp: audit.timestamp
+      }));
 
-      setSelectedHistory(history);
+      setSelectedHistory(transformedHistory);
       setShowHistoryModal(true);
     } catch (error) {
-      console.error("Error parsing approval history:", error);
+      console.error("Error loading audit history:", error);
       toast.error("Could not load approval history");
     }
   };
@@ -282,18 +287,13 @@ const MyRequests = () => {
 
                     <td className="px-6 py-4 text-sm text-gray-500">
                       <div className="flex items-center">
-                        {/* <span className="mr-2">
-                          {request.approver_name || "-"}
-                        </span> */}
-                        {/* {request.approval_history && ( */}
-                          <button
-                            onClick={() => handleShowHistory(request)}
-                            className="inline-flex items-center justify-center p-1 border border-gray-300 text-sm rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200"
-                            title="View approval history"
-                          >
-                            <History className="h-4 w-4" />
-                          </button>
-                        {/* )} */}
+                        <button
+                          onClick={() => handleShowHistory(request)}
+                          className="inline-flex items-center justify-center p-1 border border-gray-300 text-sm rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200"
+                          title="View approval history"
+                        >
+                          <History className="h-4 w-4" />
+                        </button>
                       </div>
                     </td>
 

@@ -92,8 +92,8 @@ const ManagerSearch = ({ onManagerSelect, initialManagerId = "" }) => {
       )}
 
       {showDropdown && managers.length > 0 && (
-        <div className="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md max-h-60 overflow-auto">
-          <ul className="py-1">
+        <div className="absolute mt-1 z-10 w-full bg-white shadow-lg rounded-md max-h-60 overflow-auto">
+          <ul className="py-1 h-[90px]">
             {managers.map((manager) => (
               <li
                 key={manager.Emp_ID}

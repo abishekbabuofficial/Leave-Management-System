@@ -393,6 +393,28 @@ const api = {
       throw error;
     }
   },
+
+  // Get holidays from database
+  getHolidays: async () => {
+    try {
+      const response = await fetch(`${API_URL}/leaves/holidays`, {
+        headers: {
+          ...getAuthHeader(),
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch holidays");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Error fetching holidays:", error);
+      throw error;
+    }
+  },
 };
 
 export default api;

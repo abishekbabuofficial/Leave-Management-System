@@ -26,4 +26,6 @@ router.get('/all-approved-leaves',authorizeRoles('HR'), leaveController.getAllLe
 //Get All Leaves by Employee ID
 router.get('/user-approved-leaves',authorizeRoles('EMPLOYEE'), leaveController.getUserApprovedLeaves);
 
+router.get('/holidays', leaveController.getHolidays);
+
 module.exports = router;

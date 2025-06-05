@@ -3,15 +3,18 @@ import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import { toast } from "sonner";
 import { Calendar as CalendarIcon, AlertTriangle } from "lucide-react";
-import { calculateTotaldays } from "../utils/helper";
-import holidayList from "../utils/HolidayList";
+import { calculateTotaldays, isHoliday } from "../utils/helper";
 
 const ApplyLeave = () => {
   const [leaveTypes, setLeaveTypes] = useState([]);
-
   const [leaveBalance, setLeaveBalance] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [calculatedDays, setCalculatedDays] = useState({
+    count: 0,
+    totalCount: 0,
+  });
+  const [isCalculating, setIsCalculating] = useState(false);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -44,9 +47,33 @@ const ApplyLeave = () => {
     fetchData();
   }, []);
 
-  console.log(leaveTypes);
+  // Calculate days whenever start_date or end_date changes to show in frontend
+  useEffect(() => {
+    const calculateDaysAsync = async () => {
+      if (formData.start_date && formData.end_date) {
+        setIsCalculating(true);
+        try {
+          const result = await calculateTotaldays(
+            formData.start_date,
+            formData.end_date
+          );
+          setCalculatedDays(result);
+        } catch (error) {
+          console.error("Error calculating days:", error);
+          setCalculatedDays({ count: 0, totalCount: 0 });
+        } finally {
+          setIsCalculating(false);
+        }
+      } else {
+        setCalculatedDays({ count: 0, totalCount: 0 });
+      }
+    };
 
-  const handleDateChange = (e) => {
+    calculateDaysAsync();
+  }, [formData.start_date, formData.end_date]);
+
+  // direct click on weekend or holiday and prevent submission
+  const handleDateChange = async (e) => {
     const { name, value } = e.target;
     const date = new Date(value).toISOString().split("T")[0];
     const day = new Date(value).getDay();
@@ -56,9 +83,15 @@ const ApplyLeave = () => {
       return;
     }
 
-    if (holidayList.includes(date)) {
-      toast.error("Holidays are not allowed to select");
-      return;
+    // Check if the date is a holiday using the API
+    try {
+      const isHolidayDate = await isHoliday(date);
+      if (isHolidayDate) {
+        toast.error("Holidays are not allowed to select");
+        return;
+      }
+    } catch (error) {
+      console.error("Error checking holiday:", error);
     }
 
     setFormData((prev) => ({
@@ -66,7 +99,7 @@ const ApplyLeave = () => {
       [name]: value,
     }));
   };
-
+  // to handle changes for other fields except start_date
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -81,6 +114,7 @@ const ApplyLeave = () => {
     // Validate dates
     const startDate = new Date(formData.start_date);
     const endDate = new Date(formData.end_date);
+    
 
     if (endDate < startDate) {
       toast.error("End date cannot be before start date");
@@ -95,7 +129,7 @@ const ApplyLeave = () => {
       const leaveData = {
         ...formData,
         leave_id: Number(formData.leave_id),
-        emp_id: user.emp_ID, // Default to 1 if no user id is available
+        emp_id: user.emp_ID,
       };
 
       const response = await api.applyLeave(leaveData);
@@ -109,29 +143,13 @@ const ApplyLeave = () => {
     }
   };
 
-  // Calculate the number of days between two dates
-  const { totalCount } = calculateTotaldays(
-    formData.start_date,
-    formData.end_date
-  );
+  // Get calculated days from state
   const calculateDays = () => {
     if (!formData.start_date || !formData.end_date) return 0;
-
-    const { count } = calculateTotaldays(
-      formData.start_date,
-      formData.end_date
-    );
-    if (count) return count;
-    else return "Selected day is either week-off or already a Holiday";
+    if (calculatedDays.count) return calculatedDays.count;
+    else return 0;
   };
 
-  // Get the type of leave selected
-  const getSelectedLeaveType = () => {
-    if (!formData.leave_id) return null;
-    return leaveTypes.find(
-      (type) => type.leave_id === parseInt(formData.leave_id)
-    );
-  };
 
   // Get remaining days for selected leave type
   const getRemainingDays = () => {
@@ -205,7 +223,6 @@ const ApplyLeave = () => {
                     <option key={type.leave_id} value={type.leave_id}>
                       {type.leave_name}
                     </option>
-                    
                   );
                 })}
               </select>
@@ -216,10 +233,16 @@ const ApplyLeave = () => {
                     const selectedBalance = leaveBalance?.find(
                       (bal) => bal.leave_type_id === parseInt(formData.leave_id)
                     );
-                    const remaining = selectedBalance ? selectedBalance.remaining : 0;
-                    return remaining > 0 
-                      ? `${remaining} days available` 
-                      : <span className="mt-1 text-xs text-red-600 italic">No days available</span>;
+                    const remaining = selectedBalance
+                      ? selectedBalance.remaining
+                      : 0;
+                    return remaining > 0 ? (
+                      `${remaining} days available`
+                    ) : (
+                      <span className="mt-1 text-xs text-red-600 italic">
+                        No days available
+                      </span>
+                    );
                   })()}
                 </div>
               )}
@@ -290,7 +313,7 @@ const ApplyLeave = () => {
 
                   <div>
                     <p className="text-sm text-gray-500">Selected Days</p>
-                    <p className="font-medium">{totalCount} days</p>
+                    <p className="font-medium">{calculatedDays.totalCount} days</p>
                   </div>
 
                   {/* {formData.leave_id && leaveBalance && (

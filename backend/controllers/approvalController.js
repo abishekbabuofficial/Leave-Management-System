@@ -1,6 +1,7 @@
 const approvalService = require("../services/approvalService");
 const leaveService = require("../services/leaveService");
 const userService = require("../services/userService");
+const auditService = require("../services/auditService");
 const logger = require("../utils/logger");
 
 const getPendingApprovals = async (req, res) => {
@@ -32,37 +33,28 @@ const handleApproval = async (req, res) => {
 
     let status = action === "approved" ? "approved" : "rejected";
 
-    const approval_history = leave.approval_history
-      ? typeof leave.approval_history === "string"
-        ? JSON.parse(leave.approval_history)
-        : leave.approval_history
-      : [];
-
     if (action === "rejected") {
-      approval_history.push({
-        emp_id: leave.emp_id,
+      // Create audit entry for rejection
+      await auditService.createAuditEntry({
+        emp_id: approverId,
         req_id: reqId,
-        approver_name: approverName,
-        action: action,
+        action: "rejected",
         remarks: remarks,
-        timestamp: new Date(),
       });
+
       await approvalService.updateLeaveStatus(
         reqId,
         status,
         approverId,
         remarks,
         null,
-        null,
-        null,
-        approval_history
+        null
       );
       logger.info(`Leave Request ID ${reqId} is rejected`);
       return res.json({ message: "Leave rejected" });
     }
 
     let nextApprover = null;
-    let nextApproverName = null;
     let newLevel = leave.escalation_level;
     const employee = await userService.getUserById(leave.emp_id);
 
@@ -72,57 +64,41 @@ const handleApproval = async (req, res) => {
         const manager = await userService.getUserById(employee.Manager_ID);
         const director = await userService.getUserById(manager.Manager_ID);
         nextApprover = director.Emp_ID; // Director
-        nextApproverName = director.Emp_name; // Director Name
         newLevel = 2;
       } else if (
         leave.escalation_level < 3 &&
         leave.current_approver_id !== 401
       ) {
         nextApprover = 401; // HR
-        const HR = await userService.getUserById(nextApprover);
-        nextApproverName = HR.Emp_name;
         newLevel += 1;
       } else if (nextApprover === 401) {
         nextApprover = null;
-        nextApproverName = null;
       }
     }
 
     if (nextApprover) {
-      approval_history.push({
-        emp_id: leave.emp_id,
-        req_id: reqId,
-        approver_name: approverName,
-        action: "Forwarded",
-        remarks: remarks,
-        timestamp: new Date(),
-      });
       await approvalService.updateLeaveStatus(
         reqId,
         "pending",
         approverId,
         remarks,
         newLevel,
-        nextApprover,
-        nextApproverName,
-        approval_history
+        nextApprover
       );
       logger.info(
         `Leave approved by ${approverId} and escalated to ${nextApprover}`
       );
+      // Create audit entry for forwarding
+      await auditService.createAuditEntry({
+        emp_id: approverId,
+        req_id: reqId,
+        action: "forwarded",
+        remarks: remarks || `Approved and forwarded to next approver`,
+      });
       return res.json({
         message: `Leave approved and escalated to ${nextApprover}`,
       });
     }
-
-    approval_history.push({
-      emp_id: leave.emp_id,
-      req_id: reqId,
-      approver_name: approverName,
-      action: action,
-      remarks: remarks,
-      timestamp: new Date(),
-    });
 
     // Final approval
     await approvalService.updateLeaveStatus(
@@ -131,10 +107,17 @@ const handleApproval = async (req, res) => {
       approverId,
       remarks,
       null,
-      null,
-      null,
-      approval_history
+      null
     );
+
+    // Create audit entry for final approval
+    await auditService.createAuditEntry({
+      emp_id: approverId,
+      req_id: reqId,
+      action: "approved",
+      remarks: remarks,
+    });
+
     if (leave.leave_id !== 4) {
       await approvalService.deductLeaveBalance(
         leave.emp_id,
