@@ -1,4 +1,5 @@
 const { EntitySchema } = require('typeorm');
+const employee = require('./employee');
 
 module.exports = new EntitySchema({
   name: 'LeaveBalance',
@@ -47,6 +48,14 @@ module.exports = new EntitySchema({
         name: "leave_type_id",
         referencedColumnName: "leave_id", 
       },
+    employee: {
+      type: "many-to-one",
+      target: "Employee",
+      joinColumn: {
+        name: "emp_id",
+        referencedColumnName: "Emp_ID",
+      },
+    }
     },
   },
 });

@@ -7,7 +7,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import Calendar from "./pages/Calendar";
+import Calendar from "./pages/Calendars";
 import Profile from "./pages/Profile";
 import ApplyLeave from "./pages/ApplyLeave";
 import MyRequests from "./pages/MyRequests";

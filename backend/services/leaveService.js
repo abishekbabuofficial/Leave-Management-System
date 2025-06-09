@@ -6,6 +6,9 @@ const { In, LessThanOrEqual, MoreThanOrEqual } = require("typeorm");
 const holiday = require("../entities/holiday");
 const { calculateDaysToRestore } = require("../utils/helper");
 const auditService = require("./auditService");
+const employee = require("../entities/employee");
+
+const employeeRepo = AppDataSource.getRepository(employee);
 
 const leaveService = {
   isOverlapping: async (empId, startDate, endDate) => {
@@ -66,7 +69,7 @@ const leaveService = {
         // Calculate days to restore based on cancellation timing
         const daysToRestore = await calculateDaysToRestore(
           leaveRequest.start_date,
-          leaveRequest.end_date,
+          leaveRequest.end_date
         );
 
         if (daysToRestore === 0) {
@@ -85,7 +88,6 @@ const leaveService = {
 
         await leave_balance.save(record);
 
-
         // Log the partial cancellation details
         console.log(
           `Leave cancelled: Original days: ${leaveRequest.total_days}, Days restored: ${daysToRestore}`
@@ -95,20 +97,19 @@ const leaveService = {
           emp_id: leaveRequest.emp_id,
           req_id: leaveRequest.req_id,
           action: "cancelled",
-          remarks:  `Leave cancelled: Original days: ${leaveRequest.total_days},\n Days restored: ${daysToRestore}`,
+          remarks: `Leave cancelled: Original days: ${leaveRequest.total_days},\n Days restored: ${daysToRestore}`,
         });
-      }else{
+      } else {
         await auditService.createAuditEntry({
           emp_id: leaveRequest.emp_id,
           req_id: leaveRequest.req_id,
           action: "cancelled",
-          remarks:  `Leave cancelled: Leave cancelled before status approval...`,
+          remarks: `Leave cancelled: Leave cancelled before status approval...`,
         });
       }
 
       leaveRequest.status = "cancelled";
       await repo.save(leaveRequest);
-
 
       return { success: true, message: "Leave request cancelled successfully" };
     } catch (error) {
@@ -125,7 +126,7 @@ const leaveService = {
 
   getLeaveById: async (reqId) => {
     const record = await AppDataSource.getRepository(LeaveRequest).find({
-      where: {req_id: reqId},
+      where: { req_id: reqId },
       relations: ["employee", "approver", "leaveType"],
     });
     return record[0];
@@ -134,71 +135,33 @@ const leaveService = {
   getLeaveType: async () => {
     return await AppDataSource.getRepository(LeaveType).find();
   },
-  getAllLeaves: async () => {
-    const employees = await AppDataSource.getRepository("Employee").find();
-    const requests = await AppDataSource.getRepository(LeaveRequest).find({
-      where: { status: In(["approved", "auto_approved"]) },
-    });
-
-    const empLeaves = requests.map((request) => {
-      const empWithLeaves = employees.filter(
-        (employee) => request.emp_id === employee.Emp_ID
-      );
-      return {
-        ...request,
-        empDetails: empWithLeaves[0],
-      };
-    });
-
-    return empLeaves;
-  },
-
-  getApprovedLeaves: async (managerId) => {
-    const reportees = await AppDataSource.getRepository("Employee").find({
-      where: { Manager_ID: managerId },
-    });
-    const reporteeIds = reportees.map((reportee) => reportee.Emp_ID);
-
-    const requests = await AppDataSource.getRepository(LeaveRequest).find({
-      where: {
-        emp_id: In(reporteeIds),
-        status: In(["approved", "auto_approved"]),
-      },
-    });
-
-    const reporteeLeaves = requests.map((request) => {
-      const reporteesWithLeaves = reportees.filter(
-        (reportee) => request.emp_id === reportee.Emp_ID
-      );
-      return {
-        ...request,
-        empDetails: reporteesWithLeaves[0],
-      };
-    });
-
-    return reporteeLeaves;
-  },
-
-  getUserApprovedLeaves: async (empId) => {
-    const employees = await AppDataSource.getRepository("Employee").find();
-    const requests = await AppDataSource.getRepository(LeaveRequest).find({
-      where: { emp_id: empId, status: In(["approved", "auto_approved"]) },
-    });
-    const empLeaves = requests.map((request) => {
-      const empWithLeaves = employees.filter(
-        (employee) => request.emp_id === employee.Emp_ID
-      );
-      return {
-        ...request,
-        empDetails: empWithLeaves[0],
-      };
-    });
-
-    return empLeaves;
-  },
-
+  
   getHolidays: async () => {
     return await AppDataSource.getRepository(holiday).find();
+  },
+  
+  getAllLeaves: async () => {
+    const allUsers = await employeeRepo.find({ relations: ["leaveRequests"] });
+    return allUsers;
+  },
+  getLeaveCalendar: async (id) => {
+    const employee = await employeeRepo.findOne({
+      where: { Emp_ID: id },
+      relations: ["leaveRequests"],
+    });
+    const managerOfEmployee = employee.Manager_ID;
+    const peers = await employeeRepo.find({
+      where: { Manager_ID: managerOfEmployee },
+      relations: ["leaveRequests"],
+    });
+    const reportees = await employeeRepo.find({
+      where: { Manager_ID: id },
+      relations: ["leaveRequests"],
+    });
+    if (!managerOfEmployee) {
+      return [employee, ...reportees];
+    }
+    return [...peers, ...reportees];
   },
 };
 

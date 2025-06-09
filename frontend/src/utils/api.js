@@ -136,27 +136,6 @@ const api = {
     }
   },
 
-  getLeaveRequests: async () => {
-    try {
-      const response = await fetch(`${API_URL}/leaves/leave-history`, {
-        headers: {
-          ...getAuthHeader(),
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to fetch approval history");
-      }
-
-      return data;
-    } catch (error) {
-      console.error("Error fetching approval history:", error);
-      throw error;
-    }
-  },
-
   approveLeave: async (requestId, approverId, action, remarks = "") => {
     try {
       const response = await fetch(`${API_URL}/approvals/${requestId}/action`, {
@@ -248,7 +227,7 @@ const api = {
 
   getAllLeaves: async () => {
     try {
-      const response = await fetch(`${API_URL}/leaves/all-approved-leaves`, {
+      const response = await fetch(`${API_URL}/leaves/leave-calendar-hr`, {
         headers: {
           ...getAuthHeader(),
         },
@@ -256,20 +235,6 @@ const api = {
       const data = await response.json();
 
       return data;
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  },
-
-  getUserApprovedLeaves: async () => {
-    try {
-      const response = await fetch(`${API_URL}/leaves/user-approved-leaves`, {
-        headers: {
-          ...getAuthHeader(),
-        },
-      });
-      return response.json();
     } catch (err) {
       console.log(err);
       throw err;
@@ -412,6 +377,28 @@ const api = {
       return data;
     } catch (error) {
       console.error("Error fetching holidays:", error);
+      throw error;
+    }
+  },
+
+  // Get leave calendar data (unified API for all roles)
+  getLeaveCalendar: async () => {
+    try {
+      const response = await fetch(`${API_URL}/leaves/leave-calendar`, {
+        headers: {
+          ...getAuthHeader(),
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch leave calendar");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Error fetching leave calendar:", error);
       throw error;
     }
   },

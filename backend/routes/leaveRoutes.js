@@ -17,15 +17,10 @@ router.get('/requests', leaveController.getUserRequests);
 // Get leave types
 router.get('/types', leaveController.getLeaveType);
 
-// Approved leave request of Mentees
-router.get('/leave-history',authorizeRoles('MANAGER','DIRECTOR'), leaveController.getApprovedLeaves);
-
-//All Approved Leave Requests
-router.get('/all-approved-leaves',authorizeRoles('HR'), leaveController.getAllLeaves);
-
-//Get All Leaves by Employee ID
-router.get('/user-approved-leaves',authorizeRoles('EMPLOYEE'), leaveController.getUserApprovedLeaves);
-
 router.get('/holidays', leaveController.getHolidays);
+
+router.get('/leave-calendar', leaveController.getLeaveCalendar);
+
+router.get('/leave-calendar-hr',authorizeRoles('HR'), leaveController.getAllLeaves);
 
 module.exports = router;

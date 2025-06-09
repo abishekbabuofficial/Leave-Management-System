@@ -28,6 +28,7 @@ module.exports = new EntitySchema({
       type: "varchar",
       default: null,
       nullable: true,
+      select:false,
     },
   },
   relations: {
@@ -48,6 +49,11 @@ module.exports = new EntitySchema({
       target: "Audit",
       type: "one-to-many",
       inverseSide:"employee"
-    }
+    },
+    leaveBalances:{
+      target: "LeaveBalance",
+      type: "one-to-many",
+      inverseSide:"employee"
+    },
   }
 });

@@ -7,12 +7,13 @@ const logger = require("../utils/logger");
 require('dotenv').config();
 
 const SECRET_KEY = process.env.SECRET_KEY;
+const userRepo = AppDataSource.getRepository(Employee);
 
 const login = async (req, res) => {
   const { emp_id, password } = req.body;
 
   try {
-    const user = await userService.getUserById(emp_id);
+    const user = await userRepo.findOne({where:{ Emp_ID: emp_id },select:["Emp_ID","Emp_name", "Role","Manager_ID","password"]});
     if (!user) {
       logger.warn(`User with ID ${emp_id} not found`);
       return res.status(404).json({ message: "User not found" });
@@ -47,8 +48,7 @@ const signup = async (req, res) => {
         .json({ message: "emp_id and password are required" });
     }
 
-    const userRepo = AppDataSource.getRepository(Employee);
-    const user = await userRepo.findOneBy({ Emp_ID: emp_id });
+    const user = await userRepo.findOne({where:{ Emp_ID: emp_id },select:["Emp_ID","Emp_name", "Role","Manager_ID","password"]});
 
     if (!user) {
       return res.status(404).json({ message: "Employee not found" });
