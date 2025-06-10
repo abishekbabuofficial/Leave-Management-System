@@ -12,12 +12,18 @@ import { useAuth } from "../context/AuthContext";
 
 export default function Calendar() {
   const [teamData, setTeamData] = useState([]);
+  const [filteredTeamData, setFilteredTeamData] = useState([]);
   const [days, setDays] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [holidays, setHolidays] = useState({});
   const { isHR, isManager, isDirector, isEmployee, user } = useAuth();
+
+  // Filter states
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("all"); // all, peers, reportees
+  const [allEmployees, setAllEmployees] = useState([]); // Store original data for HR
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -43,6 +49,59 @@ export default function Calendar() {
   const isCurrentUser = (employeeName) => {
     return user?.Emp_name === employeeName;
   };
+
+  // Filter function
+  const filterTeamData = (data, filter, search) => {
+    let filtered = [...data];
+    const self = filtered.find((emp) => emp.empId === user?.emp_ID);
+
+    // Apply role-based filter
+    if (filter !== "all") {
+      if (isHR) {
+        // HR filters
+        // Filter to show only manager
+        if (filter === "managers") {
+          filtered = filtered.filter((emp) => {
+            return data.some((otherEmp) => otherEmp.managerId === emp.empId);
+          });
+        } else if (filter === "employees") { // Filter to show only employees
+          filtered = filtered.filter((emp) => {
+            return !data.some((otherEmp) => otherEmp.managerId === emp.empId);
+          });
+        }
+      } else {
+        // Non-HR filters
+        if (filter === "peers") {
+          // Filter to show only peers
+          filtered = filtered.filter(
+            (emp) =>
+              emp.managerId === self?.managerId && 
+              emp.name !== user?.Emp_name &&
+              emp.managerId !== null
+          );
+        } else if (filter === "reportees") {
+          // Filter to show only reportees
+          filtered = filtered.filter((emp) => emp.managerId === self.empId);
+        }
+      }
+    }
+
+    // Apply search filter
+    if (search.trim()) {
+      const searchLower = search.toLowerCase();
+      filtered = filtered.filter((emp) =>
+        emp.name.toLowerCase().includes(searchLower)
+      );
+    }
+
+    return filtered;
+  };
+
+  // Update filtered data when filters change
+  useEffect(() => {
+    const filtered = filterTeamData(teamData, selectedFilter, searchTerm);
+    setFilteredTeamData(filtered);
+  }, [teamData, selectedFilter, searchTerm, isHR, user]);
 
   useEffect(() => {
     const numDays = getDaysInMonth(new Date(year, month));
@@ -82,7 +141,7 @@ export default function Calendar() {
           setHolidays({});
         }
 
-        // Fetch calendar data 
+        // Fetch calendar data
         let calendarData = [];
         if (isHR) {
           // For HR, get all employees with their leave requests
@@ -134,10 +193,17 @@ export default function Calendar() {
 
         // Create team data with all members, including those without leaves
         const teamDataWithAllMembers = Array.from(allMembers).map(
-          (memberName) => ({
-            name: memberName,
-            leaves: leavesByEmployee[memberName] || [], // Empty array if no leaves
-          })
+          (memberName) => {
+            const employeeData = calendarData.find(
+              (emp) => emp.Emp_name === memberName
+            );
+            return {
+              name: memberName,
+              leaves: leavesByEmployee[memberName] || [],
+              managerId: employeeData?.Manager_ID,
+              empId: employeeData?.Emp_ID
+            };
+          }
         );
 
         // Sort team data to put current user at the top
@@ -146,8 +212,12 @@ export default function Calendar() {
           if (isCurrentUser(b.name)) return 1;
           return a.name.localeCompare(b.name);
         });
-
         setTeamData(sortedTeamData);
+
+        // Store all employees for HR filtering
+        if (isHR) {
+          setAllEmployees(sortedTeamData);
+        }
       } catch (error) {
         console.error("Error fetching team data:", error);
         setError("Failed to load calendar data. Please try again.");
@@ -190,17 +260,14 @@ export default function Calendar() {
   };
 
   const getCellColor = (leaveType, day) => {
-    // Priority 1: Holidays (highest priority)
     if (isHolidayDate(day.date)) {
       return "bg-blue-300 border border-blue-500";
     }
 
-    // Priority 2: Weekends (second priority)
     if (day.dayName === "Sun" || day.dayName === "Sat") {
       return "bg-orange-100 border border-orange-300";
     }
 
-    // Priority 3: Leave types (lowest priority)
     if (leaveType) {
       switch (leaveType) {
         case "Casual Leave":
@@ -288,9 +355,48 @@ export default function Calendar() {
         </div>
       </div>
 
-      {teamData.length === 0 ? (
+      {/* Filter Section */}
+      <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+        <div className="flex flex-wrap items-center gap-4">
+          {/* Search Input */}
+          <div className="flex-1 min-w-64">
+            <input
+              type="text"
+              placeholder="Search employee by name..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700">Filter:</label>
+              <select
+                value={selectedFilter}
+                onChange={(e) => setSelectedFilter(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="all">All Members</option>
+                {!isHR && <><option value="peers">Peers</option>
+                {!isEmployee && <option value="reportees">Reportees</option>}</>}
+                {isHR && <><option value="managers">Managers</option>
+                <option value="employees">Employees</option></>}
+              </select>
+            </div>
+
+          {/* Results Count */}
+          <div className="text-sm text-gray-600">
+            Showing {filteredTeamData.length} of {teamData.length} employees
+          </div>
+        </div>
+      </div>
+
+      {filteredTeamData.length === 0 ? (
         <div className="text-center py-8 text-gray-500">
-          No team members found.
+          {searchTerm || selectedFilter !== "all"
+            ? "No employees match the current filters."
+            : "No team members found."}
         </div>
       ) : (
         <table className="table-auto border-collapse border w-full text-center text-sm">
@@ -320,7 +426,7 @@ export default function Calendar() {
             </tr>
           </thead>
           <tbody>
-            {teamData.map((emp) => (
+            {filteredTeamData.map((emp) => (
               <tr
                 key={emp.name}
                 className={
