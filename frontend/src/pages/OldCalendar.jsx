@@ -9,7 +9,6 @@ import {
 import api from "../utils/api";
 import { getLeaveTypes } from "../utils/helper";
 import { useAuth } from "../context/AuthContext";
-import { Info } from "lucide-react"
 
 export default function Calendar() {
   const [teamData, setTeamData] = useState([]);
@@ -20,7 +19,6 @@ export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [holidays, setHolidays] = useState({});
   const { isHR, isManager, isDirector, isEmployee, user } = useAuth();
-  const [show, setShow] = useState(false);
 
   // Filter states
   const [searchTerm, setSearchTerm] = useState("");
@@ -66,8 +64,7 @@ export default function Calendar() {
           filtered = filtered.filter((emp) => {
             return data.some((otherEmp) => otherEmp.managerId === emp.empId);
           });
-        } else if (filter === "employees") {
-          // Filter to show only employees
+        } else if (filter === "employees") { // Filter to show only employees
           filtered = filtered.filter((emp) => {
             return !data.some((otherEmp) => otherEmp.managerId === emp.empId);
           });
@@ -78,7 +75,7 @@ export default function Calendar() {
           // Filter to show only peers
           filtered = filtered.filter(
             (emp) =>
-              emp.managerId === self?.managerId &&
+              emp.managerId === self?.managerId && 
               emp.name !== user?.Emp_name &&
               emp.managerId !== null
           );
@@ -125,6 +122,7 @@ export default function Calendar() {
       };
     });
     setDays(dayArray);
+
     const fetchTeamAndLeaves = async () => {
       try {
         setLoading(true);
@@ -203,7 +201,7 @@ export default function Calendar() {
               name: memberName,
               leaves: leavesByEmployee[memberName] || [],
               managerId: employeeData?.Manager_ID,
-              empId: employeeData?.Emp_ID,
+              empId: employeeData?.Emp_ID
             };
           }
         );
@@ -261,134 +259,28 @@ export default function Calendar() {
     });
   };
 
-  // Determine if a date is part of a continuous sequence
-  const getLeavePosition = (employee, day, leaveType) => {
-    // For weekends, check if previous and next days are also weekends or same leave type
-    if (day.dayName === "Sun" || day.dayName === "Sat") {
-      const prevDay = day.date - 1;
-      const nextDay = day.date + 1;
-
-      // Find previous and next days in the days array
-      const prevDayObj = days.find((d) => d.date === prevDay);
-      const nextDayObj = days.find((d) => d.date === nextDay);
-
-      const isPrevWeekend =
-        prevDayObj &&
-        (prevDayObj.dayName === "Sun" || prevDayObj.dayName === "Sat");
-      const isNextWeekend =
-        nextDayObj &&
-        (nextDayObj.dayName === "Sun" || nextDayObj.dayName === "Sat");
-
-      if (isPrevWeekend && isNextWeekend) return "middle";
-      if (isPrevWeekend) return "end";
-      if (isNextWeekend) return "start";
-      return "single";
-    }
-
-    // For holidays, check if previous and next days are also holidays
+  const getCellColor = (leaveType, day) => {
     if (isHolidayDate(day.date)) {
-      const prevDay = day.date - 1;
-      const nextDay = day.date + 1;
-
-      const isPrevHoliday = isHolidayDate(prevDay);
-      const isNextHoliday = isHolidayDate(nextDay);
-
-      if (isPrevHoliday && isNextHoliday) return "middle";
-      if (isPrevHoliday) return "end";
-      if (isNextHoliday) return "start";
-      return "single";
+      return "bg-blue-300 border border-blue-500";
     }
 
-    // For leaves, check if previous and next days have the same leave type
-    if (leaveType) {
-      const prevDay = day.date - 1;
-      const nextDay = day.date + 1;
-
-      const prevDayLeave = employee.leaves.find(
-        (l) => l.day === prevDay
-      );
-      const nextDayLeave = employee.leaves.find(
-        (l) => l.day === nextDay 
-      );
-
-      if (prevDayLeave && nextDayLeave) return "middle";
-      if (prevDayLeave) return "end";
-      if (nextDayLeave) return "start";
-      return "single";
-    }
-
-    return null;
-  };
-
-  const getCellColor = (leaveType, day, position) => {
-    // Holiday takes precedence
-    if (isHolidayDate(day.date)) {
-      const baseColor = position === "middle" ? "bg-blue-200" : "bg-blue-300";
-      const border = "border border-blue-400";
-
-      // Add rounded corners based on position
-      if (position === "start") {
-        return `${baseColor}  rounded-l-md`;
-      } else if (position === "end") {
-        return `${baseColor}  rounded-r-md`;
-      } else if (position === "single") {
-        return `${baseColor}  rounded-md`;
-      }
-      return `${baseColor} `;
-    }
-
-    // Weekend is next priority
     if (day.dayName === "Sun" || day.dayName === "Sat") {
-      const baseColor =
-        position === "middle" ? "bg-orange-50" : "bg-orange-100";
-      const border = "border border-orange-200";
-
-      // Add rounded corners based on position
-      if (position === "start") {
-        return `${baseColor} rounded-l-md`;
-      } else if (position === "end") {
-        return `${baseColor} rounded-r-md`;
-      } else if (position === "single") {
-        return `${baseColor} rounded-md`;
-      }
-      return `${baseColor} ${""}`;
+      return "bg-orange-100 border border-orange-300";
     }
 
-    // Then handle leaves with position-based styling
     if (leaveType) {
-      let baseColor = "";
-      let border = "";
-
       switch (leaveType) {
         case "Casual Leave":
-          baseColor = position === "middle" ? "bg-green-300" : "bg-green-500";
-          border = "border border-green-600";
-          break;
+          return "bg-green-500";
         case "Sick Leave":
-          baseColor = position === "middle" ? "bg-red-300" : "bg-red-500";
-          border = "border border-red-600";
-          break;
+          return "bg-red-500";
         case "Floater Leave":
-          baseColor = position === "middle" ? "bg-purple-300" : "bg-purple-500";
-          border = "border border-purple-600";
-          break;
+          return "bg-purple-500";
         case "LOP Leave":
-          baseColor = position === "middle" ? "bg-yellow-300" : "bg-yellow-500";
-          border = "border border-yellow-600";
-          break;
+          return "bg-yellow-500";
         default:
           return "";
       }
-
-      // Add rounded corners based on position
-      if (position === "start") {
-        return `${baseColor}  rounded-l-md`;
-      } else if (position === "end") {
-        return `${baseColor}  rounded-r-md`;
-      } else if (position === "single") {
-        return `${baseColor}  rounded-md`;
-      }
-      return `${baseColor} `;
     }
 
     return "";
@@ -411,34 +303,12 @@ export default function Calendar() {
       </div>
     );
   }
-  // Calculate cell width based on number of days in the month and available space
-  const calculateCellWidth = () => {
-    const numDays = days.length;
-    const baseWidth = Math.max(28, Math.min(36, Math.floor(980 / numDays)));
-
-    return baseWidth;
-  };
-
-  const cellWidth = calculateCellWidth();
-
-
-
+console.log(filteredTeamData)
   return (
-    <div className=" w-[90dvw] h-full ">
+    <div className="p-1 overflow-x-auto">
       {/* Navigation */}
       <div className="flex items-center justify-between mb-6">
-        <div className="relative flex items-center gap-2">
         <h2 className="text-xl font-semibold">Team Leave Calendar</h2>
-        <Info className = "cursor-pointer text-blue-500 hover:text-blue-600 size-4"
-         onClick={()=>setShow(!show)}/>
-      {show && (
-        <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 w-64 p-3 bg-white border border-gray-300 shadow-lg rounded z-50">
-          <div className="text-xs text-gray-700">
-            <strong>Note:</strong> Hover over the dates to see detailed information about leaves, and holidays.
-          </div>
-        </div>
-      )}
-      </div>
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-4 rounded bg-gray-200">
@@ -486,7 +356,7 @@ export default function Calendar() {
       </div>
 
       {/* Filter Section */}
-      <div className="mb-4  bg-gray-50 rounded-lg">
+      <div className="mb-4 p-4 bg-gray-50 rounded-lg">
         <div className="flex flex-wrap items-center gap-4">
           {/* Search Input */}
           <div className="flex-1 min-w-64">
@@ -499,28 +369,21 @@ export default function Calendar() {
             />
           </div>
 
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-medium text-gray-700">Filter:</label>
-            <select
-              value={selectedFilter}
-              onChange={(e) => setSelectedFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="all">All Members</option>
-              {!isHR && (
-                <>
-                  <option value="peers">Peers</option>
-                  {!isEmployee && <option value="reportees">Reportees</option>}
-                </>
-              )}
-              {isHR && (
-                <>
-                  <option value="managers">Managers</option>
-                  <option value="employees">Employees</option>
-                </>
-              )}
-            </select>
-          </div>
+          
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700">Filter:</label>
+              <select
+                value={selectedFilter}
+                onChange={(e) => setSelectedFilter(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="all">All Members</option>
+                {!isHR && <><option value="peers">Peers</option>
+                {!isEmployee && <option value="reportees">Reportees</option>}</>}
+                {isHR && <><option value="managers">Managers</option>
+                <option value="employees">Employees</option></>}
+              </select>
+            </div>
 
           {/* Results Count */}
           <div className="text-sm text-gray-600">
@@ -528,8 +391,7 @@ export default function Calendar() {
           </div>
         </div>
       </div>
-      
-      {/* Calendar Table */}
+
       {filteredTeamData.length === 0 ? (
         <div className="text-center py-8 text-gray-500">
           {searchTerm || selectedFilter !== "all"
@@ -537,166 +399,130 @@ export default function Calendar() {
             : "No team members found."}
         </div>
       ) : (
-        <div className="w-full  border text-sm overflow-y-auto overflow-x-hidden">
-          {/* Header Row */}
-          <div className="flex border-b border-gray-300 bg-gray-100">
-            <div className="p-2 w-40 min-w-[160px] text-left font-semibold ">
-              Employee
-            </div>
-            <div className="flex flex-nowrap">
-              {days.map((day, idx) => (
-                <div
+        <table className="table-auto border-collapse border w-full text-center text-sm">
+          <thead>
+            <tr>
+              <th className="border p-2 w-40 text-left">Employee</th>
+              {days.map((day) => (
+                <th
                   key={day.date}
-                  style={{
-                    width: `${cellWidth}px`,
-                    minWidth: `${cellWidth}px`,
-                  }}
-                  className={`p-1 flex justify-center items-center ${
-                    idx !== days.length - 1 ? " border-gray-300" : ""
-                  } ${
+                  className={`border p-1 w-12 ${
                     day.dayName === "Sun" || day.dayName === "Sat"
                       ? "bg-orange-50"
                       : ""
                   }`}
                 >
-                  <span
-                    className={`text-xs block  ${
+                  <div
+                    className={`text-xs ${
                       day.dayName === "Sun" || day.dayName === "Sat"
                         ? "text-orange-600 font-medium"
-                        : day.isToday
-                        ? "text-blue-600 font-semibold"
                         : "text-gray-600"
-                    }`}
+                    } ${day.isToday ? "text-blue-400" : "text-gray-600"}`}
                   >
                     {day.dayName}
-                  </span>
-                </div>
+                  </div>
+                </th>
               ))}
-            </div>
-          </div>
-
-          {/* Employee Rows */}
-          <div className="max-h-[calc(100vh-300px)]">
+            </tr>
+          </thead>
+          <tbody>
             {filteredTeamData.map((emp) => (
-              <div
+              <tr
                 key={emp.name}
-                className={`flex border-b border-gray-300 ${
-                  " border-gray-300"
-                }`}
+                className={
+                  isCurrentUser(emp.name)
+                    ? "bg-blue-50 border-l-4 border-l-blue-500"
+                    : ""
+                }
               >
-                <div
-                  className={`p-2 w-40 min-w-[160px] text-left border-gray-300 ${
+                <td
+                  className={`border p-2 text-left ${
                     isCurrentUser(emp.name) ? "font-semibold text-blue-700" : ""
                   }`}
                 >
                   {emp.name}
-                </div>
-                {/* Dates rendering */}
-                <div className="flex flex-nowrap">
-                  {days.map((day, idx) => {
-                    const leave = emp.leaves.find((l) => l.day === day.date);
-                    const leavePosition = getLeavePosition(
-                      emp,
-                      day,
-                      leave?.type
-                    );
-
-                    return (
-                      <div
-                        key={day.date}
-                        style={{
-                          width: `${cellWidth}px`,
-                          minWidth: `${cellWidth}px`,
-                          height: "32px",
-                        }}
-                        className={`relative mt-0.5 ${getCellColor(
-                          leave?.type,
-                          day,
-                          leavePosition
-                        )}`}
-                        title={
-                          isHolidayDate(day.date)
-                            ? leave
-                              ? `Holiday: ${getHolidayTitle(
-                                  day.date
-                                )}\n\nLeave: ${leave.type}\nStatus: ${
-                                  leave.status
-                                }\nReason: ${leave.reason}`
-                              : `Holiday: ${getHolidayTitle(day.date)}`
-                            : day.dayName === "Sun" || day.dayName === "Sat"
-                            ? leave
-                              ? `Weekend\n\nLeave: ${leave.type}\nStatus: ${leave.status}\nReason: ${leave.reason}`
-                              : "Weekend"
-                            : leave
-                            ? `Type: ${leave.type}\nStatus: ${leave.status}\nReason: ${leave.reason}`
-                            : ""
-                        }
-                      >
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <span
-                            className={`text-xs ${
-                              isHolidayDate(day.date)
-                                ? "text-white font-bold"
-                                : day.dayName === "Sun" || day.dayName === "Sat"
-                                ? "text-orange-700 font-medium"
-                                : leave
-                                ? leavePosition === "middle"
-                                  ? "text-gray-700"
-                                  : "text-white font-bold"
-                                : "text-gray-600"
-                            }`}
-                          >
-                            {day.date}
-                          </span>
-                        </div>
+                </td>
+                {days.map((day) => {
+                  const leave = emp.leaves.find((l) => l.day === day.date);
+                  return (
+                    <td
+                      key={day.date}
+                      className={`border h-12 w-12 relative ${getCellColor(
+                        leave?.type,
+                        day
+                      )}`}
+                      title={
+                        isHolidayDate(day.date)
+                          ? leave
+                            ? `Holiday: ${getHolidayTitle(
+                                day.date
+                              )}\n\nLeave: ${leave.type}\nStatus: ${
+                                leave.status
+                              }\nReason: ${leave.reason}`
+                            : `Holiday: ${getHolidayTitle(day.date)}`
+                          : day.dayName === "Sun" || day.dayName === "Sat"
+                          ? leave
+                            ? `Weekend\n\nLeave: ${leave.type}\nStatus: ${leave.status}\nReason: ${leave.reason}`
+                            : "Weekend"
+                          : leave
+                          ? `Type: ${leave.type}\nStatus: ${leave.status}\nReason: ${leave.reason}`
+                          : ""
+                      }
+                    >
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span
+                          className={`text-xs ${
+                            isHolidayDate(day.date)
+                              ? "text-white font-bold"
+                              : day.dayName === "Sun" || day.dayName === "Sat"
+                              ? "text-orange-700 font-medium"
+                              : leave
+                              ? "text-white font-bold"
+                              : "text-gray-600"
+                          }`}
+                        >
+                          {day.date}
+                        </span>
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
+                    </td>
+                  );
+                })}
+              </tr>
             ))}
-          </div>
-        </div>
+          </tbody>
+        </table>
       )}
 
       {teamData.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-4 text-sm">
-          <Legend color="green" label="Casual Leave" />
-          <Legend color="red" label="Sick Leave" />
-          <Legend color="purple" label="Floater Leave" />
-          <Legend color="yellow" label="LOP Leave" />
+          <Legend color="bg-green-500" label="Casual Leave" />
+          <Legend color="bg-red-500" label="Sick Leave" />
+          <Legend color="bg-purple-500" label="Floater Leave" />
+          <Legend color="bg-yellow-500" label="LOP Leave" />
+          <Legend color="bg-blue-300 border border-blue-500" label="Holiday" />
+          <Legend
+            color="bg-orange-100 border border-orange-300"
+            label="Weekend"
+          />
           <div className="flex items-center gap-2">
-            <div className="flex">
-              <div className="w-4 h-4 bg-blue-300 border border-blue-400 rounded-l-md"></div>
-              <div className="w-4 h-4 bg-blue-200 border border-blue-400"></div>
-              <div className="w-4 h-4 bg-blue-300 border border-blue-400 rounded-r-md"></div>
-            </div>
-            <span>Holiday</span>
+            <div className="w-4 h-4 bg-blue-50 border-l-4 border-l-blue-500 rounded"></div>
+            <span>Your Row</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="flex">
-              <div className="w-4 h-4 bg-orange-100 border border-orange-200 rounded-l-md"></div>
-              <div className="w-4 h-4 bg-orange-50 border border-orange-200"></div>
-              <div className="w-4 h-4 bg-orange-100 border border-orange-200 rounded-r-md"></div>
-            </div>
-            <span>Weekend</span>
-          </div>
-      
         </div>
       )}
+
+      <div className="mt-4 text-sm bg-blue-100 rounded-md p-2 w-fit text-blue-700 border border-blue-400">
+        Note: Hover over dates for further details.
+      </div>
     </div>
   );
 }
 
 function Legend({ color, label }) {
   return (
-    <div className="flex items-center gap-2">
-            <div className="flex">
-              <div className={`w-4 h-4 bg-${color}-500 rounded-l-md`}></div>
-              <div className={`w-4 h-4 bg-${color}-300`}></div>
-              <div className={`w-4 h-4 bg-${color}-500 rounded-r-md`}></div>
-            </div>
-            <span>{label}</span>
-          </div>
+    <div className="flex items-center">
+      <div className={`w-4 h-4 ${color} rounded mr-2`}></div>
+      {label}
+    </div>
   );
 }
