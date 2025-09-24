@@ -65,32 +65,104 @@ const getHolidays = async () => {
   return holidaysCache;
 };
 
-export const calculateTotaldays = async (startDate, endDate) => {
+export const calculateTotaldays = async (
+  startDate,
+  endDate,
+  leaveType = "full",
+  startShift = null,
+  endShift = null,
+  isFloater = false
+) => {
   let count = 0;
   let totalCount = 0;
   let end_date = new Date(endDate);
   let currentDate = new Date(startDate);
+  console.log(isFloater)
 
   // Fetch holidays from database
   const holidayDates = await getHolidays();
 
-  while (currentDate <= end_date) {
+  // If it's a single day and custom leave type
+  if (startDate === endDate && leaveType === "custom" && !isFloater) {
     const dayOfWeek = currentDate.getDay();
     const splitDate = currentDate.toISOString().split("T")[0];
 
-    // Check if it's not weekend (Saturday=6, Sunday=0) and not a holiday
+    // Check if it's not weekend and not a holiday
     if (
       dayOfWeek !== 0 &&
       dayOfWeek !== 6 &&
       !holidayDates.includes(splitDate)
     ) {
-      count++;
+      // For single day custom
+      count = startShift ? 0.5 : 0;
     }
-    totalCount++;
-    currentDate.setDate(currentDate.getDate() + 1);
+    totalCount = 1;
+    return { count, totalCount };
+  }
+
+  // For multi-day custom leave type
+  if (leaveType === "custom") {
+    let isFirstDay = true;
+    let isLastDay = false;
+
+    while (currentDate <= end_date) {
+      const dayOfWeek = currentDate.getDay();
+      const splitDate = currentDate.toISOString().split("T")[0];
+
+      // Check if this is the last day
+      isLastDay = currentDate.getTime() === end_date.getTime();
+
+      // Check if it's not weekend and not a holiday
+      if (
+        dayOfWeek !== 0 &&
+        dayOfWeek !== 6 &&
+        !holidayDates.includes(splitDate)
+      ) {
+        if (isFirstDay && startShift) {
+          count += 0.5;
+        } else if (isLastDay && endShift) {
+          count += 0.5;
+        } else if (!isFirstDay && !isLastDay) {
+          count += 1;
+        } else if (isFirstDay && !startShift) {
+          count += 1;
+        } else if (isLastDay && !endShift) {
+          count += 1;
+        }
+      }
+
+      totalCount++;
+      currentDate.setDate(currentDate.getDate() + 1);
+      isFirstDay = false;
+    }
+  } else {
+    while (currentDate <= end_date) {
+      const dayOfWeek = currentDate.getDay();
+      const splitDate = currentDate.toISOString().split("T")[0];
+
+      // Check if it's not weekend and not a holiday
+      if (
+        dayOfWeek !== 0 &&
+        dayOfWeek !== 6 &&
+        !isFloater? !holidayDates.includes(splitDate): true
+      ) {
+        count++;
+      }
+      totalCount++;
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
   }
 
   return { count, totalCount };
+};
+
+// Helper function to check if a specific date is a floater holiday
+export const isFloaterHoliday = async (date) => {
+  const holidays = await api.getHolidays();
+  const dateStr =
+  typeof date === "string" ? date : date.toISOString().split("T")[0];
+  const holiday = holidays.find((h) => h.date === dateStr);
+  return holiday ? holiday.is_floater : false;
 };
 
 // Helper function to check if a specific date is a holiday

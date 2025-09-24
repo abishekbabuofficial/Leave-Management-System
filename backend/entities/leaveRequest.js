@@ -22,7 +22,7 @@ module.exports = new EntitySchema({
       type: "date",
     },
     total_days: {
-      type: "integer",
+      type: "numeric",
     },
     reason: {
       type: "text",

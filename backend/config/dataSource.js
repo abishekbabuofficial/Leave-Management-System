@@ -1,5 +1,5 @@
 const { DataSource } = require("typeorm");
-require('dotenv').config();
+require("dotenv").config();
 
 const AppDataSource = new DataSource({
   type: "postgres",
@@ -11,12 +11,13 @@ const AppDataSource = new DataSource({
   synchronize: false,
   logging: false,
   entities: [
-    require('../entities/employee'),
-    require('../entities/leaveType'),
-    require('../entities/leaveBalance'),
-    require('../entities/leaveRequest'),
-    require('../entities/audit'),
-    require('../entities/holiday'),
+    require("../entities/employee"),
+    require("../entities/leaveType"),
+    require("../entities/leaveBalance"),
+    require("../entities/leaveRequest"),
+    require("../entities/audit"),
+    require("../entities/holiday"),
+    require("../entities/accrualPolicy"),
   ],
 });
 

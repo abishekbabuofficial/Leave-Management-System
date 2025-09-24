@@ -7,14 +7,16 @@ const { calculateTotaldays } = require("../utils/helper");
 
 const applyLeave = async (req, res) => {
   try {
-    const { emp_id, leave_id, start_date, end_date, reason } = req.body;
+    const { emp_id, leave_id, start_date, end_date, reason, total_days } =
+      req.body;
 
     const leaveRepo = await leaveService.getLeaveType();
     const leaveType = leaveRepo.find((lt) => lt.leave_id == leave_id);
 
-    const total_days = await calculateTotaldays(start_date, end_date);
-    if (total_days === 0) {
-      return res.status(400).json({ message: "It is already a Holiday or weekend" });
+    if (!total_days || total_days === 0) {
+      return res
+        .status(400)
+        .json({ message: "It is already a Holiday or weekend" });
     }
 
     // Check for balance except LOP
@@ -123,68 +125,68 @@ const cancelLeaveRequest = async (req, res) => {
   try {
     const { req_id } = req.params;
     const { emp_ID } = req.user;
-    
+
     const leaveRequest = await leaveService.getLeaveById(req_id);
-    
+
     if (leaveRequest.emp_id !== emp_ID) {
       return res
         .status(403)
         .json({ message: "You cannot cancel other's requests" });
-      }
-      
-      if (leaveRequest.status === "cancelled") {
-        return res
+    }
+
+    if (leaveRequest.status === "cancelled") {
+      return res
         .status(400)
         .json({ message: "Leave request is already cancelled" });
-      }
-      if (leaveRequest.status === "rejected") {
-        return res
+    }
+    if (leaveRequest.status === "rejected") {
+      return res
         .status(400)
         .json({ message: "Leave request is already rejected" });
-      }
-      
-      const result = await leaveService.cancelLeave(req_id);
-      
-      logger.info(`Leave request with ID ${req_id} cancelled by user ${emp_ID}`);
-      res.json({ message: "Leave request cancelled successfully" });
-    } catch (err) {
-      logger.error(`Error cancelling leave request: ${err.message}`);
-      res.status(500).json({ error: err.message });
     }
-  };
-  
-  const getHolidays = async (req, res) => {
-    try {
-      const holidays = await leaveService.getHolidays();
-      res.json(holidays);
-    } catch (error) {
-      console.log(error);
-      res.status(500).send("Internal Server Error");
-    }
-  };
-  
-  const getLeaveCalendar = async (req, res) => {
-    try {
-      const { emp_ID } = req.user;
-      const calendar = await leaveService.getLeaveCalendar(emp_ID);
-      res.json(calendar);
-    } catch (err) {
-      logger.error(`${err.message}`);
-      res.status(500).json({ error: err.message });
-    }
-  }
-  
-  const getAllLeaves = async (req, res) => {
-    try {
-      const response = await leaveService.getAllLeaves();
-      res.json(response);
-    } catch (error) {
-      console.log(error);
-      res.status(500).send("Internal Server Error");
-    }
-  };
 
-  module.exports = {
+    const result = await leaveService.cancelLeave(req_id);
+
+    logger.info(`Leave request with ID ${req_id} cancelled by user ${emp_ID}`);
+    res.json({ message: "Leave request cancelled successfully" });
+  } catch (err) {
+    logger.error(`Error cancelling leave request: ${err.message}`);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const getHolidays = async (req, res) => {
+  try {
+    const holidays = await leaveService.getHolidays();
+    res.json(holidays);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const getLeaveCalendar = async (req, res) => {
+  try {
+    const { emp_ID } = req.user;
+    const calendar = await leaveService.getLeaveCalendar(emp_ID);
+    res.json(calendar);
+  } catch (err) {
+    logger.error(`${err.message}`);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const getAllLeaves = async (req, res) => {
+  try {
+    const response = await leaveService.getAllLeaves();
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports = {
   applyLeave,
   getUserRequests,
   getLeaveType,

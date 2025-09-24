@@ -1,0 +1,21 @@
+[
+  { "Role": "EMPLOYEE", "leave_id": 1, "total_days_year": 12 },
+  { "Role": "EMPLOYEE", "leave_id": 2, "total_days_year": 12 },
+  { "Role": "EMPLOYEE", "leave_id": 3, "total_days_year":6 },
+  { "Role": "EMPLOYEE", "leave_id": 4, "total_days_year": 0 },
+
+  { "Role": "MANAGER", "leave_id": 1, "total_days_year": 18 },
+  { "Role": "MANAGER", "leave_id": 2, "total_days_year": 9 },
+  { "Role": "MANAGER", "leave_id": 3, "total_days_year": 12 },
+  { "Role": "MANAGER", "leave_id": 4, "total_days_year": 0 },
+
+  { "Role": "DIRECTOR", "leave_id": 1, "total_days_year": 24 },
+  { "Role": "DIRECTOR", "leave_id": 2, "total_days_year": 12 },
+  { "Role": "DIRECTOR", "leave_id": 3, "total_days_year": 12 },
+  { "Role": "DIRECTOR", "leave_id": 4, "total_days_year": 0 },
+
+  { "Role": "HR", "leave_id": 1, "total_days_year": 12 },
+  { "Role": "HR", "leave_id": 2, "total_days_year": 9 },
+  { "Role": "HR", "leave_id": 3,  "total_days_year": 6 },
+  { "Role": "HR", "leave_id": 4, "total_days_year": 0 }
+]

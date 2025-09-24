@@ -55,5 +55,10 @@ module.exports = new EntitySchema({
       type: "one-to-many",
       inverseSide:"employee"
     },
+    leaveAccrual:{
+      target: "AccrualPolicy",
+      type: "one-to-many",
+      inverseSide:"employee"
+    }
   }
 });

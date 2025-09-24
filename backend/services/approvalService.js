@@ -19,12 +19,7 @@ const approvalService = {
       .getMany();
   },
 
-  updateLeaveStatus: async (
-    reqId,
-    status,
-    approverId,
-    nextApprover = null
-  ) => {
+  updateLeaveStatus: async (reqId, status, approverId, nextApprover = null) => {
     const leaveRepo = AppDataSource.getRepository(LeaveRequest);
     const leave = await leaveRepo.findOneBy({
       req_id: reqId,
@@ -78,13 +73,14 @@ const approvalService = {
   },
 
   getNextApprover: async (leave) => {
-    const total_days = await calculateTotaldays(leave.start_date,leave.end_date);
-    if(total_days<= 3 || !leave.approver.Manager_ID){
+    // Use total_days from the leave object instead of recalculating
+    const total_days = parseFloat(leave.total_days);
+    if (total_days <= 3 || !leave.approver.Manager_ID) {
       return null;
-    } else{
+    } else {
       return leave.approver.Manager_ID;
-  }
-}
+    }
+  },
 };
 
 module.exports = approvalService;

@@ -1,37 +1,41 @@
-const { EntitySchema } = require('typeorm');
-const employee = require('./employee');
+const { EntitySchema } = require("typeorm");
+const employee = require("./employee");
 
 module.exports = new EntitySchema({
-  name: 'LeaveBalance',
-  tableName: 'leave_balance',
+  name: "LeaveBalance",
+  tableName: "leave_balance",
   columns: {
     balance_id: {
       primary: true,
-      type: 'integer',
+      type: "integer",
       generated: true,
     },
     emp_id: {
-      type: 'integer',
+      type: "integer",
+      nullable: false,
     },
     leave_type_id: {
-      type: 'integer',
+      type: "integer",
+      nullable: false,
     },
     // year: {
-    //   type: 'integer', 
+    //   type: 'integer',
     // },
     total_allocated: {
-      type: 'integer',
+      type: "numeric",
+      nullable: true,
     },
     // carried_forward: {
     //   type: 'integer',
     //   default: 0,
     // },
     used: {
-      type: 'integer',
+      type: "numeric",
       default: 0,
     },
     remaining: {
-      type: 'integer',
+      type: "numeric",
+      nullable: true,
     },
   },
   // uniques: [
@@ -43,11 +47,13 @@ module.exports = new EntitySchema({
   relations: {
     leaveType: {
       type: "many-to-one",
-      target: "LeaveType", 
+      target: "LeaveType",
       joinColumn: {
         name: "leave_type_id",
-        referencedColumnName: "leave_id", 
+        referencedColumnName: "leave_id",
       },
+      cascade: ["insert", "update"],
+    },
     employee: {
       type: "many-to-one",
       target: "Employee",
@@ -55,7 +61,7 @@ module.exports = new EntitySchema({
         name: "emp_id",
         referencedColumnName: "Emp_ID",
       },
-    }
+      cascade: ["insert", "update"],
     },
   },
 });

@@ -1,24 +1,39 @@
-const { EntitySchema } = require('typeorm');
+const { EntitySchema } = require("typeorm");
 
 module.exports = new EntitySchema({
-  name: 'LeaveType',
-  tableName: 'leave_type',
+  name: "LeaveType",
+  tableName: "leave_type",
   columns: {
     leave_id: {
       primary: true,
-      type: 'integer',
+      type: "integer",
+      generated: true,
     },
     leave_name: {
-      type: 'varchar',
+      type: "varchar",
     },
     is_auto_approve: {
-      type: 'boolean',
+      type: "boolean",
     },
     max_days: {
-      type: 'integer',
+      type: "integer",
     },
-    // is_rollover: {
-    //   type: 'boolean',
-    // },
+    is_rollover: {
+      type: "boolean",
+      default: false,
+      nullable: true,
+    },
+  },
+  relations: {
+    balance: {
+      target: "LeaveBalance",
+      type: "one-to-many",
+      inverseSide: "leaveType",
+    },
+    accrual: {
+      target: "AccrualPolicy",
+      type: "one-to-many",
+      inverseSide: "leave_type",
+    },
   },
 });
